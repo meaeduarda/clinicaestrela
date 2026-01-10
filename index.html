@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Clínica Estrela - Especializada em Desenvolvimento Infantil</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header e Navegação -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="imagens/logo_clinica_estrela.png" alt="Logo estrela" class="logo">
+                    <span>Clínica <strong>Estrela</strong></span>
+                </a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#abordagens">Abordagens</a></li>
+                    <li><a href="#espacos">Espaços</a></li>
+                    <li><a href="#depoimentos">Depoimentos</a></li>
+                    <li><a href="#equipe">Equipe</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Bem-Vindo à <span class="highlight">Clínica Estrela</span></h1>
+                    <p class="lead">Acolher com amor é a essência da nossa clínica.</p>
+                    <p>Somos uma equipe multidisciplinar especializada no acolhimento de famílias de crianças autistas e
+                        com atraso no desenvolvimento. Cada detalhe do nosso espaço é projetado para que seu filho
+                        cresça e desenvolva todo o seu potencial com segurança e dedicação.</p>
+                    <div class="hero-buttons">
+                        <a href="#contato" class="btn btn-primary">
+                            <i class="fas fa-calendar-alt"></i> Agendar Consulta
+                        </a>
+                        <a href="#sobre" class="btn btn-secondary">
+                            <i class="fas fa-info-circle"></i> Conheça a Clinica Estrela
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-img-container">
+                        <img src="imagens//criança.jpeg" alt="Criança brincando e aprendendo" class="hero-img">
+                        <!-- Elementos flutuantes posicionados em volta da figura -->
+                        <div class="floating-elements">
+                            <div class="float-element el1">
+                                <i class="fas fa-puzzle-piece"></i>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                            <div class="float-element el2">
+                                <i class="fas fa-ribbon"></i>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                            <div class="float-element el3">
+                                <i class="fas fa-heart"></i>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                            <div class="float-element el4">
+                                <i class="fas fa-brain"></i>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                        </div>
+                        <div class="img-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="section-alt">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sobre a Clínica</h2>
+                <p class="subtitle">Carinho que faz crescer, cuidado que faz voar</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Na Clínica, nossa missão é clara: construir um caminho brilhante para cada pequeno tesouro que
+                        entra em nossas portas. Nossos ambientes são cuidadosamente equipados para garantir conforto e
+                        resultados em cada atendimento.</p>
+                    <p>Com uma abordagem humanizada e especializada, oferecemos um espaço onde as crianças podem se
+                        desenvolver de forma integral, enquanto suas famílias recebem todo o suporte necessário.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Equipe multidisciplinar qualificada</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Ambientes adaptados e seguros</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Atendimento personalizado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="about-img-container">
+                        <img src="imagens/nossaclinica.png" alt="Foto da Clínica Estrela" class="about-img">
+                        <div class="about-img-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="servicos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Serviços</h2>
+                <p class="subtitle">Todas as especialidades que seu filho precisa em um só lugar</p>
+            </div>
+
+            <!-- CONTÊINER QUE RECEBE O ARCO-ÍRIS -->
+            <div class="services-container" style="position: relative;">
+
+                <!-- ARCO-ÍRIS -->
+                <svg class="rainbow-svg-container rainbow-desktop" viewBox="0 0 1200 1600" preserveAspectRatio="none">
+
+                    <path class="rainbow-stripe" stroke="#FF0000" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+                    <path class="rainbow-stripe" stroke="#FF7F00" transform="translate(0, 20)" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+                    <path class="rainbow-stripe" stroke="#FFFF00" transform="translate(0, 40)" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+                    <path class="rainbow-stripe" stroke="#00FF00" transform="translate(0, 60)" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+                    <path class="rainbow-stripe" stroke="#0000FF" transform="translate(0, 80)" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+                    <path class="rainbow-stripe" stroke="#8B00FF" transform="translate(0, 100)" d="M -100, 200 
+L 1100, 200 
+Q 1400, 200 1400, 600
+Q 1400, 1000 1100, 1000
+L 300, 1000
+Q -100, 1000 -100, 1500" />
+
+                </svg>
+
+                <svg class="rainbow-svg-container rainbow-mobile" viewBox="0 0 100 4500" preserveAspectRatio="none">
+
+                    <path class="rainbow-stripe" stroke="#FF0000" d="M 50, 0 L 50, 4500" />
+                    <path class="rainbow-stripe" stroke="#FF7F00" transform="translate(20, 0)" d="M 50, 0 L 50, 4500" />
+                    <path class="rainbow-stripe" stroke="#FFFF00" transform="translate(40, 0)" d="M 50, 0 L 50, 4500" />
+                    <path class="rainbow-stripe" stroke="#00FF00" transform="translate(60, 0)" d="M 50, 0 L 50, 4500" />
+                    <path class="rainbow-stripe" stroke="#0000FF" transform="translate(80, 0)" d="M 50, 0 L 50, 4500" />
+                    <path class="rainbow-stripe" stroke="#8B00FF" transform="translate(100, 0)"
+                        d="M 50, 0 L 50, 4500" />
+
+                </svg>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/terapiaocupacional.png" alt="Terapia Ocupacional" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Terapia Ocupacional</h3>
+                            <p>Desenvolvimento de habilidades para a vida diária, promovendo autonomia e independência
+                                nas
+                                atividades cotidianas.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/terapia-aquatica.png" alt="Terapia Aquática" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Terapia Aquática</h3>
+                            <p>Atendimento terapêutico em ambiente aquático, ideal para desenvolvimento motor e
+                                relaxamento.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/fonoaudiologia.png" alt="Fonoaudiologia" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Fonoaudiologia</h3>
+                            <p>Desenvolvimento da comunicação, linguagem e fala com técnicas especializadas para cada
+                                necessidade.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/psicopedagogia.png" alt="Psicopedagogia" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Psicopedagogia</h3>
+                            <p>Acompanhamento especializado para dificuldades de aprendizagem e desenvolvimento
+                                cognitivo.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/psicologia.png" alt="Psicologia" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Psicologia</h3>
+                            <p>Apoio emocional, desenvolvimento comportamental e suporte para crianças e suas famílias.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/nutricao.png" alt="Nutrição Infantil" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Nutrição Infantil</h3>
+                            <p>Acompanhamento nutricional especializado, com foco em seletividade alimentar e hábitos
+                                saudáveis.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/fisioterapia.png" alt="Fisioterapia" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Fisioterapia</h3>
+                            <p>Desenvolvimento e reabilitação motora com técnicas especializadas para necessidades
+                                específicas.</p>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img-container">
+                            <img src="imagens/musicoterapia.png" alt="Musicoterapia" class="service-img">
+                        </div>
+                        <div class="service-content">
+                            <h3>Musicoterapia</h3>
+                            <p>Uso da música como ferramenta terapêutica para desenvolvimento emocional, social e
+                                cognitivo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Abordagens -->
+    <section id="abordagens" class="section-alt">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossas Abordagens Terapêuticas</h2>
+                <p class="subtitle">Utilizamos métodos baseados em evidências científicas</p>
+            </div>
+
+            <!-- Remova o slider e coloque os 6 cards em duas linhas -->
+            <div class="approaches-container">
+                <!-- Primeira linha com 3 cards -->
+                <div class="approach-row">
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>ABA</h3>
+                        <p>Análise do Comportamento Aplicada, intervenção baseada em evidências para desenvolvimento de
+                            habilidades.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h3>TEACCH</h3>
+                        <p>Estruturação visual do ambiente para facilitar a compreensão e aprendizagem.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <h3>Integração Sensorial</h3>
+                        <p>Trabalho com estímulos sensoriais para melhor processamento e organização neurológica.</p>
+                    </div>
+                </div>
+
+                <!-- Segunda linha com 3 cards -->
+                <div class="approach-row">
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Método Bobath</h3>
+                        <p>Abordagem para reabilitação neurológica e desenvolvimento motor em crianças.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <h3>PECS</h3>
+                        <p>Sistema de Comunicação por Troca de Figuras para desenvolvimento da comunicação.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">
+                            <i class="fas fa-hand-paper"></i>
+                        </div>
+                        <h3>PROMPT</h3>
+                        <p>Técnica para desenvolvimento da fala através de estímulos táteis-kinestésicos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Espaços -->
+    <section id="espacos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Espaços</h2>
+                <p class="subtitle">Cuidando de quem cuida - Ambientes exclusivos para famílias</p>
+            </div>
+            <div class="spaces-grid">
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/sala-descanso.png" alt="Sala de Descanso">
+                    </div>
+                    <div class="space-content">
+                        <h3>Sala de Descanso</h3>
+                        <p>Área exclusiva com poltronas reclináveis e iluminação suave para momentos de repouso e
+                            tranquilidade.</p>
+                    </div>
+                </div>
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/area-piscina.png" alt="Área com Piscina">
+                    </div>
+                    <div class="space-content">
+                        <h3>Área com Piscina</h3>
+                        <p>Espaço aquático terapêutico adaptado para atividades de desenvolvimento motor e relaxamento.
+                        </p>
+                    </div>
+                </div>
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/recepcao-copa .png" alt="Recepção com Copa">
+                    </div>
+                    <div class="space-content">
+                        <h3>Recepção com Copa</h3>
+                        <p>Copa totalmente equipada com microondas, geladeira e espaço para preparo de lanches e
+                            refeições.</p>
+                    </div>
+                </div>
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/area-fitness.png" alt="Área Fitness">
+                    </div>
+                    <div class="space-content">
+                        <h3>Área Fitness</h3>
+                        <p>Área dedicada à saúde física dos familiares, com equipamentos para exercícios funcionais.</p>
+                    </div>
+                </div>
+
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/estacionamento.png" alt="Estacionamento">
+                    </div>
+                    <div class="space-content">
+                        <h3>Estacionamento</h3>
+                        <p>Estacionamento pensado para proporcionar tranquilidade e facilidade no acesso, garantindo
+                            mais comodidade para famílias e profissionais.</p>
+                    </div>
+                </div>
+                <div class="space-card">
+                    <div class="space-img">
+                        <img src="imagens/playground.png" alt="Playground">
+                    </div>
+                    <div class="space-content">
+                        <h3>Playground</h3>
+                        <p>Espaço ao ar livre com brinquedos e atividades recreativas para o lazer e socialização das
+                            crianças.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="section-alt">
+        <div class="container">
+            <div class="section-title">
+                <h2>O Que Dizem Sobre Nós</h2>
+                <p class="subtitle">Histórias reais de transformação</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>A Clínica é maravilhosa! Minha filha adora vir para as terapias e está se desenvolvendo
+                            muito. A equipe é sempre atenciosa e profissional, nos sentimos realmente acolhidos.</p>
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-name">Kleber Alves</div>
+                        <div class="author-role">Pai da Maria Clara</div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>Melhor clínica que meu filho já frequentou. A estrutura é excelente e os profissionais são
+                            altamente capacitados. Em poucos meses já percebemos avanços significativos no
+                            desenvolvimento dele.</p>
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-name">Ana Paula Mendes</div>
+                        <div class="author-role">Mãe do João Pedro</div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>Ambiente acolhedor que faz toda a diferença. Além das terapias excelentes para minha filha,
+                            os espaços para os pais são um diferencial incrível. Recomendo de olhos fechados!</p>
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-name">Roberta Guedes</div>
+                        <div class="author-role">Mãe da Sophia</div>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="slider-dots">
+                        <div class="slider-dot active" data-slide="0"></div>
+                        <div class="slider-dot" data-slide="1"></div>
+                        <div class="slider-dot" data-slide="2"></div>
+                    </div>
+                    <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipe -->
+    <section id="equipe" class="team-section">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <h2>Nossa Equipe</h2>
+                <p class="subtitle">Profissionais qualificados e dedicados</p>
+            </div>
+        </div>
+
+        <div class="marquee-inner">
+            <div class="marquee-track">
+                <!-- Profissional 1 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/isabela.png" alt="Isabela Ferreira" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Terapia ABA</li>
+                                    <li>Avaliação Psicológica</li>
+                                    <li>Intervenção Precoce</li>
+                                    <li>Apoio Familiar</li>
+                                    <li>Psicoterapia Infantil</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Isabela Ferreira</h3>
+                        <span class="team-marquee-role">Psicóloga – Especialista em TEA</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 2 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/gustavo.png" alt="Gustavo Falcão" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Análise do Comportamento</li>
+                                    <li>Programação ABA</li>
+                                    <li>Treino de Habilidades</li>
+                                    <li>Intervenção Comportamental</li>
+                                    <li>Avaliação Funcional</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Gustavo Falcão</h3>
+                        <span class="team-marquee-role">Profissional ABA</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 3 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/catarina.png" alt="Catarina Mercedes" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Atraso de Linguagem</li>
+                                    <li>Apraxia de Fala</li>
+                                    <li>Transtornos Articulatórios</li>
+                                    <li>Comunicação Alternativa</li>
+                                    <li>Voz e Fluência</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Catarina Mercedes</h3>
+                        <span class="team-marquee-role">Fonoaudióloga</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 4 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/joao.png" alt="João Guilherme" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Reabilitação Neurológica</li>
+                                    <li>Paralisia Cerebral</li>
+                                    <li>Método Bobath</li>
+                                    <li>Desenvolvimento Motor</li>
+                                    <li>Fisioterapia Respiratória</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>João Guilherme</h3>
+                        <span class="team-marquee-role">Fisioterapeuta Neurofuncional</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 5 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/ana.png" alt="Ana Carolina Santos" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Integração Sensorial</li>
+                                    <li>Terapia Ocupacional Pediátrica</li>
+                                    <li>Atividades de Vida Diária</li>
+                                    <li>Coordenação Motora Fina</li>
+                                    <li>Adaptação Ambiental</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Ana Carolina Santos</h3>
+                        <span class="team-marquee-role">Terapeuta Ocupacional</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 6 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/rafael.png" alt="Rafael Mendes" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Musicoterapia Neurológica</li>
+                                    <li>Expressão Emocional</li>
+                                    <li>Estimulação Cognitiva</li>
+                                    <li>Intervenção Grupal</li>
+                                    <li>Relaxamento Musical</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Rafael Mendes</h3>
+                        <span class="team-marquee-role">Musicoterapeuta</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 7 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/patricia.png" alt="Patrícia Oliveira" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Dificuldades de Aprendizagem</li>
+                                    <li>Dislexia</li>
+                                    <li>Transtorno de Déficit de Atenção</li>
+                                    <li>Intervenção Psicopedagógica</li>
+                                    <li>Orientação Familiar</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Patrícia Oliveira</h3>
+                        <span class="team-marquee-role">Psicopedagoga</span>
+                    </div>
+                </div>
+
+                <!-- Profissional 8 -->
+                <div class="team-marquee-card">
+                    <div class="team-marquee-img-container">
+                        <img src="imagens/rodrigo.png" alt="Rodrigo Silva" class="team-marquee-img">
+                        <div class="team-marquee-overlay">
+                            <div class="team-marquee-specialties">
+                                <h4>Especialidades</h4>
+                                <ul>
+                                    <li>Nutrição Infantil Especial</li>
+                                    <li>Seletividade Alimentar</li>
+                                    <li>Distúrbios Gastrointestinais</li>
+                                    <li>Suplementação Nutricional</li>
+                                    <li>Educação Alimentar</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-marquee-info">
+                        <h3>Rodrigo Silva</h3>
+                        <span class="team-marquee-role">Nutricionista Infantil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="section-alt">
+        <div class="container">
+            <div class="section-title">
+                <h2>Entre em Contato</h2>
+                <p class="subtitle">Estamos aqui para ajudar sua família</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Telefone</h3>
+                            <p>(81) 00000-0000</p>
+                            <p class="contact-note">Atendimento de segunda a sexta, das 7h às 19h</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>E-mail</h3>
+                            <p>atendimento@clinicaestrela.com</p>
+                            <p class="contact-note">Respondemos em até 24 horas úteis</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Endereço</h3>
+                            <p>Rua , 84</p>
+                            <p>Bairro, Recife - PE</p>
+                            <p>CEP: 0000000 </p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Horário de Funcionamento</h3>
+                            <p>Segunda a Sexta: 7h às 19h</p>
+                            <p>Sábado: 8h às 12h</p>
+                            <p>Domingo: Fechado</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="work-with-us">
+                    <h3>Trabalhe Conosco</h3>
+                    <p>Quer fazer parte da equipe estrela? Envie seu currículo e venha transformar vidas conosco.</p>
+                    <div class="wave-button-container">
+                        <a href="mailto:rh@clinica.com.br" class="btn btn-primary btn-pulse pulse-highlight">
+                            <i class="fas fa-paper-plane"></i> Enviar Currículo
+                        </a>
+                        <div class="wave-button-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Convênios com Marquee -->
+    <section id="convenios" class="convenios-section">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <h2>Convênios</h2>
+                <p class="subtitle">Parceiros que confiam em nosso trabalho</p>
+            </div>
+        </div>
+
+        <div class="marquee-inner-convenios">
+            <div class="marquee-track-convenios">
+                <!-- Convênio 1 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/amil.png" alt="Amil" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>Amil</h3>
+                        <span class="convenio-marquee-categoria">Saúde</span>
+                    </div>
+                </div>
+
+                <!-- Convênio 2 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/unimed.png" alt="Unimed" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>Unimed</h3>
+                        <span class="convenio-marquee-categoria">Cooperativa Médica</span>
+                    </div>
+                </div>
+
+                <!-- Convênio 3 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/hapvida.png" alt="Hapvida" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>Hapvida</h3>
+                        <span class="convenio-marquee-categoria">Saúde</span>
+                    </div>
+                </div>
+
+                <!-- Convênio 4 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/bradesco.png" alt="Bradesco Saúde" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>Bradesco Saúde</h3>
+                        <span class="convenio-marquee-categoria">Saúde</span>
+                    </div>
+                </div>
+
+                <!-- Convênio 5 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/sulamerica.png" alt="SulAmérica" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>SulAmérica</h3>
+                        <span class="convenio-marquee-categoria">Seguros</span>
+                    </div>
+                </div>
+
+                <!-- Convênio 6 -->
+                <div class="convenio-marquee-card">
+                    <div class="convenio-marquee-img-container">
+                        <img src="imagens/porto.png" alt="Porto Seguro" class="convenio-marquee-img">
+                    </div>
+                    <div class="convenio-marquee-info">
+                        <h3>Porto Seguro</h3>
+                        <span class="convenio-marquee-categoria">Seguros</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>        
+    <!-- Footer -->
+    <footer> 
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="imagens/logo_clinica_estrela.png" alt="Logo estrela" class="footer-logo">
+                        <div>
+                            <h3>Clínica Estrela </h3>
+                            <p>Infantil Multidisciplinar</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Especializada no acolhimento de famílias de crianças autistas e
+                        com atraso no desenvolvimento.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#sobre">Sobre Nós</a></li>
+                        <li><a href="#servicos">Nossos Serviços</a></li>
+                        <li><a href="#abordagens">Abordagens</a></li>
+                        <li><a href="#espacos">Nossos Espaços</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#contato">Agendar Consulta</a></li>
+                        <li><a href="#depoimentos">Depoimentos</a></li>
+                        <li><a href="#equipe">Nossa Equipe</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Clínica Multidisciplinar. Todos os direitos reservados.</p>
+                <p>Desenvolvido para transformar vidas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão do WhatsApp -->
+    <a href="https://wa.me/5581994527528" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+    <!-- Pop-ups para os elementos flutuantes -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-container">
+            <div class="popup-header">
+                <div class="popup-logo">
+                    <img src="imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela">
+                    <span>Clínica <strong>Estrela</strong></span>
+                </div>
+                <button class="popup-close" id="popupClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="popup-content">
+                <!-- Conteudo feito no JavaScript -->
+                <div class="popup-image-container">
+                    <img src="" alt="" id="popupImage" class="popup-image">
+                </div>
+                <div class="popup-description">
+                    <h3 id="popupTitle"></h3>
+                    <p id="popupText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
