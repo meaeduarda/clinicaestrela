@@ -40,7 +40,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../../imagens/nossaclinica.png');
+            background-image: url('../../imagens/nossaclinica1500.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
