@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* RESET E BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(74, 123, 218, 0.95) 0%, rgba(95, 75, 139, 0.95) 100%);
+    position: relative;
+}
+
+/* Imagem de fundo com opacidade herdada do login */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../imagens/nossaclinica1500.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6;
+    z-index: -1;
+}
+
+/* CONTAINER PRINCIPAL */
+.container-listagem {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 1100px;
+    overflow: hidden;
+}
+
+.header-listagem {
+    background: #1d59a3c7;
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+.logo-area {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.logo-area strong { color: #ffd700; }
+
+.header-listagem h1 {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.header-listagem p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.content-area {
+    padding: 25px;
+}
+
+/* ALERTAS */
+.alert {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+.alert-error { background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; }
+
+/* TABELA DE DADOS */
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.table-agendamentos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.table-agendamentos th {
+    background: #f8f9fa;
+    padding: 15px;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+}
+
+.table-agendamentos td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.col-protocolo { color: #1d59a3; }
+
+.badge-hora {
+    display: inline-block;
+    background: #eef2ff;
+    color: #4a7bda;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.info-data span { display: block; margin-bottom: 4px; }
+
+.info-nomes .nome-resp { display: block; font-weight: 600; color: #333; }
+.info-nomes .nome-aluno { font-size: 12px; color: #666; }
+
+.btn-whatsapp-table {
+    color: #25d366;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* AÇÕES */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Botão Confirmar (Ativo) */
+.btn-confirmar-msg {
+    background: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-confirmar-msg:hover {
+    background: #128c7e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(37, 211, 102, 0.2);
+}
+
+/* NOVO AJUSTE: Botão Confirmado (Desabilitado) */
+.btn-confirmado-disabled {
+    background: #a5a5a5 !important;
+    color: #ffffff !important;
+    border: 1px solid #888 !important;
+    cursor: default !important;
+    pointer-events: none; /* Bloqueia novos cliques */
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.8;
+}
+
+.btn-confirmado-disabled i {
+    color: #fff;
+}
+
+.btn-excluir {
+    background: #ffeded;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-excluir:hover {
+    background: #d32f2f;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px !important;
+    color: #999;
+}
+
+/* RODAPÉ E NAVEGAÇÃO */
+.footer-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn-voltar, .btn-novo {
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-voltar {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.btn-novo {
+    background: #4a7bda;
+    color: white;
+}
+
+.btn-novo:hover {
+    background: #3a6bca;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .action-buttons { flex-direction: column; width: 100%; }
+    .btn-confirmar-msg { width: 100%; justify-content: center; }
+    .footer-actions { flex-direction: column; gap: 10px; }
+    .btn-voltar, .btn-novo { justify-content: center; }
+}
