@@ -18,7 +18,7 @@ body {
     position: relative;
 }
 
-/* Imagem de fundo com opacidade herdada do login */
+/* Imagem de fundo com opacidade */
 body::before {
     content: '';
     position: fixed;
@@ -46,25 +46,44 @@ body::before {
 .header-listagem {
     background: #1d59a3c7;
     color: white;
-    padding: 25px;
+    padding: 20px 25px; /* Ajuste no preenchimento para acomodar a logo */
     text-align: center;
 }
 
+/* AJUSTE DA LOGOMARCA */
+.logo-container {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo-container img {
+    max-width: 90px; /* Tamanho ajustado para não ficar grande */
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
+}
+
 .logo-area {
-    font-size: 20px;
+    font-size: 18px; /* Reduzi levemente para equilibrar com a imagem */
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .logo-area strong { color: #ffd700; }
 
 .header-listagem h1 {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 5px;
 }
 
 .header-listagem p {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.9;
 }
 
@@ -148,7 +167,6 @@ body::before {
     align-items: center;
 }
 
-/* Botão Confirmar (Ativo) */
 .btn-confirmar-msg {
     background: #25d366;
     color: white;
@@ -171,13 +189,12 @@ body::before {
     box-shadow: 0 4px 8px rgba(37, 211, 102, 0.2);
 }
 
-/* NOVO AJUSTE: Botão Confirmado (Desabilitado) */
 .btn-confirmado-disabled {
     background: #a5a5a5 !important;
     color: #ffffff !important;
     border: 1px solid #888 !important;
     cursor: default !important;
-    pointer-events: none; /* Bloqueia novos cliques */
+    pointer-events: none;
     transform: none !important;
     box-shadow: none !important;
     opacity: 0.8;
@@ -245,6 +262,7 @@ body::before {
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
+    .logo-container img { max-width: 120px; } /* Logo reduzida para mobile */
     .action-buttons { flex-direction: column; width: 100%; }
     .btn-confirmar-msg { width: 100%; justify-content: center; }
     .footer-actions { flex-direction: column; gap: 10px; }

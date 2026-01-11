@@ -3,7 +3,7 @@ $caminho_json = '../dados/dados.json';
 $mensagem = '';
 $tipo_mensagem = ''; 
 
-// --- NOVO: LÓGICA PARA MARCAR COMO CONFIRMADO NO JSON ---
+// --- LÓGICA AJAX PARA MARCAR COMO CONFIRMADO NO JSON ---
 if (isset($_GET['ajax_confirmar'])) {
     $prot = $_GET['ajax_confirmar'];
     if (file_exists($caminho_json)) {
@@ -18,7 +18,7 @@ if (isset($_GET['ajax_confirmar'])) {
         }
         file_put_contents($caminho_json, json_encode($agendamentos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
-    exit; // Para a execução aqui pois é uma requisição silenciosa
+    exit; 
 }
 
 // Lógica para Excluir
@@ -60,8 +60,13 @@ if (file_exists($caminho_json)) {
 </head>
 <body>
     <div class="background-overlay"></div>
+    
     <div class="container-listagem">
         <header class="header-listagem">
+            <div class="logo-container">
+                <img src="../../imagens/logo.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
+            </div>
+            
             <div class="logo-area"><span>Clínica<strong>Estrela</strong></span></div>
             <h1>Painel de Gerência</h1>
             <p>Controle e Confirmação de Visitas Agendadas</p>
@@ -145,20 +150,6 @@ if (file_exists($caminho_json)) {
         </div>
     </div>
 
-    <script>
-        function confirmarClick(elemento, protocolo) {
-            if (elemento.classList.contains('btn-confirmado-disabled')) return;
-
-            // 1. Avisa o PHP silenciosamente para atualizar o JSON
-            fetch('visita_agendamento.php?ajax_confirmar=' + protocolo)
-                .then(response => {
-                    // 2. Aplica o efeito visual imediatamente
-                    elemento.classList.add('btn-confirmado-disabled');
-                    elemento.innerHTML = '<i class="fa-solid fa-check-double"></i> Enviado';
-                    elemento.style.pointerEvents = 'none';
-                })
-                .catch(err => console.error('Erro ao salvar status:', err));
-        }
-    </script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

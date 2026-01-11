@@ -70,7 +70,7 @@
                     'telefone'          => $telefone_val,
                     'cpf'               => $cpf_responsavel_val,
                     'data_registro'     => date('Y-m-d H:i:s'),
-                    'confirmado'        => false                    
+                    'confirmado'        => false // Status inicial para gerência
                 ];
 
                 $registros_atuais = [];
@@ -200,25 +200,6 @@
         </div>
     </div>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Máscara Telefone
-            document.getElementById('telefone').addEventListener('input', function(e) {
-                let v = e.target.value.replace(/\D/g, '').substring(0,11);
-                if (v.length <= 10) { v = v.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d{4})(\d)/, '$1-$2'); }
-                else { v = v.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2'); }
-                e.target.value = v;
-            });
-
-            // Máscara CPF
-            document.getElementById('cpf_responsavel').addEventListener('input', function(e) {
-                let v = e.target.value.replace(/\D/g, '').substring(0,11);
-                v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                e.target.value = v;
-            });
-
-            window.fecharModal = function() { document.getElementById('modalConfirmacao').style.display = 'none'; }
-        });
-    </script>
+    <script src="../js/script.js"></script>
 </body>
 </html>
