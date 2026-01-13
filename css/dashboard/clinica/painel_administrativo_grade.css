@@ -1,0 +1,952 @@
+/* Reset e Configurações Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #334155;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Layout Principal */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ===== SIDEBAR FIXA ===== */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.logo-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Menu de Navegação */
+.menu {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0 12px;
+}
+
+.menu li {
+    margin-bottom: 4px;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.menu li a i {
+    margin-right: 12px;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.menu li a span {
+    flex: 1;
+}
+
+.menu li a:hover {
+    background-color: #f8fafc;
+    color: #3b82f6;
+}
+
+.menu li.active a {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.menu li.active a i {
+    color: #3b82f6;
+}
+
+/* Usuário Logado */
+.user-info {
+    padding: 20px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    background-color: #fafbfd;
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    border: 2px solid #e0f2fe;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.user-details p {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.main-content {
+    flex: 1;
+    padding: 24px;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Topo do Container */
+.main-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.main-top h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.top-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.icon-btn:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.icon-btn i {
+    font-size: 18px;
+}
+
+.with-badge {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Barra de Ações */
+.action-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.search-box {
+    flex: 1;
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 16px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: white;
+    transition: all 0.2s;
+    color: #334155;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+.btn-therapy {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-therapy:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Cards de Indicadores (KPIs) */
+.kpi-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-card.blue {
+    border-left: 4px solid #3b82f6;
+}
+
+.kpi-card.green {
+    border-left: 4px solid #10b981;
+}
+
+.kpi-card.yellow {
+    border-left: 4px solid #f59e0b;
+}
+
+.kpi-card.pink {
+    border-left: 4px solid #ec4899;
+}
+
+.kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+}
+
+.kpi-card.blue .kpi-icon {
+    background-color: #eff6ff;
+    color: #3b82f6;
+}
+
+.kpi-card.green .kpi-icon {
+    background-color: #f0fdf4;
+    color: #10b981;
+}
+
+.kpi-card.yellow .kpi-icon {
+    background-color: #fffbeb;
+    color: #f59e0b;
+}
+
+.kpi-card.pink .kpi-icon {
+    background-color: #fdf2f8;
+    color: #ec4899;
+}
+
+.kpi-icon i {
+    font-size: 22px;
+}
+
+.kpi-content h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.kpi-content p {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Grid de Conteúdo Central */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+/* ===== COLUNA ESQUERDA - GRADES ===== */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Cards de Grade Terapêutica */
+.therapy-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Controles do Cabeçalho */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+}
+
+.filters select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: white;
+    font-size: 14px;
+    color: #334155;
+    cursor: pointer;
+    min-width: 140px;
+    transition: all 0.2s;
+}
+
+.filters select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-edit {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-edit:hover {
+    background-color: #dbeafe;
+    transform: translateY(-2px);
+}
+
+/* Tabela de Horários */
+.schedule-table {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.schedule-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.schedule-table th {
+    background-color: #f8fafc;
+    padding: 16px 12px;
+    text-align: center;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.schedule-table td {
+    padding: 6px;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+    height: 80px;
+    vertical-align: top;
+    position: relative;
+    min-width: 120px;
+}
+
+.time-col {
+    font-weight: 600;
+    color: #3b82f6;
+    background-color: #f8fafc;
+    border-right: 1px solid #e2e8f0;
+    width: 80px;
+}
+
+/* Blocos de Sessão */
+.session {
+    padding: 10px;
+    border-radius: 8px;
+    text-align: left;
+    transition: all 0.2s;
+    cursor: pointer;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 50px;
+    margin-bottom: 4px;
+}
+
+.session:last-child {
+    margin-bottom: 0;
+}
+
+.session.aba {
+    background-color: #eef2ff;
+    color: #4f46e5;
+    border-left: 3px solid #4f46e5;
+}
+
+.session.to {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border-left: 3px solid #16a34a;
+}
+
+.session.fono {
+    background-color: #f0f9ff;
+    color: #0ea5e9;
+    border-left: 3px solid #0ea5e9;
+}
+
+.session.psicologia {
+    background-color: #fdf2f8;
+    color: #db2777;
+    border-left: 3px solid #db2777;
+}
+
+.session.musica {
+    background-color: #faf5ff;
+    color: #9333ea;
+    border-left: 3px solid #9333ea;
+}
+
+.session.nutricao {
+    background-color: #fffbeb;
+    color: #d97706;
+    border-left: 3px solid #d97706;
+}
+
+.session.aquatica {
+    background-color: #ecfeff;
+    color: #0891b2;
+    border-left: 3px solid #0891b2;
+}
+
+.session.fisioterapia {
+    background-color: #fefce8;
+    color: #ca8a04;
+    border-left: 3px solid #ca8a04;
+}
+
+.session .type {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.session .name {
+    font-size: 12px;
+    color: inherit;
+    opacity: 0.9;
+    line-height: 1.3;
+}
+
+/* Indicador de turno ativo */
+.turno-indicator {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    background-color: #eff6ff;
+    color: #3b82f6;
+}
+
+/* ===== COLUNA DIREITA ===== */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Cards de Pacientes e Lembretes */
+.patients-card,
+.reminders-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.see-all {
+    font-size: 14px;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.see-all:hover {
+    text-decoration: underline;
+}
+
+/* Lista de Pacientes */
+.patients-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 260px;
+    margin-top: 8px;
+    padding-right: 4px;
+}
+
+.patient-item {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.patient-item:hover {
+    background-color: #f1f5f9;
+    transform: translateX(4px);
+}
+
+.patient-item:last-child {
+    margin-bottom: 0;
+}
+
+.patient-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    flex-shrink: 0;
+    border: 2px solid #e0f2fe;
+}
+
+.patient-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.patient-info {
+    flex: 1;
+}
+
+.patient-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.patient-info .age {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 2px;
+}
+
+.patient-info .responsible {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.btn-analyze {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.btn-analyze:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+}
+
+/* Lista de Lembretes */
+.reminders-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 220px;
+    margin-top: 8px;
+    padding-right: 4px;
+}
+
+.reminder-item {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.reminder-item:hover {
+    background-color: #f1f5f9;
+    transform: translateX(4px);
+}
+
+.reminder-item:last-child {
+    margin-bottom: 0;
+}
+
+.reminder-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    color: white;
+}
+
+.reminder-icon i {
+    font-size: 16px;
+}
+
+.reminder-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.reminder-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 3px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.reminder-subtext {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.btn-small {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.btn-small:hover {
+    background-color: #2563eb;
+}
+
+.badge-tag {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 20px;
+    margin-left: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.badge-tag.today {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Scrollbars personalizadas */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .header-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .filters {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .filters select {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .sidebar .logo h1,
+    .sidebar .menu li a span,
+    .sidebar .user-details {
+        display: none;
+    }
+    
+    .sidebar .logo {
+        justify-content: center;
+        padding: 15px 10px;
+    }
+    
+    .sidebar .logo-icon {
+        margin-right: 0;
+    }
+    
+    .sidebar .menu li a {
+        justify-content: center;
+        padding: 12px;
+    }
+    
+    .sidebar .menu li a i {
+        margin-right: 0;
+    }
+    
+    .sidebar .user-info {
+        justify-content: center;
+        padding: 15px 10px;
+    }
+    
+    .sidebar .user-avatar {
+        margin-right: 0;
+    }
+    
+    .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+        padding: 16px;
+    }
+    
+    .main-top h1 {
+        font-size: 22px;
+    }
+    
+    .action-bar {
+        flex-direction: column;
+    }
+    
+    .btn-therapy {
+        width: 100%;
+    }
+    
+    .kpi-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .header-controls {
+        width: 100%;
+    }
+    
+    .filters {
+        width: 100%;
+    }
+    
+    .filters select {
+        width: 100%;
+    }
+    
+    .btn-edit {
+        width: 100%;
+    }
+}
