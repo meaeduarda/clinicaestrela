@@ -2,7 +2,7 @@
   {
     "id": 1,
     "nome": "Maria Eduarda",
-    "email": "admin@sistema.com",
+    "email": "eduarda@sistema.com",
     "senha": "2026",
     "perfil": "admin",
     "ativo": true,
