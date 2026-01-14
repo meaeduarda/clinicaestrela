@@ -44,6 +44,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                     <li><a href="painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
+                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</a></li>
                     <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
                 </ul>
             </nav>
