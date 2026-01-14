@@ -17,14 +17,26 @@ $perfilLogado = $_SESSION['usuario_perfil'];
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel - Pacientes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#3b82f6">
+    <title>Painel - Pacientes Ativos</title>
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_administrativo_grade.css">
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_administrativo_paciente.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Menu Mobile Hamburger -->
+    <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+    </div>
+    
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="logo">
@@ -32,6 +44,9 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                     <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
                 </div>
                 <h1>Clinica Estrela</h1>
+                <div class="mobile-close">
+                    <i class="fas fa-times"></i>
+                </div>
             </div>
 
             <nav class="menu">
@@ -44,7 +59,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                     <li><a href="painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
-                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</a></li>
+                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
                     <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
                 </ul>
             </nav>
@@ -64,7 +79,8 @@ $perfilLogado = $_SESSION['usuario_perfil'];
         </aside>
 
         <main class="main-content">
-            <div class="main-top">
+            <!-- Topo do Container Desktop -->
+            <div class="main-top desktop-only">
                 <h1>Painel Administrativo</h1>
                 <div class="top-icons">
                     <div class="icon-btn">
@@ -231,35 +247,167 @@ $perfilLogado = $_SESSION['usuario_perfil'];
     </div>
 
     <script>
-        // Scripts para interatividade originais mantidos
-        document.addEventListener('DOMContentLoaded', function() {
-            const tableRows = document.querySelectorAll('.patients-table tbody tr');
-            tableRows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    this.style.backgroundColor = '#f8fafc';
-                });
-                row.addEventListener('mouseleave', function() {
-                    this.style.backgroundColor = '';
-                });
+    // Scripts para menu mobile e interatividade
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menu Mobile
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mobileClose = document.querySelector('.mobile-close');
+        
+        if (mobileMenuToggle && sidebar && mobileClose) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebar.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
+            
+            mobileClose.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Fechar sidebar ao clicar fora (apenas mobile)
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(event.target) && 
+                    !mobileMenuToggle.contains(event.target) && 
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
 
-            const actionButtons = document.querySelectorAll('.btn-action');
-            actionButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const action = this.classList.contains('view') ? 'visualizar' : 
-                                  this.classList.contains('edit') ? 'editar' : 'excluir';
-                    
-                    if (action === 'excluir') {
-                        if (confirm('Tem certeza que deseja excluir este paciente?')) {
-                            alert('Paciente excluído com sucesso!');
-                        }
-                    } else {
-                        alert(`Ação de ${action} será implementada`);
-                    }
-                });
+        // Hover nos cards de KPI
+        const kpiCards = document.querySelectorAll('.kpi-card');
+        kpiCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
             });
         });
+
+        // Ajuste de toque para a tabela
+        const tableRows = document.querySelectorAll('.patients-table tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('touchstart', function() {
+                this.style.backgroundColor = '#f8fafc';
+            });
+            
+            row.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 150);
+            });
+            
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8fafc';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+
+        // Ações dos botões com feedback tátil
+        const actionButtons = document.querySelectorAll('.btn-action');
+        actionButtons.forEach(button => {
+            button.addEventListener('touchstart', function(e) {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = '';
+            });
+            
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.classList.contains('view') ? 'visualizar' : 
+                              this.classList.contains('edit') ? 'editar' : 'excluir';
+                
+                if (action === 'excluir') {
+                    if (confirm('Tem certeza que deseja excluir este paciente?')) {
+                        alert('Paciente excluído com sucesso!');
+                    }
+                } else {
+                    alert(`Ação de ${action} será implementada`);
+                }
+            });
+        });
+
+        // Botões de ação
+        const analyzeBtns = document.querySelectorAll('.btn-analyze');
+        analyzeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const patientName = this.closest('.patient-item')?.querySelector('h4')?.textContent;
+                alert('Analisando paciente: ' + patientName);
+            });
+        });
+
+        // Botão Novo Paciente
+        const addPatientBtn = document.querySelector('.btn-add-patient');
+        if (addPatientBtn) {
+            addPatientBtn.addEventListener('click', function() {
+                alert('Funcionalidade de adicionar paciente será implementada');
+            });
+        }
+
+        // Botão Exportar
+        const exportBtn = document.querySelector('.btn-export');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
+                alert('Funcionalidade de exportação será implementada');
+            });
+        }
+
+        // Botões de filtro e refresh
+        const filterBtn = document.querySelector('.btn-filter');
+        if (filterBtn) {
+            filterBtn.addEventListener('click', function() {
+                alert('Funcionalidade de filtro será implementada');
+            });
+        }
+
+        const refreshBtn = document.querySelector('.btn-refresh');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                alert('Tabela atualizada!');
+            });
+        }
+
+        // Paginação
+        const paginationPrev = document.querySelector('.pagination-btn.prev');
+        const paginationNext = document.querySelector('.pagination-btn.next');
+        
+        if (paginationPrev) {
+            paginationPrev.addEventListener('click', function() {
+                alert('Página anterior');
+            });
+        }
+        
+        if (paginationNext) {
+            paginationNext.addEventListener('click', function() {
+                alert('Próxima página');
+            });
+        }
+
+        // Ajustar menu no carregamento
+        function adjustMenuForMobile() {
+            const menuItems = document.querySelectorAll('.menu li a span');
+            
+            if (window.innerWidth <= 767) {
+                menuItems.forEach(span => {
+                    span.style.fontSize = '11px';
+                    span.style.lineHeight = '1.2';
+                });
+            }
+        }
+
+        adjustMenuForMobile();
+        window.addEventListener('resize', adjustMenuForMobile);
+    });
     </script>
+
 </body>
 </html>
