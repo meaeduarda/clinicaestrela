@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="../../css/dashboard/cliente/login_cliente.css">
 </head>
 <body>
+    <!-- Background com imagem e overlay -->
+    <div class="login-background">
+        <div class="background-overlay"></div>
+    </div>
+    
     <div class="login-container">
         <div class="login-header">
             <div class="logo-container">
@@ -64,7 +69,7 @@
             <div class="login-options">
                 <p>É seu primeiro agendamento?</p>
                 <a href="novo_agendamento.php" class="btn-secondary">
-                    <i class="fas fa-calendar-plus"></i> Clique aqui para fazer um agendamento
+                    <i class="fas fa-calendar-plus"></i> Faça seu agendamento
                 </a>
             </div>
             

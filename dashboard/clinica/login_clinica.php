@@ -16,6 +16,11 @@ session_start();
     <link rel="stylesheet" href="../../css/dashboard/clinica/login_clinica.css">
 </head>
 <body>
+    <!-- Background com imagem e overlay -->
+    <div class="login-background">
+        <div class="background-overlay"></div>
+    </div>
+    
     <div class="login-container">
         <div class="login-header">
             <div class="logo-container">

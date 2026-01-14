@@ -1,9 +1,11 @@
-/* Estilos para a página de login do cliente */
-/* RESET LOCAL (opcional, pode remover depois se usar global.css) */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* login_cliente.css - AJUSTADO PARA CONTEÚDO CENTRALIZADO */
+:root {
+    --primary-color: #2c3e50; /* Azul escuro corporativo */
+    --accent-color: #3498db;
+    --bg-light: #f4f7f6;
+    --text-color: #333;
+    --error-red: #e74c3c;
+    --overlay-color: rgba(44, 62, 80, 0.85); /* Azul escuro com transparência */
 }
 
 * {
@@ -14,211 +16,288 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px;
+    align-items: center; /* Centralizado verticalmente */
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
     position: relative;
-    background: linear-gradient(135deg, rgba(74, 123, 218, 0.95) 0%, rgba(95, 75, 139, 0.95) 100%);
+    min-height: 100vh;
+    padding: 20px; /* Padding geral para não tocar nas bordas */
 }
 
-/* Imagem de fundo com opacidade */
-body::before {
-    content: '';
+/* Background com imagem */
+.login-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: -2;
     background-image: url('../../../imagens/nossaclinica1500.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    opacity: 0.6;
+    filter: blur(1px);
+}
+
+/* Overlay para escurecer e dar contraste */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(44, 62, 80, 0.85) 0%, 
+        rgba(52, 152, 219, 0.7) 100%);
     z-index: -1;
 }
 
+/* Container do login - CENTRALIZADO */
 .login-container {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.8rem 2rem; /* Ajustado para melhor proporção */
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 420px;
-    border: none;
+    max-width: 360px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.8s ease-out;
+    /* Removido margin-top negativo para centralização correta */
+}
+
+/* Efeito de entrada suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .login-header {
-    background: #1d59a3c7;
-    color: white;
-    padding: 25px 25px 20px 25px;
     text-align: center;
-    position: relative;
+    margin-bottom: 1.5rem;
 }
 
 .logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .logo-container img {
-    height: 50px;
-    width: auto;
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
     margin-bottom: 10px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    border-radius: 50%;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--accent-color);
 }
 
 .logo-container span {
-    font-size: 20px;
+    display: block;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-family: 'Quicksand', sans-serif;
     font-weight: 700;
-    letter-spacing: 0.3px;
+    line-height: 1.2;
 }
 
 .logo-container strong {
-    color: #ffd700;
+    color: var(--accent-color);
 }
 
-.login-header h1 {
-    font-size: 18px;
-    font-weight: 600;
+h1 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-top: 8px;
     margin-bottom: 8px;
-    color: white;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .login-header p {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0;
     line-height: 1.4;
 }
 
-.login-content {
-    padding: 30px 25px 25px 25px;
+/* Mensagens */
+.error-message {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--error-red);
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.5s ease-out;
 }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.success-message {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    border: 1px solid rgba(39, 174, 96, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.5s ease-out;
+}
+
+.message-icon {
+    font-size: 1rem;
+}
+
+/* Formulário */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 1rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 10px;
-    color: #333;
-    font-weight: 600;
-    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    line-height: 1.2;
 }
 
 .input-with-icon {
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .input-with-icon i {
     position: absolute;
-    left: 18px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #4a7bda;
-    font-size: 16px;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+    font-size: 14px;
 }
 
 .input-with-icon input {
     width: 100%;
-    padding: 14px 18px 14px 48px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s ease;
+    padding: 11px 12px 11px 40px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
     background: white;
-    color: #333;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    height: 44px;
 }
 
 .input-with-icon input:focus {
-    border-color: #4a7bda;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(74, 123, 218, 0.15);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.input-with-icon input:focus + i {
+    color: var(--primary-color);
 }
 
 .input-with-icon input::placeholder {
-    color: #999;
-    font-size: 14px;
+    color: #aaa;
+    font-size: 0.9rem;
 }
 
+/* Botão de login */
 .btn-login {
     width: 100%;
-    padding: 14px;
-    background: #4a7bda;
+    padding: 11px 12px;
+    background: linear-gradient(135deg, var(--accent-color) 0%, #2980b9 100%);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    margin-top: 8px;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    height: 44px;
 }
 
 .btn-login:hover {
-    background: #3a6bca;
+    background: linear-gradient(135deg, #2980b9 0%, var(--accent-color) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(74, 123, 218, 0.3);
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
 }
 
 .btn-login:active {
     transform: translateY(0);
 }
 
-.separator {
-    text-align: center;
-    margin: 25px 0;
-    position: relative;
-    color: #666;
-    font-size: 13px;
+.btn-login i {
+    font-size: 0.95rem;
 }
 
-.separator::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #e0e0e0, transparent);
-}
-
-.separator span {
-    background: white;
-    padding: 0 12px;
-    position: relative;
-}
-
+/* Opções de login */
 .login-options {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
     text-align: center;
-    margin-top: 20px;
 }
 
 .login-options p {
     color: #333;
-    margin-bottom: 15px;
-    font-size: 14px;
-    font-weight: 500;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
 .btn-secondary {
     display: block;
     width: 100%;
-    padding: 14px;
+    padding: 11px 12px;
     background: white;
-    color: #4a7bda;
-    border: 2px solid #4a7bda;
-    border-radius: 8px;
-    font-size: 15px;
+    color: var(--accent-color);
+    border: 1.5px solid var(--accent-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -228,129 +307,187 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.1);
+    height: 44px;
 }
 
 .btn-secondary:hover {
-    background: #4a7bda;
+    background-color: var(--accent-color);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(74, 123, 218, 0.2);
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.2);
 }
 
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary i {
+    font-size: 0.9rem;
+}
+
+/* Voltar para home */
 .back-home {
-    text-align: center;
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 1px solid #e0e0e0;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
 }
 
 .back-home a {
-    color: #4a7bda;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
+    color: #666;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: color 0.3s ease;
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: #f8f9ff;
 }
 
 .back-home a:hover {
-    color: #3a6bca;
-    background: #edf2ff;
+    color: var(--accent-color);
+    transform: translateX(-3px);
 }
 
 .back-home a i {
-    color: #4a7bda;
+    transition: all 0.3s ease;
+    color: var(--accent-color);
+    font-size: 0.85rem;
 }
 
-.error-message {
-    background: #ffebee;
-    color: #d32f2f;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 1px solid #ffcdd2;
-    display: none;
-    font-size: 13px;
-    font-weight: 500;
+.back-home a:hover i {
+    transform: translateX(-2px);
 }
 
-.success-message {
-    background: #e8f5e9;
-    color: #2e7d32;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 1px solid #c8e6c9;
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.message-icon {
-    margin-right: 6px;
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+        background-attachment: scroll;
+        align-items: center; /* Manter centralizado no mobile */
+    }
+    
+    .login-container {
+        padding: 1.5rem 1.8rem;
+        max-width: 100%;
+        margin: 0 15px;
+    }
+    
+    .login-background {
+        background-attachment: scroll;
+    }
+    
+    .logo-container img {
+        width: 65px;
+        height: 65px;
+        padding: 5px;
+    }
+    
+    h1 {
+        font-size: 1.2rem;
+    }
+    
+    .logo-container span {
+        font-size: 1.1rem;
+    }
+    
+    .login-header p {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .login-container {
-        max-width: 100%;
-        border-radius: 10px;
-    }
-
-    .login-header {
-        padding: 20px 20px 15px 20px;
-    }
-
-    .login-content {
-        padding: 25px 20px 20px 20px;
-    }
-
-    .logo-container img {
-        height: 45px;
-        margin-bottom: 8px;
-    }
-
-    .logo-container span {
-        font-size: 18px;
-    }
-
-    .login-header h1 {
-        font-size: 16px;
-    }
-
-    .login-header p {
-        font-size: 12px;
-    }
-
-    .input-with-icon input {
-        padding: 13px 16px 13px 45px;
-        font-size: 14px;
-    }
-
     body {
         padding: 15px;
     }
+    
+    .login-container {
+        padding: 1.2rem 1.5rem;
+        margin: 0 10px;
+    }
+    
+    h1 {
+        font-size: 1.1rem;
+    }
+    
+    .logo-container span {
+        font-size: 1rem;
+    }
+    
+    .btn-login, .btn-secondary {
+        padding: 10px 11px;
+        font-size: 0.9rem;
+        height: 42px;
+    }
+    
+    .input-with-icon input {
+        padding: 10px 11px 10px 38px;
+        font-size: 0.9rem;
+        height: 42px;
+    }
+    
+    .login-header p {
+        font-size: 0.8rem;
+    }
 }
 
-@media (max-width: 360px) {
-    .login-header {
-        padding: 18px 15px 12px 15px;
-    }
+/* Efeito de partículas */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1),
+        transparent);
+    border-radius: 11px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
 
-    .login-content {
-        padding: 20px 15px 18px 15px;
-    }
+.login-container:hover::before {
+    opacity: 1;
+}
 
-    .logo-container img {
-        height: 40px;
+/* Estilo para foco nos inputs no mobile */
+@media (max-width: 768px) {
+    .input-with-icon input:focus {
+        font-size: 16px; /* Previne zoom no iOS */
     }
+}
 
-    .logo-container span {
-        font-size: 16px;
+/* Loader sutil para o background */
+.login-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.04) 25%,
+        rgba(255, 255, 255, 0.04) 50%,
+        transparent 50%,
+        transparent 75%,
+        rgba(255, 255, 255, 0.04) 75%,
+        rgba(255, 255, 255, 0.04)
+    );
+    background-size: 50px 50px;
+    animation: moveBackground 25s linear infinite;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 50px 50px;
     }
 }
