@@ -16,7 +16,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
 
 $caminho_json = '../dados/dados.json';
 $mensagem = '';
-$tipo_mensagem = ''; 
+$tipo_mensagem = '';
 
 // --- LÓGICA AJAX PARA MARCAR COMO CONFIRMADO NO JSON ---
 if (isset($_GET['ajax_confirmar'])) {
@@ -24,7 +24,7 @@ if (isset($_GET['ajax_confirmar'])) {
     if (file_exists($caminho_json)) {
         $dados_json = file_get_contents($caminho_json);
         $agendamentos = json_decode($dados_json, true) ?? [];
-        
+
         foreach ($agendamentos as &$ag) {
             if ($ag['protocolo'] === $prot) {
                 $ag['confirmado'] = true;
@@ -33,7 +33,7 @@ if (isset($_GET['ajax_confirmar'])) {
         }
         file_put_contents($caminho_json, json_encode($agendamentos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
-    exit; 
+    exit;
 }
 
 // Lógica para Excluir
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_protocolo']))
     if (file_exists($caminho_json)) {
         $dados_json = file_get_contents($caminho_json);
         $agendamentos = json_decode($dados_json, true) ?? [];
-        $novos_agendamentos = array_filter($agendamentos, function($item) use ($protocolo_para_excluir) {
+        $novos_agendamentos = array_filter($agendamentos, function ($item) use ($protocolo_para_excluir) {
             return $item['protocolo'] !== $protocolo_para_excluir;
         });
         if (file_put_contents($caminho_json, json_encode(array_values($novos_agendamentos), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
@@ -57,7 +57,7 @@ $agendamentos = [];
 if (file_exists($caminho_json)) {
     $dados_json = file_get_contents($caminho_json);
     $agendamentos = json_decode($dados_json, true) ?? [];
-    usort($agendamentos, function($a, $b) {
+    usort($agendamentos, function ($a, $b) {
         return strtotime($b['data_registro']) - strtotime($a['data_registro']);
     });
 }
@@ -65,23 +65,25 @@ if (file_exists($caminho_json)) {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerência de Visitas - Clínica Estrela</title>
-    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../imagens/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../css/dashboard/clinica/visita_agendamento.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <div class="background-overlay"></div>
-    
+
     <div class="container-listagem">
         <header class="header-listagem">
             <div class="logo-container">
-                <img src="../../imagens/logo.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
+                <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela">
             </div>
-            
+
             <div class="logo-area"><span>Clínica<strong>Estrela</strong></span></div>
             <h1>Painel de Gerência</h1>
             <p>Controle e Confirmação de Visitas Agendadas</p>
@@ -107,9 +109,11 @@ if (file_exists($caminho_json)) {
                     </thead>
                     <tbody>
                         <?php if (empty($agendamentos)): ?>
-                            <tr><td colspan="5" class="empty-state">Nenhum agendamento pendente.</td></tr>
+                            <tr>
+                                <td colspan="5" class="empty-state">Nenhum agendamento pendente.</td>
+                            </tr>
                         <?php else: ?>
-                            <?php foreach ($agendamentos as $ag): 
+                            <?php foreach ($agendamentos as $ag):
                                 $is_confirmado = isset($ag['confirmado']) && $ag['confirmado'] === true;
                                 $tel_limpo = preg_replace('/\D/', '', $ag['telefone']);
                                 $msg_confirmacao = "Olá *" . $ag['nome_responsavel'] . "*, a Clínica Estrela confirma a visita do aluno *" . $ag['nome_aluno'] . "*...";
@@ -136,12 +140,12 @@ if (file_exists($caminho_json)) {
                                     </td>
                                     <td class="col-acoes">
                                         <div class="action-buttons">
-                                            <a href="<?php echo $link_wa; ?>" 
-                                               target="_blank" 
-                                               class="btn-confirmar-msg <?php echo $is_confirmado ? 'btn-confirmado-disabled' : ''; ?>" 
-                                               onclick="confirmarClick(this, '<?php echo $ag['protocolo']; ?>')"
-                                               title="Confirmar via WhatsApp">
-                                                <i class="fa-solid <?php echo $is_confirmado ? 'fa-check-double' : 'fa-check'; ?>"></i> 
+                                            <a href="<?php echo $link_wa; ?>"
+                                                target="_blank"
+                                                class="btn-confirmar-msg <?php echo $is_confirmado ? 'btn-confirmado-disabled' : ''; ?>"
+                                                onclick="confirmarClick(this, '<?php echo $ag['protocolo']; ?>')"
+                                                title="Confirmar via WhatsApp">
+                                                <i class="fa-solid <?php echo $is_confirmado ? 'fa-check-double' : 'fa-check'; ?>"></i>
                                                 <?php echo $is_confirmado ? 'Enviado' : 'Confirmar'; ?>
                                             </a>
 
@@ -167,4 +171,5 @@ if (file_exists($caminho_json)) {
 
     <script src="../js/script.js"></script>
 </body>
+
 </html>
