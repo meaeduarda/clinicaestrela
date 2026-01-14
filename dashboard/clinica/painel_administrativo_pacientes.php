@@ -1,3 +1,18 @@
+<?php
+// C:\wamp64\www\clinicaestrela\dashboard\clinica\painel_administrativo_pacientes.php
+session_start();
+
+// Verificação de Segurança
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login_clinica.php?error=Acesso negado. Por favor, faça login.");
+    exit();
+}
+
+// Dados dinâmicos da sessão
+$nomeLogado = $_SESSION['usuario_nome'];
+$perfilLogado = $_SESSION['usuario_perfil'];
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,9 +26,7 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- SIDEBAR FIXA -->
         <aside class="sidebar">
-            <!-- Logo -->
             <div class="logo">
                 <div class="logo-icon">
                     <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
@@ -21,36 +34,35 @@
                 <h1>Clinica Estrela</h1>
             </div>
 
-            <!-- Menu de Navegação -->
             <nav class="menu">
                 <ul>
-                    <li class="active"><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_administrativo_pacientes.php"><i class="fas fa-users"></i> <span>Pacientes</span></a></li>
+                    <li class="active"><a href="painel_administrativo_pacientes.php"><i class="fas fa-users"></i> <span>Pacientes</span></a></li>
                     <li><a href="#"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
                     <li><a href="#"><i class="fas fa-user-check"></i> <span>Ativos</span></a></li>
                     <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Altas</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                    <li><a href="painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
                     <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
                 </ul>
             </nav>
 
-            <!-- Usuário Logado -->
             <div class="user-info">
                 <div class="user-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Maria">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($nomeLogado); ?>&background=random" alt="<?php echo htmlspecialchars($nomeLogado); ?>">
                 </div>
                 <div class="user-details">
-                    <h3>Maria</h3>
-                    <p>Coordenadora</p>
+                    <h3><?php echo htmlspecialchars($nomeLogado); ?></h3>
+                    <p><?php echo htmlspecialchars(ucfirst($perfilLogado)); ?></p>
                 </div>
+                <a href="logout.php" title="Sair" style="color: #ef4444; margin-left: 10px; text-decoration: none;">
+                    <i class="fas fa-power-off"></i>
+                </a>
             </div>
         </aside>
 
-        <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
-            <!-- Topo do Container -->
             <div class="main-top">
                 <h1>Painel Administrativo</h1>
                 <div class="top-icons">
@@ -70,13 +82,11 @@
                 </div>
             </div>
 
-            <!-- Título da Página -->
             <div class="page-title">
                 <h2><i class="fas fa-users"></i> Pacientes</h2>
             </div>
 
-             <!-- Cards de Indicadores -->
-            <div class="kpi-cards">
+             <div class="kpi-cards">
                 <div class="kpi-card blue">
                     <div class="kpi-icon">
                         <i class="fas fa-user-friends"></i>
@@ -118,7 +128,6 @@
                 </div>
             </div>
 
-            <!-- Barra de Busca de Pacientes -->
             <div class="patients-search-container">
                 <div class="patients-search-box">
                     <i class="fas fa-search"></i>
@@ -134,7 +143,6 @@
                 </div>
             </div>
 
-            <!-- Tabela de Pacientes -->
             <div class="patients-table-container">
                 <div class="table-header">
                     <h3>Tabela de Pacientes</h3>
@@ -199,316 +207,10 @@
                                     </div>
                                 </td>
                             </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sofia Santos">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Sofia Santos</strong>
-                                            <span class="patient-age">7 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TOD</span>
-                                        <span class="diagnostic-badge">TAG</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">24/Abr</span>
-                                        <span class="session-time">16:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 93765-4321</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-action delete" title="Excluir">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Carlos Oliveira">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Carlos Oliveira</strong>
-                                            <span class="patient-age">6 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TDAH</span>
-                                        <span class="diagnostic-badge">TOD</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">24/Abr</span>
-                                        <span class="session-time">15:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 98765-1234</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Pedro Almeida">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Pedro Almeida</strong>
-                                            <span class="patient-age">6 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TEA</span>
-                                        <span class="diagnostic-badge">TAG</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">24/Abr</span>
-                                        <span class="session-time">16:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 93765-4321</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-action delete" title="Excluir">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Beatriz Costa">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Beatriz Costa</strong>
-                                            <span class="patient-age">8 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TDAH</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">25/Abr</span>
-                                        <span class="session-time">10:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 99876-5432</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ana Oliveira">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Ana Oliveira</strong>
-                                            <span class="patient-age">8 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TDAH</span>
-                                        <span class="diagnostic-badge">TOD</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">24/Abr</span>
-                                        <span class="session-time">16:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 93765-4321</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-action delete" title="Excluir">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Rafael Lima">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Rafael Lima</strong>
-                                            <span class="patient-age">7 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TEA</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">25/Abr</span>
-                                        <span class="session-time">14:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 97654-3210</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Gabriel Souza">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Gabriel Souza</strong>
-                                            <span class="patient-age">9 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TEA</span>
-                                        <span class="diagnostic-badge">TAG</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">24/Abr</span>
-                                        <span class="session-time">16:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 93765-4321</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-action delete" title="Excluir">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <div class="patient-cell">
-                                        <div class="patient-avatar-small">
-                                            <img src="https://randomuser.me/api/portraits/women/29.jpg" alt="Juliana Santos">
-                                        </div>
-                                        <div class="patient-name">
-                                            <strong>Juliana Santos</strong>
-                                            <span class="patient-age">5 anos</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="diagnostic-tags">
-                                        <span class="diagnostic-badge">TDAH</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="next-session">
-                                        <span class="session-date">26/Abr</span>
-                                        <span class="session-time">09:00</span>
-                                    </div>
-                                </td>
-                                <td>(11) 96543-2109</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action view" title="Visualizar">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn-action edit" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
                 
-                <!-- Paginação -->
                 <div class="pagination">
                     <button class="pagination-btn prev">
                         <i class="fas fa-chevron-left"></i> Anterior
@@ -528,9 +230,8 @@
     </div>
 
     <script>
-        // Scripts para interatividade
+        // Scripts para interatividade originais mantidos
         document.addEventListener('DOMContentLoaded', function() {
-            // Hover nas linhas da tabela
             const tableRows = document.querySelectorAll('.patients-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -541,7 +242,6 @@
                 });
             });
 
-            // Botões de ação
             const actionButtons = document.querySelectorAll('.btn-action');
             actionButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
@@ -558,23 +258,6 @@
                     }
                 });
             });
-
-            // Paginação
-            const paginationButtons = document.querySelectorAll('.pagination-btn');
-            paginationButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const direction = this.classList.contains('prev') ? 'anterior' : 'próxima';
-                    alert(`Indo para a página ${direction}`);
-                });
-            });
-
-            // Botão novo paciente
-            const addPatientBtn = document.querySelector('.btn-add-patient');
-            if (addPatientBtn) {
-                addPatientBtn.addEventListener('click', function() {
-                    alert('Formulário de novo paciente será aberto');
-                });
-            }
         });
     </script>
 </body>

@@ -1,0 +1,118 @@
+/* login_clinica.css */
+:root {
+    --primary-color: #2c3e50; /* Azul escuro corporativo */
+    --accent-color: #3498db;
+    --bg-light: #f4f7f6;
+    --text-color: #333;
+    --error-red: #e74c3c;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-container img {
+    max-width: 120px;
+    margin-bottom: 10px;
+}
+
+.logo-container span {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 15px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #2980b9;
+}
+
+.error-message {
+    background-color: #fdeaea;
+    color: var(--error-red);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #fad2d2;
+}
+
+.back-home {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.back-home a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+}

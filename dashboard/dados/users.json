@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "nome": "Maria Eduarda",
+    "email": "admin@sistema.com",
+    "senha": "2026",
+    "perfil": "admin",
+    "ativo": true,
+    "criado_em": "2026-01-13 10:00:00"
+  },
+  {
+    "id": 2,
+    "nome": "Fabio Vaz",
+    "email": "fabio@sistema.com",
+    "senha": "2026",
+    "perfil": "admin",
+    "ativo": true,
+    "criado_em": "2026-01-13 22:00:00"
+  }
+]
