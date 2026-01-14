@@ -1,4 +1,19 @@
 <?php
+
+// C:\wamp64\www\clinicaestrela\dashboard\clinica\painel_administrativo_pacientes.php
+session_start();
+
+// Verificação de Segurança
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login_clinica.php?error=Acesso negado. Por favor, faça login.");
+    exit();
+}
+
+// Dados dinâmicos da sessão
+$nomeLogado = $_SESSION['usuario_nome'];
+$perfilLogado = $_SESSION['usuario_perfil'];
+
+
 $caminho_json = '../dados/dados.json';
 $mensagem = '';
 $tipo_mensagem = ''; 
