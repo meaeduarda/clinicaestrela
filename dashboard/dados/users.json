@@ -16,5 +16,14 @@
     "perfil": "admin",
     "ativo": true,
     "criado_em": "2026-01-13 22:00:00"
+  },
+  {
+    "id": 3,
+    "nome": "Ana Recepção",
+    "email": "recepcao@sistema.com",
+    "senha": "2026",
+    "perfil": "recepcionista",
+    "ativo": true,
+    "criado_em": "2026-01-15 08:00:00"
   }
 ]
