@@ -28,12 +28,10 @@ $perfilLogado = $_SESSION['usuario_perfil'];
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Menu Mobile Hamburger -->
     <div class="mobile-menu-toggle">
         <i class="fas fa-bars"></i>
     </div>
     
-    <!-- Mobile Header -->
     <div class="mobile-header">
     </div>
     
@@ -56,7 +54,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                     <li><a href="#"><i class="fas fa-user-check"></i> <span>Ativos</span></a></li>
                     <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Altas</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                    <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                    <li><a href="painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
                     <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
@@ -79,7 +77,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
         </aside>
 
         <main class="main-content">
-            <!-- Topo do Container Desktop -->
             <div class="main-top desktop-only">
                 <h1>Painel Administrativo</h1>
                 <div class="top-icons">
@@ -265,7 +262,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                 document.body.style.overflow = '';
             });
             
-            // Fechar sidebar ao clicar fora (apenas mobile)
             document.addEventListener('click', function(event) {
                 if (window.innerWidth <= 768 && 
                     !sidebar.contains(event.target) && 
@@ -277,7 +273,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         }
 
-        // Hover nos cards de KPI
         const kpiCards = document.querySelectorAll('.kpi-card');
         kpiCards.forEach(card => {
             card.addEventListener('mouseenter', function() {
@@ -288,7 +283,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         });
 
-        // Ajuste de toque para a tabela
         const tableRows = document.querySelectorAll('.patients-table tbody tr');
         tableRows.forEach(row => {
             row.addEventListener('touchstart', function() {
@@ -310,7 +304,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         });
 
-        // Ações dos botões com feedback tátil
         const actionButtons = document.querySelectorAll('.btn-action');
         actionButtons.forEach(button => {
             button.addEventListener('touchstart', function(e) {
@@ -336,16 +329,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         });
 
-        // Botões de ação
-        const analyzeBtns = document.querySelectorAll('.btn-analyze');
-        analyzeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const patientName = this.closest('.patient-item')?.querySelector('h4')?.textContent;
-                alert('Analisando paciente: ' + patientName);
-            });
-        });
-
-        // Botão Novo Paciente
         const addPatientBtn = document.querySelector('.btn-add-patient');
         if (addPatientBtn) {
             addPatientBtn.addEventListener('click', function() {
@@ -353,7 +336,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         }
 
-        // Botão Exportar
         const exportBtn = document.querySelector('.btn-export');
         if (exportBtn) {
             exportBtn.addEventListener('click', function() {
@@ -361,7 +343,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         }
 
-        // Botões de filtro e refresh
         const filterBtn = document.querySelector('.btn-filter');
         if (filterBtn) {
             filterBtn.addEventListener('click', function() {
@@ -376,7 +357,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         }
 
-        // Paginação
         const paginationPrev = document.querySelector('.pagination-btn.prev');
         const paginationNext = document.querySelector('.pagination-btn.next');
         
@@ -392,7 +372,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             });
         }
 
-        // Ajustar menu no carregamento
         function adjustMenuForMobile() {
             const menuItems = document.querySelectorAll('.menu li a span');
             
@@ -408,6 +387,5 @@ $perfilLogado = $_SESSION['usuario_perfil'];
         window.addEventListener('resize', adjustMenuForMobile);
     });
     </script>
-
 </body>
 </html>
