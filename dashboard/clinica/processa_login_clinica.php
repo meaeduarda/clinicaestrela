@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['usuario_perfil'] = $usuarioEncontrado['perfil'];
                 
                 // Redireciona para o painel administrativo
-                header("Location: painel_administrativo_pacientes.php");
+                header("Location: painel_adm_pacientes.php");
                 exit;
             } else {
                 header("Location: login_clinica.php?error=Usuário desativado. Contate o administrador.");
