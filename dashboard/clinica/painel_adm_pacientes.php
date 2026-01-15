@@ -1,5 +1,5 @@
 <?php
-// C:\wamp64\www\clinicaestrela\dashboard\clinica\painel_administrativo_pacientes.php
+// C:\wamp64\www\clinicaestrela\dashboard\clinica\painel_adm_pacientes.php
 session_start();
 
 // Verificação de Segurança
@@ -23,7 +23,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
     <meta name="theme-color" content="#3b82f6">
     <title>Painel - Pacientes Ativos</title>
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_grade.css">
-    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_paciente.css">
+    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_pacientes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -51,11 +51,14 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                 <ul>
                     <li class="active"><a href="painel_adm_pacientes.php"><i class="fas fa-users"></i> <span>Pacientes</span></a></li>
                     <li><a href="#"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
-                    <li><a href="#"><i class="fas fa-user-check"></i> <span>Ativos</span></a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Altas</span></a></li>
-                    <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                    <li><a href="painel_administrativo_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                    
+                    <?php if ($perfilLogado !== 'recepcionista'): ?>
+                        <li><a href="#"><i class="fas fa-user-check"></i> <span>Ativos</span></a></li>
+                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Altas</span></a></li>
+                        <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
+                        <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                    <?php endif; ?>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
                     <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
                     <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
