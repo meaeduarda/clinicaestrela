@@ -23,7 +23,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
     <meta name="theme-color" content="#3b82f6">
     <title>Painel - Pacientes Ativos</title>
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_grade.css">
-    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_pacientes.css">
+    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_paciente.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
