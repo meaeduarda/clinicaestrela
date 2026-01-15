@@ -50,7 +50,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             <nav class="menu">
                 <ul>
                     <li class="active"><a href="painel_adm_pacientes.php"><i class="fas fa-users"></i> <span>Pacientes</span></a></li>
-                    <li><a href="#"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
+                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca_id.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
                     
                     <?php if ($perfilLogado !== 'recepcionista'): ?>
                         <li><a href="#"><i class="fas fa-user-check"></i> <span>Ativos</span></a></li>
