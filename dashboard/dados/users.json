@@ -43,5 +43,14 @@
         "perfil": "Coordenador Clinico",
         "ativo": true,
         "criado_em": "2026-01-17 14:27:26"
+    },
+    {
+        "id": 6,
+        "nome": "Ana Luiza",
+        "email": "analuiza@sistema.com",
+        "senha": "Estrela2026",
+        "perfil": "Musicoterapeuta",
+        "ativo": true,
+        "criado_em": "2026-01-17 14:36:33"
     }
 ]
