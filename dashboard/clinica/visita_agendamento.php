@@ -69,8 +69,15 @@ if (file_exists($caminho_json)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerência de Visitas - Clínica Estrela</title>
-    <link rel="icon" href="../../imagens/favicon.ico" type="image/x-icon">
+    <title>Gerência de Visitas - Clínica Estrela</title>   
+     <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Clinica Estrela" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/visita_agendamento.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
