@@ -297,3 +297,297 @@
         transform: translateY(-5px);
     }
 }
+
+/* ============================================
+   SEÇÃO DE CONTATO COM PARALLAX
+   ============================================ */
+
+.parallax-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 0;
+    overflow: hidden;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background-image: url('../imagens/contato-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.parallax-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+                rgba(42, 110, 187, 0.92) 0%, 
+                rgba(42, 110, 187, 0.85) 50%,
+                rgba(76, 201, 167, 0.9) 100%);
+    z-index: 1;
+}
+
+.parallax-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.contact-info-parallax {
+    flex: 1;
+    min-width: 300px;
+    color: white;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.contact-info-parallax .section-title h2 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.contact-info-parallax .subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.contact-details-parallax {
+    margin: 2rem 0;
+}
+
+.contact-item-parallax {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-item-parallax:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.contact-icon-parallax {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.contact-item-parallax:hover .contact-icon-parallax {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.contact-text-parallax h3 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.contact-text-parallax p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.3rem;
+}
+
+.contact-note-parallax {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.social-links-parallax {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-links-parallax h3 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.social-icons-parallax {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-icon-parallax {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.social-icon-parallax:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Mapa Container */
+.map-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+.map-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    height: 100%;
+}
+
+.map-card h3 {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.5rem 2rem;
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-card h3 i {
+    font-size: 1.6rem;
+}
+
+.map-iframe-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.google-map {
+    display: block;
+    border: none;
+    width: 100%;
+    height: 450px;
+}
+
+.map-actions {
+    padding: 1.5rem 2rem;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.map-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .parallax-content {
+        flex-direction: column;
+    }
+    
+    .contact-info-parallax,
+    .map-container {
+        width: 100%;
+    }
+    
+    .parallax-section {
+        min-height: auto;
+        padding: 4rem 0;
+    }
+    
+    .parallax-bg {
+        background-attachment: scroll;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-info-parallax {
+        padding: 1.5rem;
+    }
+    
+    .contact-item-parallax {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .contact-info-parallax .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    .map-card h3 {
+        padding: 1.2rem 1.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .google-map {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info-parallax {
+        padding: 1rem;
+    }
+    
+    .contact-icon-parallax {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .google-map {
+        height: 300px;
+    }
+    
+    .parallax-section {
+        padding: 3rem 0;
+    }
+}

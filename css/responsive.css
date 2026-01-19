@@ -427,3 +427,31 @@
         max-width: 100%;
     }
 }
+
+@media (max-width: 992px) {
+    /* Parallax Section */
+    .parallax-bg {
+        background-attachment: scroll !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .parallax-section {
+        min-height: auto !important;
+        padding: 4rem 0 !important;
+    }
+    
+    .contact-info-parallax .section-title h2 {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .google-map {
+        height: 300px !important;
+    }
+    
+    .contact-info-parallax {
+        padding: 1.5rem !important;
+    }
+}

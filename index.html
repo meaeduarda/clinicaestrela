@@ -691,51 +691,58 @@ Q -100, 1000 -100, 1500" />
         </div>
     </section>
 
-    <!-- Contato -->
-    <section id="contato" class="section-alt">
-        <div class="container">
-            <div class="section-title">
-                <h2>Entre em Contato</h2>
-                <p class="subtitle">Estamos aqui para ajudar sua família</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
+<!-- Contato com Parallax -->
+<section id="contato-parallax" class="parallax-section">
+    <div class="parallax-bg"></div>
+    
+    <div class="container">
+        <div class="parallax-content">
+            <div class="contact-info-parallax">
+                <div class="section-title">
+                    <h2>Entre em Contato</h2>
+                    <p class="subtitle">Estamos aqui para ajudar sua família</p>
+                </div>
+                
+                <div class="contact-details-parallax">
+                    <div class="contact-item-parallax">
+                        <div class="contact-icon-parallax">
                             <i class="fas fa-phone-alt"></i>
                         </div>
-                        <div class="contact-details">
+                        <div class="contact-text-parallax">
                             <h3>Telefone</h3>
                             <p>(81) 00000-0000</p>
-                            <p class="contact-note">Atendimento de segunda a sexta, das 7h às 19h</p>
+                            <span class="contact-note-parallax">Atendimento de segunda a sexta, das 7h às 19h</span>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    
+                    <div class="contact-item-parallax">
+                        <div class="contact-icon-parallax">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="contact-details">
+                        <div class="contact-text-parallax">
                             <h3>E-mail</h3>
                             <p>atendimento@clinicaestrela.com</p>
-                            <p class="contact-note">Respondemos em até 24 horas úteis</p>
+                            <span class="contact-note-parallax">Respondemos em até 24 horas úteis</span>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    
+                    <div class="contact-item-parallax">
+                        <div class="contact-icon-parallax">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <div class="contact-details">
+                        <div class="contact-text-parallax">
                             <h3>Endereço</h3>
                             <p>Rua , 84</p>
                             <p>Bairro, Recife - PE</p>
-                            <p>CEP: 0000000 </p>
+                            <p>CEP: 0000000</p>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    
+                    <div class="contact-item-parallax">
+                        <div class="contact-icon-parallax">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <div class="contact-details">
+                        <div class="contact-text-parallax">
                             <h3>Horário de Funcionamento</h3>
                             <p>Segunda a Sexta: 7h às 19h</p>
                             <p>Sábado: 8h às 12h</p>
@@ -743,19 +750,37 @@ Q -100, 1000 -100, 1500" />
                         </div>
                     </div>
                 </div>
-                <div class="work-with-us">
-                    <h3>Trabalhe Conosco</h3>
-                    <p>Quer fazer parte da equipe estrela? Envie seu currículo e venha transformar vidas conosco.</p>
-                    <div class="wave-button-container">
-                        <a href="mailto:rh@clinica.com.br" class="btn btn-primary btn-pulse pulse-highlight">
-                            <i class="fas fa-paper-plane"></i> Enviar Currículo
+            </div>
+            
+            <div class="map-container">
+                <div class="map-card">
+                    <h3><i class="fas fa-map-marked-alt"></i> Nossa Localização</h3>
+                    <div class="map-iframe-container">
+                        <!-- Substitua o src abaixo pelo embed code do seu Google Maps -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.3753884564285!2d-34.8813979!3d-8.0633658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab18a48ef7b85d%3A0x5e32b8c5e5e5e5e5!2sRecife%2C%20PE!5e0!3m2!1spt-BR!2sbr!4v1640000000000!5m2!1spt-BR!2sbr" 
+                            width="100%" 
+                            height="450" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="google-map"
+                            title="Localização da Clínica Estrela">
+                        </iframe>
+                    </div>
+                    <div class="map-actions">
+                        <a href="https://maps.google.com/?q=Rua+,+84,+Bairro,+Recife+-+PE" 
+                           target="_blank" 
+                           class="btn btn-secondary">
+                            <i class="fas fa-directions"></i> Obter Rotas
                         </a>
-                        <div class="wave-button-pulse"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Convênios com Marquee -->
     <section id="convenios" class="convenios-section">

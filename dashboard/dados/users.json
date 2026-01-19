@@ -52,5 +52,14 @@
         "perfil": "Musicoterapeuta",
         "ativo": true,
         "criado_em": "2026-01-17 14:36:33"
+    },
+    {
+        "id": 7,
+        "nome": "Ricardo",
+        "email": "ricardo@sistema.com",
+        "senha": "Estrela2026",
+        "perfil": "Coordenador Clinico",
+        "ativo": true,
+        "criado_em": "2026-01-19 17:52:10"
     }
 ]
