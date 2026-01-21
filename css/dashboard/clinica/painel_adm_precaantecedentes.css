@@ -1,0 +1,557 @@
+/* painel_adm_precaantecedentes.css - VERSÃO COMPACTA */
+
+/* Estilos específicos para a aba de Antecedentes */
+
+/* Seções do formulário de antecedentes - MAIS COMPACTO */
+.form-section {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    letter-spacing: -0.2px;
+}
+
+.section-subtitle {
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1rem 0 0.8rem 0;
+    padding-left: 0.5rem;
+    border-left: 2px solid #4A7DFF;
+}
+
+/* Grupo de perguntas - ESPAÇAMENTO REDUZIDO */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group > label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+/* Checkbox groups para antecedentes - MAIS COMPACTO */
+.checkbox-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+    min-height: 40px;
+}
+
+.checkbox-item:hover {
+    border-color: #cbd5e0;
+    background: #f1f5f9;
+}
+
+.checkbox-item.selected {
+    background: #ebf4ff;
+    border-color: #4A7DFF;
+    box-shadow: 0 0 0 1px #4A7DFF;
+}
+
+.checkbox-item input[type="checkbox"],
+.checkbox-item input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4A7DFF;
+}
+
+.checkbox-item label {
+    cursor: pointer;
+    font-size: 0.92rem;
+    color: #4a5568;
+    flex: 1;
+    line-height: 1.2;
+}
+
+/* Radio buttons horizontais - MAIS APERTADO */
+.radio-group.horizontal {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.radio-option:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e0;
+}
+
+.radio-option.selected {
+    background: #ebf4ff;
+    border-color: #4A7DFF;
+    box-shadow: 0 0 0 1px #4A7DFF;
+}
+
+.radio-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #4A7DFF;
+}
+
+.radio-option .radio-label {
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 0.92rem;
+}
+
+/* Campos de texto dentro de seções */
+.text-field-group {
+    margin-top: 0.5rem;
+}
+
+.text-field-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 0.92rem;
+}
+
+.text-field-group textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    resize: vertical;
+    min-height: 45px;
+    background: #f8fafc;
+    transition: all 0.2s;
+    line-height: 1.4;
+}
+
+.text-field-group textarea:focus {
+    outline: none;
+    border-color: #4A7DFF;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(74, 125, 255, 0.1);
+}
+
+/* Linha com múltiplos campos lado a lado - ESPAÇAMENTO REDUZIDO */
+.form-row.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form-row.two-col .form-group {
+    margin-bottom: 0;
+}
+
+/* Separador de seções - MAIS FINO */
+.section-divider {
+    border: none;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 1rem 0;
+}
+
+/* Campo de detalhes com highlight - MAIS COMPACTO */
+.details-field {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+    transition: all 0.2s;
+}
+
+.details-field:hover {
+    border-color: #cbd5e0;
+}
+
+.details-field label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 0.92rem;
+}
+
+.details-field textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    resize: vertical;
+    min-height: 40px;
+    background: white;
+    transition: all 0.2s;
+    line-height: 1.4;
+}
+
+.details-field textarea:focus {
+    outline: none;
+    border-color: #4A7DFF;
+    box-shadow: 0 0 0 1px rgba(74, 125, 255, 0.1);
+}
+
+/* Campo de texto para "outros" */
+#familia_outros_descricao {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    margin-top: 0.3rem;
+    background: #f8fafc;
+    transition: all 0.2s;
+}
+
+#familia_outros_descricao:focus {
+    outline: none;
+    border-color: #4A7DFF;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(74, 125, 255, 0.1);
+}
+
+/* Botão de salvar seção - MAIS COMPACTO */
+.btn-save-section {
+    background: linear-gradient(135deg, #4A7DFF, #6C63FF);
+    color: white;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    margin-top: 1rem;
+    box-shadow: 0 2px 6px rgba(74, 125, 255, 0.15);
+}
+
+.btn-save-section:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(74, 125, 255, 0.2);
+}
+
+.btn-save-section:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(74, 125, 255, 0.15);
+}
+
+.btn-save-section i {
+    font-size: 0.95rem;
+}
+
+/* Campos condicionais - ANIMAÇÃO MAIS RÁPIDA */
+#detalhes-problemas-gestacao,
+#detalhes-problemas-pos-nascimento,
+#detalhes-complicacoes,
+#detalhes-convulsoes,
+#detalhes-alergias,
+#detalhes-outros-familia,
+#detalhes-diferenca-crescimento {
+    animation: slideDown 0.2s ease-out;
+    margin-top: 0.5rem;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 300px;
+    }
+}
+
+/* Seções temáticas - MENOS DESTAQUE */
+.problems-section {
+    background: #fff9f9;
+    border: 1px solid #fed7d7;
+}
+
+.problems-section .section-title {
+    color: #c53030;
+    border-bottom-color: #fed7d7;
+}
+
+.medical-history-section {
+    background: #f0fff4;
+    border: 1px solid #c6f6d5;
+}
+
+.medical-history-section .section-title {
+    color: #2f855a;
+    border-bottom-color: #c6f6d5;
+}
+
+/* Estilo para campos de hospitalização */
+#motivo_hospitalizacao,
+#idade_hospitalizacao {
+    min-height: 40px;
+    line-height: 1.4;
+}
+
+/* Labels específicos para antecedentes */
+.question-label {
+    display: block;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.question-subtext {
+    display: block;
+    font-size: 0.82rem;
+    color: #718096;
+    margin-top: 0.2rem;
+    font-weight: 400;
+}
+
+/* Grid para histórico familiar */
+.historic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+
+/* Espaçamento entre perguntas relacionadas */
+.question-group {
+    margin-bottom: 1.2rem;
+}
+
+.question-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Ajuste para os campos em linha */
+.inline-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+/* Responsividade melhorada - TAMBÉM MAIS COMPACTO */
+@media (max-width: 992px) {
+    .checkbox-group-grid,
+    .historic-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .form-section {
+        padding: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .form-row.two-col,
+    .inline-fields {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .checkbox-group-grid,
+    .historic-grid {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+    
+    .radio-group.horizontal {
+        flex-direction: column;
+        gap: 0.4rem;
+        width: 100%;
+    }
+    
+    .radio-option {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .checkbox-item {
+        padding: 0.4rem 0.7rem;
+        min-height: 38px;
+    }
+    
+    .details-field {
+        padding: 0.6rem;
+    }
+    
+    .section-title {
+        font-size: 1.05rem;
+        margin-bottom: 0.6rem;
+        padding-bottom: 0.4rem;
+    }
+    
+    .btn-save-section {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem 1.5rem;
+        margin-top: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-section {
+        padding: 0.7rem;
+        margin-bottom: 0.7rem;
+    }
+    
+    .checkbox-item {
+        padding: 0.35rem 0.6rem;
+        min-height: 36px;
+    }
+    
+    .details-field {
+        padding: 0.5rem;
+    }
+    
+    .question-label {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Estilo para campos com placeholder */
+::placeholder {
+    color: #a0aec0;
+    opacity: 1;
+    font-size: 0.9rem;
+}
+
+:-ms-input-placeholder {
+    color: #a0aec0;
+}
+
+::-ms-input-placeholder {
+    color: #a0aec0;
+}
+
+/* Melhorias na legibilidade */
+input, textarea, select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: #2d3748;
+}
+
+/* Foco visual melhorado */
+:focus {
+    outline: none;
+}
+
+/* Espaçamento vertical consistente - REDUZIDO */
+.form-card.tab-content {
+    padding-top: 0.8rem;
+}
+
+/* Melhoria na hierarquia visual - REDUZIDO */
+.form-title {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* Ajustes para a estrutura das perguntas - MAIS COMPACTO */
+.question-block {
+    padding: 0.8rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 2px solid #e2e8f0;
+}
+
+.question-block:hover {
+    border-left-color: #4A7DFF;
+    background: #f1f5f9;
+}
+
+/* Estilo para perguntas individuais - ESPAÇAMENTO REDUZIDO */
+.question-item {
+    margin-bottom: 0.8rem;
+}
+
+.question-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Estilo para as opções dentro das perguntas */
+.question-options {
+    margin-top: 0.4rem;
+}
+
+/* Ajuste para os grupos de checkbox dentro de perguntas */
+.question-item .checkbox-group-grid {
+    margin-top: 0.3rem;
+}
+
+/* Estilo para perguntas com radio buttons */
+.question-item .radio-group.horizontal {
+    margin-top: 0.4rem;
+}
+
+/* Remove espaçamento extra entre perguntas consecutivas */
+.form-group + .form-group {
+    margin-top: -0.2rem;
+}
+
+/* Ajuste fino para melhor espaçamento geral */
+.form-section .form-group:first-child {
+    margin-top: 0.2rem;
+}
+
+.form-section .form-group:last-child {
+    margin-bottom: 0.2rem;
+}

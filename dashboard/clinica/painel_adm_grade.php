@@ -62,15 +62,19 @@ $perfilLogado = $_SESSION['usuario_perfil'];
             <!-- Menu de Navegação -->
             <nav class="menu">
                 <ul>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca_id.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
+                    <li><a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
+                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
                     <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a></li>
-                    <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                    <li class="active"><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                    
+                    <?php if ($perfilLogado !== 'recepcionista'): ?>
+                        <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
+                        <li class="active"><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                    <?php endif; ?>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
                     <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
                     <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
+                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/login_cadastro_clinica.php"><i class="fas fa-user-plus"></i> <span>Adicionar Colaborador</span></a></li>
                 </ul>
             </nav>
 
@@ -156,101 +160,6 @@ $perfilLogado = $_SESSION['usuario_perfil'];
                     </div>
                 </div>
             </div>
-
-            <!-- Conteúdo Central em Duas Colunas -->
-            <div class="content-grid">
-                <!-- Coluna Direita - Pacientes e Lembretes (Mobile First) -->
-                <div class="right-column">
-                    <!-- Card de Pacientes -->
-                    <div class="patients-card">
-                        <div class="card-header">
-                            <h2>Pacientes Pendentes</h2>
-                            <a href="#" class="see-all">Ver todos</a>
-                        </div>
-                        
-                        <div class="patients-list">
-                            <div class="patient-item">
-                                <div class="patient-avatar">
-                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="João Silva">
-                                </div>
-                                <div class="patient-info">
-                                    <h4>João Silva</h4>
-                                    <p class="age">5 anos</p>
-                                    <p class="responsible">Ana de Souza</p>
-                                </div>
-                                <button class="btn-analyze">Analisar</button>
-                            </div>
-                            
-                            <div class="patient-item">
-                                <div class="patient-avatar">
-                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sofia Santos">
-                                </div>
-                                <div class="patient-info">
-                                    <h4>Sofia Santos</h4>
-                                    <p class="age">7 anos</p>
-                                    <p class="responsible">Marcos Santos</p>
-                                </div>
-                                <button class="btn-analyze">Analisar</button>
-                            </div>
-                            
-                            <div class="patient-item">
-                                <div class="patient-avatar">
-                                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Pedro Almeida">
-                                </div>
-                                <div class="patient-info">
-                                    <h4>Pedro Almeida</h4>
-                                    <p class="age">6 anos</p>
-                                    <p class="responsible">Fernanda Almeida</p>
-                                </div>
-                                <button class="btn-analyze">Analisar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card de Lembretes -->
-                    <div class="reminders-card">
-                        <div class="card-header">
-                            <h2>Lembretes</h2>
-                            <a href="#" class="see-all">Ver todos</a>
-                        </div>
-                        
-                        <div class="reminders-list">
-                            <div class="reminder-item">
-                                <div class="reminder-icon" style="background-color: #FF6B8B;">
-                                    <i class="fas fa-box"></i>
-                                </div>
-                                <div class="reminder-content">
-                                    <p class="reminder-text">Solicitar material de escritório</p>
-                                    <p class="reminder-subtext">Almoxarifado</p>
-                                </div>
-                                <button class="btn-small">Analisar</button>
-                            </div>
-                            
-                            <div class="reminder-item">
-                                <div class="reminder-icon" style="background-color: #6BD4FF;">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="reminder-content">
-                                    <p class="reminder-text">Gerar relatório mensal</p>
-                                    <p class="reminder-subtext">Fechamento</p>
-                                </div>
-                                <span class="badge-tag">10/Maio</span>
-                            </div>
-                            
-                            <div class="reminder-item">
-                                <div class="reminder-icon" style="background-color: #FFD36B;">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="reminder-content">
-                                    <p class="reminder-text">Reunião de equipe</p>
-                                    <p class="reminder-subtext">Sala 3, 15:00</p>
-                                </div>
-                                <span class="badge-tag today">Hoje</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Coluna Esquerda - Grade Terapêutica ÚNICA -->
                 <div class="left-column">
                     <!-- Grade Terapêutica Única e Integrada -->

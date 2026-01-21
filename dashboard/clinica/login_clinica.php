@@ -71,9 +71,6 @@ session_start();
                 <a href="../../index.html">
                     <i class="fas fa-arrow-left"></i> Voltar ao site principal
                 </a>
-                <a href="http://localhost/clinicaestrela/dashboard/clinica/login_cadastro_clinica.php">
-                    <i class="fas fa-user-plus"></i> Faça seu cadastro aqui
-                </a>
             </div>
         </div>
     </div>
