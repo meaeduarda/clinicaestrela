@@ -92,64 +92,18 @@ if (!file_exists($paciente['foto'])) {
             <!-- Menu de Navegação - PADRÃO DO PROJETO -->
             <nav class="menu">
                 <ul>
-                    <li>
-                        <a href="painel_adm_pacientes.php">
-                            <i class="fas fa-users"></i>
-                            <span>Pacientes</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="painel_adm_preca_id.php">
-                            <i class="fas fa-file-medical"></i>
-                            <span>Pré-cadastro</span>
-                        </a>
-                    </li>
+                    <li><a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
+                    <li class="active"><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca_id.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
+                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a></li>
                     
                     <?php if ($perfilLogado !== 'recepcionista'): ?>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-user-check"></i>
-                                <span>Ativos</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Altas</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-calendar-check"></i>
-                                <span>Plano Terapêutico</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="painel_adm_grade.php">
-                                <i class="fas fa-table"></i>
-                                <span>Grade Terapêutica</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Evoluções</span>
-                            </a>
-                        </li>
+                        <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
+                        <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <?php endif; ?>
-                    
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Agenda</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-door-closed"></i>
-                            <span>Salas</span>
-                        </a>
-                    </li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
+                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
+                    <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
                 </ul>
             </nav>
 
@@ -169,14 +123,17 @@ if (!file_exists($paciente['foto'])) {
         <main class="main-content">
             <!-- Topo Desktop -->
             <div class="main-top desktop-only">
-                <h1>Pré-Cadastro Clínico</h1>
+                <h2><i class="fas fa-file-medical"></i> Pré-Cadastro Clínico</h2>
                 <div class="top-icons">
                     <div class="icon-btn with-badge">
                         <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
+                        <span class="badge">2</span>
                     </div>
                     <div class="icon-btn">
-                        <i class="fas fa-question-circle"></i>
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="icon-btn">
+                        <i class="fas fa-cog"></i>
                     </div>
                 </div>
             </div>
@@ -370,21 +327,13 @@ if (!file_exists($paciente['foto'])) {
 
             <!-- Botões de Ação -->
             <div class="action-buttons">
-                <button type="button" class="btn btn-save">
-                    <i class="fas fa-save"></i>
-                    <span>Salvar</span>
+                <button type="button" class="btn btn-archive green">
+                    <i class="fas fa-user-check"></i>
+                    <span>Salvar Como Paciente Ativo</span>
                 </button>
                 <button type="button" class="btn btn-convert">
-                    <i class="fas fa-user-check"></i>
-                    <span>Converter em Paciente</span>
-                </button>
-                <button type="button" class="btn btn-archive green">
                     <i class="fas fa-archive"></i>
-                    <span>Arquivar</span>
-                </button>
-                <button type="button" class="btn btn-archive red">
-                    <i class="fas fa-archive"></i>
-                    <span>Arquivar</span>
+                    <span>Salvar Como Paciente Pendente</span>
                 </button>
             </div>
 
