@@ -1265,7 +1265,6 @@ if (!file_exists($paciente['foto'])) {
                             <h4 class="section-title">
                                 <i class="fas fa-folder"></i>
                                 <span>Anexos</span>
-                                <i class="fas fa-chevron-down collapse-icon"></i>
                             </h4>
                         </div>
                         
