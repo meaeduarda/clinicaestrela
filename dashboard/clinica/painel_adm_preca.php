@@ -63,7 +63,7 @@ if (!file_exists($paciente['foto'])) {
     <!-- Estilos CSS ANTECEDENTES -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_precaantecedentes.css">
     <!-- Estilos CSS DESENVOLVIMENTO -->
-    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_preca_desenvolvimento.css">
+    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_precadesenv.css">
     <!-- Estilos CSS OBSERVACAO CLINICA -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_preca_observacao.css">
 
@@ -434,10 +434,7 @@ if (!file_exists($paciente['foto'])) {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Separador -->
-                    <hr class="section-divider">
-
+                
                     <!-- Seção 2: Sinais Observados -->
                     <div class="form-section">
                         <h4 class="section-title">Sinais Observados</h4>
@@ -512,9 +509,6 @@ if (!file_exists($paciente['foto'])) {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Separador -->
-                    <hr class="section-divider">
 
                     <!-- Seção 3: Expectativas da Família -->
                     <div class="form-section">
@@ -679,9 +673,6 @@ if (!file_exists($paciente['foto'])) {
                         </div>
                     </div>
 
-                    <!-- Separador -->
-                    <hr class="section-divider">
-
                     <!-- Seção 2: História Médica Pessoal -->
                     <div class="form-section medical-history-section">
                         <h4 class="section-title">História Médica Pessoal</h4>
@@ -811,9 +802,6 @@ if (!file_exists($paciente['foto'])) {
                         </div>
                     </div>
 
-                    <!-- Separador -->
-                    <hr class="section-divider">
-
                     <!-- Seção 3: História Médica Familiar -->
                     <div class="form-section">
                         <h4 class="section-title">História Médica Familiar</h4>
@@ -865,9 +853,6 @@ if (!file_exists($paciente['foto'])) {
                         </div>
                     </div>
 
-                    <!-- Separador -->
-                    <hr class="section-divider">
-
                     <!-- Seção 4: Sobre o crescimento da criança -->
                     <div class="form-section">
                         <h4 class="section-title">Sobre o crescimento da criança</h4>
@@ -901,6 +886,435 @@ if (!file_exists($paciente['foto'])) {
                             </div>
                         </div>
                     </div>
+                </form>
+            </div>
+
+                        <!-- Card do Formulário - DESENVOLVIMENTO -->
+            <div id="form-desenvolvimento" class="form-card tab-content">
+                <h3 class="form-title">Desenvolvimento</h3>
+                
+                <form id="form-desenvolvimento-data" class="patient-form">
+                    <!-- Seção 1: Motor -->
+                    <div class="form-section">
+                        <h4 class="section-title">Motor</h4>
+                        
+                        <!-- Sentou-se sem apoio? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Sentou-se sem apoio?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="sentou_sem_apoio" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="sentou_sem_apoio" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_sentou" name="idade_sentou" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Engatinhou? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Engatinhou?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="engatinhou" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="engatinhou" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_engatinhou" name="idade_engatinhou" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Começou a andar? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Começou a andar?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="comecou_andar" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="comecou_andar" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_andou" name="idade_andou" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controle dos esfíncteres -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Controle dos esfíncteres</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="controle_esfincteres" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="controle_esfincteres" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_controle" name="idade_controle" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2: Fala e Linguagem -->
+                    <div class="form-section">
+                        <h4 class="section-title">Fala e Linguagem</h4>
+                        
+                        <!-- Balbuciou? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Balbuciou?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="balbuciou" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="balbuciou" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_balbucio" name="idade_balbucio" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Falou as primeiras palavras? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Falou as primeiras palavras?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="primeiras_palavras" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="primeiras_palavras" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_primeiras_palavras" name="idade_primeiras_palavras" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Montou frases? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Montou frases?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="montou_frases" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="montou_frases" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                    <div class="age-input-container">
+                                        <input type="text" class="age-input" id="idade_frases" name="idade_frases" placeholder="Idade (meses)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Atualmente conversa com frases completas? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Atualmente conversa com frases completas?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="frases_completas" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="frases_completas" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 3: Social -->
+                    <div class="form-section">
+                        <h4 class="section-title">Social</h4>
+                        
+                        <!-- Sorriu em resposta a interações? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Sorriu em resposta a interações?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="sorriu_interacoes" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="sorriu_interacoes" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interage com outras crianças? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Interage com outras crianças?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="interage_criancas" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="interage_criancas" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Seção 4: Alimentação -->
+                    <div class="form-section">
+                        <h4 class="section-title">Alimentação</h4>
+                        
+                        <!-- Aceitou bem a introdução alimentar? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Aceitou bem a introdução alimentar?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="introducao_alimentar" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="introducao_alimentar" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alimenta-se sozinho? -->
+                        <div class="form-row question-row">
+                            <div class="question-item">
+                                <div class="question-text">
+                                    <span class="question-label">Alimenta-se sozinho?</span>
+                                </div>
+                                <div class="question-controls">
+                                    <div class="radio-group compact">
+                                        <label class="radio-option">
+                                            <input type="radio" name="alimenta_sozinho" value="sim">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Sim</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="alimenta_sozinho" value="nao">
+                                            <span class="radio-dot"></span>
+                                            <span class="radio-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hábitos alimentares / Observações -->
+                        <div class="form-row">
+                            <div class="form-group large">
+                                <div class="textarea-container">
+                                    <label for="habitos_alimentares">Hábitos alimentares / Observações</label>
+                                    <div class="textarea-wrapper">
+                                        <textarea id="habitos_alimentares" name="habitos_alimentares" rows="4" placeholder="Descreva os hábitos alimentares, preferências, dificuldades..."></textarea>
+                                        <div class="char-counter">
+                                            <span class="char-count">0</span>/400
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+                        <!-- Card do Formulário - OBSERVAÇÃO CLÍNICA -->
+            <div id="form-observacao" class="form-card tab-content">
+                <h3 class="form-title">Observação Clínica</h3>
+                
+                <form id="form-observacao-data" class="patient-form">
+                    <!-- Seção 1: Observações Clínicas -->
+                    <div class="form-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Observações Clínicas</span>
+                        </h4>
+                        
+                        <!-- Campo principal de observações -->
+                        <div class="form-row">
+                            <div class="form-group large">
+                                <div class="textarea-container">
+                                    <label for="observacoes_clinicas">Observações Clínicas</label>
+                                    <div class="textarea-wrapper">
+                                        <textarea id="observacoes_clinicas" name="observacoes_clinicas" rows="6" 
+                                                  placeholder="Neste espaço, registre observações relevantes sobre a criança, interações durante a avaliação inicial ou outros pontos importantes."></textarea>
+                                        <div class="char-counter">
+                                            <span class="char-count" id="observacoes_counter">0</span>/500
+                                        </div>
+                                    </div>
+                                    <small class="field-info">Este campo é visível ao prontuário clínico</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2: Anexos -->
+                    <div class="form-section collapsible-section">
+                        <div class="section-header collapsible-header">
+                            <h4 class="section-title">
+                                <i class="fas fa-folder"></i>
+                                <span>Anexos</span>
+                                <i class="fas fa-chevron-down collapse-icon"></i>
+                            </h4>
+                        </div>
+                        
+                        <div class="collapsible-content">
+                            <!-- Botão para adicionar anexo -->
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <button type="button" class="btn-add-attachment" id="btn-add-attachment">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Adicionar Anexo</span>
+                                    </button>
+                                    <input type="file" id="file-upload" name="anexos[]" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                                </div>
+                            </div>
+
+                            <!-- Lista de anexos (inicialmente vazia) -->
+                            <div class="attachments-list" id="attachments-list">
+                                <!-- Anexos serão adicionados dinamicamente aqui -->
+                                <div class="no-attachments">
+                                    <i class="fas fa-paperclip"></i>
+                                    <p>Nenhum anexo adicionado</p>
+                                </div>
+                            </div>
+
+                            <!-- Regras de upload -->
+                            <div class="upload-rules">
+                                <p class="rules-title">Regras de upload:</p>
+                                <ul class="rules-list">
+                                    <li><i class="fas fa-check-circle"></i> Máx.: <strong>10 arquivos</strong></li>
+                                    <li><i class="fas fa-check-circle"></i> Tipos aceitos: <strong>PDF, JPG, PNG</strong></li>
+                                    <li><i class="fas fa-check-circle"></i> Tamanho máximo: <strong>até 5MB por arquivo</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- Botões de ação -->
+                <div class="action-buttons observacao-buttons">
+                    <div class="button-group">
+                        <button type="button" class="btn btn-convert" onclick="salvarComoPacienteAtivo()">
+                            <i class="fas fa-user-check"></i>
+                            <span>Salvar Como Paciente Ativo</span>
+                        </button>
+                        <button type="button" class="btn btn-archive" onclick="salvarComoPacientePendente()">
+                            <i class="fas fa-user-clock"></i>
+                            <span>Salvar Como Paciente Pendente</span>
+                        </button>
+                    </div>
+                </div>
                 </form>
             </div>
 
@@ -967,15 +1381,17 @@ if (!file_exists($paciente['foto'])) {
             'Identificação': document.getElementById('form-identificacao'),
             'Queixa': document.getElementById('form-queixa'),
             'Antecedente': document.getElementById('form-antecedente'),
-            'Desenvolvimento': null,
-            'Observação Clínica': null
+            'Desenvolvimento': document.getElementById('form-desenvolvimento'),
+            'Observação Clínica': document.getElementById('form-observacao')
         };
 
         // Dados do formulário (em memória para simulação)
         const formData = {
             identificacao: {},
             queixa: {},
-            antecedentes: {}
+            antecedentes: {},
+            desenvolvimento: {},
+            observacao: {}
         };
 
         tabs.forEach(tab => {
@@ -1120,6 +1536,37 @@ if (!file_exists($paciente['foto'])) {
             }
         }
 
+        // Função para mostrar/ocultar campos de idade dos marcos
+        function toggleCamposIdadeMarcos() {
+            const idadeMarcos = document.querySelector('.idade-marcos');
+            const idadeMarcosLinguagem = document.querySelector('.idade-marcos-linguagem');
+            
+            // Verificar marcos motores
+            const sentouSim = document.querySelector('input[name="sentou_sem_apoio"][value="sim"]');
+            const engatinhouSim = document.querySelector('input[name="engatinhou"][value="sim"]');
+            const andouSim = document.querySelector('input[name="comecou_andar"][value="sim"]');
+            const controleSim = document.querySelector('input[name="controle_esfincteres"][value="sim"]');
+            
+            // Verificar marcos de linguagem
+            const balbuciouSim = document.querySelector('input[name="balbuciou"][value="sim"]');
+            const palavrasSim = document.querySelector('input[name="primeiras_palavras"][value="sim"]');
+            const frasesSim = document.querySelector('input[name="montou_frases"][value="sim"]');
+            
+            // Mostrar campos de idade se algum marco motor foi alcançado
+            if (sentouSim?.checked || engatinhouSim?.checked || andouSim?.checked || controleSim?.checked) {
+                idadeMarcos.style.display = 'grid';
+            } else {
+                idadeMarcos.style.display = 'none';
+            }
+            
+            // Mostrar campos de idade se algum marco de linguagem foi alcançado
+            if (balbuciouSim?.checked || palavrasSim?.checked || frasesSim?.checked) {
+                idadeMarcosLinguagem.style.display = 'grid';
+            } else {
+                idadeMarcosLinguagem.style.display = 'none';
+            }
+        }
+
         // Adicionar event listeners para os campos condicionais
         document.addEventListener('DOMContentLoaded', function() {
             // Event listeners para radio buttons da aba queixa
@@ -1177,10 +1624,115 @@ if (!file_exists($paciente['foto'])) {
                 familiaOutrosCheckbox.addEventListener('change', toggleCamposCondicionaisAntecedentes);
             }
             
+            // Adicionar event listeners para todos os radio buttons de desenvolvimento
+            const desenvolvimentoRadios = document.querySelectorAll('#form-desenvolvimento input[type="radio"]');
+            desenvolvimentoRadios.forEach(radio => {
+                radio.addEventListener('change', toggleCamposIdadeMarcos);
+            });
+            
+            // Contadores de caracteres para observação
+            const observacoesTextarea = document.getElementById('observacoes_clinicas');
+            const internaTextarea = document.getElementById('observacao_interna');
+            const observacoesCounter = document.getElementById('observacoes_counter');
+            const internaCounter = document.getElementById('interna_counter');
+            
+            if (observacoesTextarea && observacoesCounter) {
+                // Atualizar contador inicial
+                observacoesCounter.textContent = observacoesTextarea.value.length;
+                
+                observacoesTextarea.addEventListener('input', function() {
+                    observacoesCounter.textContent = this.value.length;
+                    observacoesCounter.style.color = this.value.length > 500 ? '#ef4444' : '#3b82f6';
+                });
+            }
+            
+            if (internaTextarea && internaCounter) {
+                // Atualizar contador inicial
+                internaCounter.textContent = internaTextarea.value.length;
+                
+                internaTextarea.addEventListener('input', function() {
+                    internaCounter.textContent = this.value.length;
+                    internaCounter.style.color = this.value.length > 300 ? '#ef4444' : '#3b82f6';
+                });
+            }
+            
+            // Contador de caracteres para o textarea de hábitos alimentares
+            const habitosTextarea = document.getElementById('habitos_alimentares');
+            const charCount = document.querySelector('.char-count');
+            
+            if (habitosTextarea && charCount) {
+                // Atualizar contador inicial
+                charCount.textContent = habitosTextarea.value.length;
+                
+                // Atualizar contador ao digitar
+                habitosTextarea.addEventListener('input', function() {
+                    const length = this.value.length;
+                    charCount.textContent = length;
+                    
+                    // Mudar cor se passar de 400 caracteres
+                    if (length > 400) {
+                        charCount.style.color = '#ef4444';
+                    } else {
+                        charCount.style.color = '#3b82f6';
+                    }
+                });
+            }
+            
+            // Controle de colapso da seção de anexos
+            const collapsibleHeader = document.querySelector('.collapsible-header');
+            const collapsibleSection = document.querySelector('.collapsible-section');
+            
+            if (collapsibleHeader && collapsibleSection) {
+                collapsibleHeader.addEventListener('click', function() {
+                    collapsibleSection.classList.toggle('active');
+                });
+            }
+            
+            // Controle de upload de anexos
+            const btnAddAttachment = document.getElementById('btn-add-attachment');
+            const fileUpload = document.getElementById('file-upload');
+            const attachmentsList = document.getElementById('attachments-list');
+            
+            if (btnAddAttachment && fileUpload) {
+                btnAddAttachment.addEventListener('click', function() {
+                    fileUpload.click();
+                });
+                
+                fileUpload.addEventListener('change', function(e) {
+                    handleFileUpload(e.target.files);
+                });
+            }
+            
+            // Drag and drop para upload
+            if (attachmentsList) {
+                attachmentsList.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.style.backgroundColor = '#f0f9ff';
+                    this.style.borderColor = '#3b82f6';
+                });
+                
+                attachmentsList.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.style.backgroundColor = '';
+                    this.style.borderColor = '';
+                });
+                
+                attachmentsList.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.backgroundColor = '';
+                    this.style.borderColor = '';
+                    
+                    if (e.dataTransfer.files.length) {
+                        handleFileUpload(e.dataTransfer.files);
+                    }
+                });
+            }
+            
             // Inicializar estado dos campos condicionais
             setTimeout(() => {
                 toggleCamposCondicionais();
                 toggleCamposCondicionaisAntecedentes();
+                toggleCamposIdadeMarcos();
             }, 100);
         });
 
@@ -1245,6 +1797,61 @@ if (!file_exists($paciente['foto'])) {
                     
                     formData.antecedentes = formDataAntecedentes;
                     console.log('Dados dos antecedentes salvos:', formDataAntecedentes);
+                    break;
+                    
+                case 'Desenvolvimento':
+                    const formDataDesenvolvimento = {
+                        // Motor
+                        sentou_sem_apoio: document.querySelector('input[name="sentou_sem_apoio"]:checked')?.value || '',
+                        idade_sentou: document.getElementById('idade_sentou')?.value || '',
+                        engatinhou: document.querySelector('input[name="engatinhou"]:checked')?.value || '',
+                        idade_engatinhou: document.getElementById('idade_engatinhou')?.value || '',
+                        comecou_andar: document.querySelector('input[name="comecou_andar"]:checked')?.value || '',
+                        idade_andou: document.getElementById('idade_andou')?.value || '',
+                        controle_esfincteres: document.querySelector('input[name="controle_esfincteres"]:checked')?.value || '',
+                        idade_controle: document.getElementById('idade_controle')?.value || '',
+                        
+                        // Fala e Linguagem
+                        balbuciou: document.querySelector('input[name="balbuciou"]:checked')?.value || '',
+                        idade_balbucio: document.getElementById('idade_balbucio')?.value || '',
+                        primeiras_palavras: document.querySelector('input[name="primeiras_palavras"]:checked')?.value || '',
+                        idade_primeiras_palavras: document.getElementById('idade_primeiras_palavras')?.value || '',
+                        montou_frases: document.querySelector('input[name="montou_frases"]:checked')?.value || '',
+                        idade_frases: document.getElementById('idade_frases')?.value || '',
+                        frases_completas: document.querySelector('input[name="frases_completas"]:checked')?.value || '',
+                        
+                        // Social
+                        sorriu_interacoes: document.querySelector('input[name="sorriu_interacoes"]:checked')?.value || '',
+                        interage_criancas: document.querySelector('input[name="interage_criancas"]:checked')?.value || '',
+                        descricao_interacao: document.getElementById('descricao_interacao')?.value || '',
+                        
+                        // Alimentação
+                        introducao_alimentar: document.querySelector('input[name="introducao_alimentar"]:checked')?.value || '',
+                        alimenta_sozinho: document.querySelector('input[name="alimenta_sozinho"]:checked')?.value || '',
+                        preferencias_alimentares: document.getElementById('preferencias_alimentares')?.value || ''
+                    };
+                    
+                    formData.desenvolvimento = formDataDesenvolvimento;
+                    console.log('Dados do desenvolvimento salvos:', formDataDesenvolvimento);
+                    break;
+                    
+                case 'Observação Clínica':
+                    const formDataObservacao = {
+                        // Observações clínicas
+                        observacoes_clinicas: document.getElementById('observacoes_clinicas')?.value || '',
+                        
+                        // Classificação de prioridade
+                        classificacao_prioridade: document.getElementById('classificacao_prioridade')?.value || '',
+                        
+                        // Observação interna
+                        observacao_interna: document.getElementById('observacao_interna')?.value || '',
+                        
+                        // Anexos (lista de nomes dos arquivos)
+                        anexos: Array.from(document.querySelectorAll('.attachment-name')).map(el => el.textContent)
+                    };
+                    
+                    formData.observacao = formDataObservacao;
+                    console.log('Dados da observação clínica salvos:', formDataObservacao);
                     break;
             }
         }
@@ -1353,50 +1960,225 @@ if (!file_exists($paciente['foto'])) {
                         setTimeout(toggleCamposCondicionaisAntecedentes, 50);
                     }
                     break;
+                    
+                case 'Desenvolvimento':
+                    if (formData.desenvolvimento && Object.keys(formData.desenvolvimento).length > 0) {
+                        const dados = formData.desenvolvimento;
+                        
+                        // Preencher campos motor
+                        if (dados.sentou_sem_apoio) document.querySelector(`input[name="sentou_sem_apoio"][value="${dados.sentou_sem_apoio}"]`).checked = true;
+                        if (dados.idade_sentou) document.getElementById('idade_sentou').value = dados.idade_sentou;
+                        if (dados.engatinhou) document.querySelector(`input[name="engatinhou"][value="${dados.engatinhou}"]`).checked = true;
+                        if (dados.idade_engatinhou) document.getElementById('idade_engatinhou').value = dados.idade_engatinhou;
+                        if (dados.comecou_andar) document.querySelector(`input[name="comecou_andar"][value="${dados.comecou_andar}"]`).checked = true;
+                        if (dados.idade_andou) document.getElementById('idade_andou').value = dados.idade_andou;
+                        if (dados.controle_esfincteres) document.querySelector(`input[name="controle_esfincteres"][value="${dados.controle_esfincteres}"]`).checked = true;
+                        if (dados.idade_controle) document.getElementById('idade_controle').value = dados.idade_controle;
+                        
+                        // Preencher campos fala e linguagem
+                        if (dados.balbuciou) document.querySelector(`input[name="balbuciou"][value="${dados.balbuciou}"]`).checked = true;
+                        if (dados.idade_balbucio) document.getElementById('idade_balbucio').value = dados.idade_balbucio;
+                        if (dados.primeiras_palavras) document.querySelector(`input[name="primeiras_palavras"][value="${dados.primeiras_palavras}"]`).checked = true;
+                        if (dados.idade_primeiras_palavras) document.getElementById('idade_primeiras_palavras').value = dados.idade_primeiras_palavras;
+                        if (dados.montou_frases) document.querySelector(`input[name="montou_frases"][value="${dados.montou_frases}"]`).checked = true;
+                        if (dados.idade_frases) document.getElementById('idade_frases').value = dados.idade_frases;
+                        if (dados.frases_completas) document.querySelector(`input[name="frases_completas"][value="${dados.frases_completas}"]`).checked = true;
+                        
+                        // Preencher campos social
+                        if (dados.sorriu_interacoes) document.querySelector(`input[name="sorriu_interacoes"][value="${dados.sorriu_interacoes}"]`).checked = true;
+                        if (dados.interage_criancas) document.querySelector(`input[name="interage_criancas"][value="${dados.interage_criancas}"]`).checked = true;
+                        if (dados.descricao_interacao) document.getElementById('descricao_interacao').value = dados.descricao_interacao;
+                        
+                        // Preencher campos alimentação
+                        if (dados.introducao_alimentar) document.querySelector(`input[name="introducao_alimentar"][value="${dados.introducao_alimentar}"]`).checked = true;
+                        if (dados.alimenta_sozinho) document.querySelector(`input[name="alimenta_sozinho"][value="${dados.alimenta_sozinho}"]`).checked = true;
+                        if (dados.preferencias_alimentares) document.getElementById('preferencias_alimentares').value = dados.preferencias_alimentares;
+                        
+                        // Atualizar campos condicionais
+                        setTimeout(toggleCamposIdadeMarcos, 50);
+                    }
+                    break;
+                    
+                case 'Observação Clínica':
+                    if (formData.observacao && Object.keys(formData.observacao).length > 0) {
+                        const dados = formData.observacao;
+                        
+                        // Preencher campos de texto
+                        if (dados.observacoes_clinicas) {
+                            document.getElementById('observacoes_clinicas').value = dados.observacoes_clinicas;
+                            document.getElementById('observacoes_counter').textContent = dados.observacoes_clinicas.length;
+                        }
+                        
+                        if (dados.classificacao_prioridade) {
+                            document.getElementById('classificacao_prioridade').value = dados.classificacao_prioridade;
+                        }
+                        
+                        if (dados.observacao_interna) {
+                            document.getElementById('observacao_interna').value = dados.observacao_interna;
+                            document.getElementById('interna_counter').textContent = dados.observacao_interna.length;
+                        }
+                        
+                        // Preencher anexos (simulação)
+                        // Em um sistema real, você buscaria os arquivos do servidor
+                    }
+                    break;
             }
         }
 
-        // Função para salvar dados da queixa (pode ser adaptada para AJAX)
-        function salvarQueixa() {
-            saveCurrentTabData();
+        // Função para lidar com upload de arquivos
+        function handleFileUpload(files) {
+            const attachmentsList = document.getElementById('attachments-list');
+            const noAttachments = attachmentsList.querySelector('.no-attachments');
             
-            // Aqui você faria a requisição AJAX para salvar no banco
-            console.log('Enviando dados da queixa para o servidor:', formData.queixa);
+            if (!attachmentsList) return;
             
-            showNotification('Queixa salva com sucesso!', 'success');
+            // Remover mensagem "nenhum anexo" se existir
+            if (noAttachments) {
+                noAttachments.style.display = 'none';
+            }
             
-            // Salvar também no localStorage
-            localStorage.setItem('preCadastroDados', JSON.stringify(formData));
+            // Limitar a 10 arquivos
+            const existingFiles = attachmentsList.querySelectorAll('.attachment-item').length;
+            const remainingSlots = 10 - existingFiles;
+            
+            if (files.length > remainingSlots) {
+                alert(`Você só pode adicionar mais ${remainingSlots} arquivo(s). Limite máximo: 10 arquivos.`);
+                files = Array.from(files).slice(0, remainingSlots);
+            }
+            
+            // Processar cada arquivo
+            Array.from(files).forEach(file => {
+                // Validar tipo de arquivo
+                const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    alert(`Arquivo "${file.name}" não suportado. Use PDF, JPG ou PNG.`);
+                    return;
+                }
+                
+                // Validar tamanho (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Arquivo "${file.name}" muito grande. Tamanho máximo: 5MB.`);
+                    return;
+                }
+                
+                // Criar elemento de anexo
+                const attachmentItem = createAttachmentElement(file);
+                attachmentsList.appendChild(attachmentItem);
+            });
+            
+            // Resetar input de arquivo
+            const fileUpload = document.getElementById('file-upload');
+            if (fileUpload) {
+                fileUpload.value = '';
+            }
         }
 
-        // Função para salvar antecedentes
-        function salvarAntecedentes() {
-            saveCurrentTabData();
+        // Função para criar elemento de anexo
+        function createAttachmentElement(file) {
+            const div = document.createElement('div');
+            div.className = 'attachment-item';
             
-            // Aqui você faria a requisição AJAX para salvar no banco
-            console.log('Enviando dados dos antecedentes para o servidor:', formData.antecedentes);
+            // Formatar tamanho do arquivo
+            const fileSize = formatFileSize(file.size);
             
-            showNotification('Antecedentes salvos com sucesso!', 'success');
+            // Determinar ícone baseado no tipo
+            let iconClass = 'fa-file';
+            if (file.type === 'application/pdf') {
+                iconClass = 'fa-file-pdf';
+            } else if (file.type.startsWith('image/')) {
+                iconClass = 'fa-file-image';
+            }
             
-            // Salvar também no localStorage
-            localStorage.setItem('preCadastroDados', JSON.stringify(formData));
+            div.innerHTML = `
+                <div class="attachment-info">
+                    <i class="fas ${iconClass} attachment-icon"></i>
+                    <div>
+                        <span class="attachment-name">${file.name}</span>
+                        <span class="attachment-size">(${fileSize})</span>
+                    </div>
+                </div>
+                <div class="attachment-actions">
+                    <button type="button" class="btn-remove-attachment" title="Remover arquivo">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Adicionar evento para remover anexo
+            const removeBtn = div.querySelector('.btn-remove-attachment');
+            removeBtn.addEventListener('click', function() {
+                div.remove();
+                
+                // Mostrar mensagem "nenhum anexo" se lista estiver vazia
+                const attachmentsList = document.getElementById('attachments-list');
+                if (attachmentsList && attachmentsList.querySelectorAll('.attachment-item').length === 0) {
+                    const noAttachments = attachmentsList.querySelector('.no-attachments');
+                    if (noAttachments) {
+                        noAttachments.style.display = 'block';
+                    }
+                }
+            });
+            
+            return div;
         }
 
-        // Função para salvar como paciente ativo
+        // Função para formatar tamanho do arquivo
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Função principal para salvar como paciente ativo
         function salvarComoPacienteAtivo() {
             if (confirm('Deseja salvar este pré-cadastro como paciente ativo?')) {
-                // Salvar todas as abas primeiro
+                // Salvar dados de todas as abas primeiro
                 saveCurrentTabData();
                 
-                // Aqui você enviaria todos os dados para o backend
                 console.log('Enviando dados para salvar como paciente ativo:', formData);
                 
+                // Aqui você faria a requisição AJAX para salvar no backend
+                // Exemplo de requisição AJAX:
+                /*
+                fetch('salvar_paciente.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        status: 'ativo',
+                        data_cadastro: new Date().toISOString()
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Paciente salvo como ativo com sucesso!', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'painel_adm_pacientes.php';
+                        }, 2000);
+                    } else {
+                        showNotification('Erro ao salvar paciente: ' + data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    showNotification('Erro ao conectar com o servidor', 'error');
+                });
+                */
+                
+                // Simulação do sucesso
                 showNotification('Paciente salvo como ativo com sucesso!', 'success');
                 
-                // Simulação: redirecionar após 2 segundos
+                // Limpar localStorage após salvar
+                localStorage.removeItem('preCadastroDados');
+                
+                // Redirecionar após 2 segundos
                 setTimeout(() => {
-                    // window.location.href = 'painel_adm_pacientes.php';
-                    console.log('Redirecionando para lista de pacientes ativos...');
+                    window.location.href = 'painel_adm_pacientes.php';
                 }, 2000);
             }
         }
@@ -1404,19 +2186,71 @@ if (!file_exists($paciente['foto'])) {
         // Função para salvar como paciente pendente
         function salvarComoPacientePendente() {
             if (confirm('Deseja salvar este pré-cadastro como paciente pendente?')) {
-                // Salvar todas as abas primeiro
+                // Salvar dados de todas as abas primeiro
                 saveCurrentTabData();
                 
-                // Aqui você enviaria todos os dados para o backend
                 console.log('Enviando dados para salvar como paciente pendente:', formData);
                 
+                // Aqui você faria a requisição AJAX para salvar no backend
+                // Similar à função acima, mas com status: 'pendente'
+                
+                // Simulação do sucesso
                 showNotification('Paciente salvo como pendente com sucesso!', 'success');
                 
-                // Simulação: redirecionar após 2 segundos
+                // Limpar localStorage após salvar
+                localStorage.removeItem('preCadastroDados');
+                
+                // Redirecionar após 2 segundos
                 setTimeout(() => {
-                    // window.location.href = 'painel_pacientes_pendentes.php';
-                    console.log('Redirecionando para lista de pacientes pendentes...');
+                    window.location.href = 'painel_pacientes_pendentes.php';
                 }, 2000);
+            }
+        }
+
+        // Função para cancelar desenvolvimento
+        function cancelarDesenvolvimento() {
+            if (confirm('Tem certeza que deseja cancelar o preenchimento do desenvolvimento?')) {
+                const radios = document.querySelectorAll('#form-desenvolvimento input[type="radio"]');
+                radios.forEach(radio => radio.checked = false);
+                
+                const inputs = document.querySelectorAll('#form-desenvolvimento input[type="text"], #form-desenvolvimento textarea');
+                inputs.forEach(input => input.value = '');
+                
+                formData.desenvolvimento = {};
+                
+                const charCount = document.querySelector('#form-desenvolvimento .char-count');
+                if (charCount) {
+                    charCount.textContent = '0';
+                    charCount.style.color = '#3b82f6';
+                }
+                
+                showNotification('Desenvolvimento cancelado!', 'info');
+            }
+        }
+
+        // Função para cancelar observação
+        function cancelarObservacao() {
+            if (confirm('Tem certeza que deseja cancelar as observações clínicas?')) {
+                document.getElementById('observacoes_clinicas').value = '';
+                document.getElementById('classificacao_prioridade').value = '';
+                document.getElementById('observacao_interna').value = '';
+                
+                const attachmentsList = document.getElementById('attachments-list');
+                if (attachmentsList) {
+                    attachmentsList.innerHTML = `
+                        <div class="no-attachments">
+                            <i class="fas fa-paperclip"></i>
+                            <p>Nenhum anexo adicionado</p>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('observacoes_counter').textContent = '0';
+                document.getElementById('interna_counter').textContent = '0';
+                
+                formData.observacao = {};
+                
+                showNotification('Observações clínicas canceladas!', 'info');
             }
         }
 
@@ -1448,14 +2282,12 @@ if (!file_exists($paciente['foto'])) {
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // Validar tamanho (2MB máximo)
                 if (file.size > 2 * 1024 * 1024) {
                     alert('A foto deve ter no máximo 2MB.');
                     fileInput.value = '';
                     return;
                 }
                 
-                // Validar tipo
                 const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
                 if (!validTypes.includes(file.type)) {
                     alert('Formato de imagem não suportado. Use JPG, PNG, GIF ou WebP.');
@@ -1476,22 +2308,17 @@ if (!file_exists($paciente['foto'])) {
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 
-                // Aqui você faria o upload real para o servidor
-                // Por enquanto, simulamos com um timeout
                 uploadBtn.disabled = true;
                 uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 
                 setTimeout(() => {
-                    // Atualizar preview
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         patientPhoto.src = e.target.result;
                         photoPreview.src = e.target.result;
                         
-                        // Simular salvamento no servidor
                         console.log('Foto enviada para o servidor:', file.name);
                         
-                        // Notificação de sucesso
                         showNotification('Foto atualizada com sucesso!', 'success');
                         
                         uploadBtn.disabled = false;
@@ -1507,7 +2334,6 @@ if (!file_exists($paciente['foto'])) {
 
         // Notificação
         function showNotification(message, type = 'success') {
-            // Remover notificações existentes
             document.querySelectorAll('.notification').forEach(n => n.remove());
             
             const notification = document.createElement('div');
@@ -1548,10 +2374,9 @@ if (!file_exists($paciente['foto'])) {
             }
         });
 
-        // Salvar automaticamente ao sair da aba (para dados em memória)
+        // Salvar automaticamente ao sair da aba
         window.addEventListener('beforeunload', (e) => {
             saveCurrentTabData();
-            // Salvar no localStorage para recuperação
             localStorage.setItem('preCadastroDados', JSON.stringify(formData));
         });
 
