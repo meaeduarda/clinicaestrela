@@ -110,7 +110,7 @@ if (!file_exists($paciente['foto'])) {
 </head>
 <body>
     <div class="dashboard-container">
-        <?php include 'includes/header_preca.php'; ?>
+        <?php include 'includes_precadastro/header_preca.php'; ?>
         
         <!-- Conteúdo Principal -->
         <main class="main-content">
@@ -132,7 +132,7 @@ if (!file_exists($paciente['foto'])) {
             </div>
 
             <!-- Card do Paciente -->
-            <?php include 'includes/paciente_card.php'; ?>
+            <?php include 'includes_precadastro/paciente_card.php'; ?>
 
             <!-- Navegação por Abas -->
             <div class="navigation-tabs">
@@ -160,23 +160,23 @@ if (!file_exists($paciente['foto'])) {
 
             <!-- Cards dos Formulários -->
             <div id="form-identificacao" class="form-card tab-content active">
-                <?php include 'includes/formulario_identificacao.php'; ?>
+                <?php include 'includes_precadastro/formulario_identificacao.php'; ?>
             </div>
 
             <div id="form-queixa" class="form-card tab-content">
-                <?php include 'includes/formulario_queixa.php'; ?>
+                <?php include 'includes_precadastro/formulario_queixa.php'; ?>
             </div>
 
             <div id="form-antecedente" class="form-card tab-content">
-                <?php include 'includes/formulario_antecedentes.php'; ?>
+                <?php include 'includes_precadastro/formulario_antecedentes.php'; ?>
             </div>
 
             <div id="form-desenvolvimento" class="form-card tab-content">
-                <?php include 'includes/formulario_desenvolvimento.php'; ?>
+                <?php include 'includes_precadastro/formulario_desenvolvimento.php'; ?>
             </div>
 
             <div id="form-observacao" class="form-card tab-content">
-                <?php include 'includes/formulario_observacao.php'; ?>
+                <?php include 'includes_precadastro/formulario_observacao.php'; ?>
             </div>
 
             <!-- Rodapé -->
