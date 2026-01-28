@@ -14,7 +14,7 @@ $nomeLogado = $_SESSION['usuario_nome'];
 $perfilLogado = $_SESSION['usuario_perfil'];
 
 
-$caminho_json = '../dados/dados.json';
+$caminho_json = '../dados/dados_visita_agendamento.json';
 $mensagem = '';
 $tipo_mensagem = '';
 
@@ -176,7 +176,7 @@ if (file_exists($caminho_json)) {
         </div>
     </div>
 
-    <script src="../js/script.js"></script>
+    <script src="../js/script_visita_agendamento.js"></script>
 </body>
 
 </html>

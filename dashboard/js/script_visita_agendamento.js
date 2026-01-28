@@ -1,3 +1,5 @@
+// script relacionado ao painel de agendamento de visitas
+
 document.addEventListener('DOMContentLoaded', function() {
     // --- 1. LÓGICA DE DATA (Mínimo hoje) ---
     const dataInput = document.getElementById('data');
