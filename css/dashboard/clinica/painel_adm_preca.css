@@ -630,7 +630,11 @@ body {
 }
 
 .radio-option input[type="radio"] {
-    display: none;
+    display: inline-block;
+    opacity: 1;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
 }
 
 .radio-label {
