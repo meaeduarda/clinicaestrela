@@ -1,0 +1,42 @@
+2026-01-31 10:45:08 - Iniciando requisição...
+2026-01-31 10:45:08 - Tentando salvar em: C:\wamp64\www\clinicaestrela\dashboard\clinica/../dados/pre-cad.json
+2026-01-31 10:45:08 - Sucesso! Bytes gravados: 2759
+2026-01-31 11:00:38 - Iniciando requisição...
+2026-01-31 11:00:38 - Tentando salvar em: C:\wamp64\www\clinicaestrela\dashboard\clinica/../dados/pre-cad.json
+2026-01-31 11:00:38 - Sucesso! Bytes gravados: 5621
+2026-01-31 11:21:10 - Iniciando requisição...
+2026-01-31 11:21:10 - Tentando salvar em: C:\wamp64\www\clinicaestrela\dashboard\clinica/../dados/pre-cad.json
+2026-01-31 11:21:10 - Sucesso! Bytes gravados: 8551
+2026-01-31 11:47:53 - Iniciando requisição...
+2026-01-31 11:47:53 - Tentando salvar em: C:\wamp64\www\clinicaestrela\dashboard\clinica/../dados/pre-cad.json
+2026-01-31 11:47:54 - Sucesso! Bytes gravados: 2907
+2026-01-31 12:56:37 - Paciente index 0 atualizado.
+2026-01-31 13:01:13 - Paciente index 0 atualizado.
+2026-01-31 13:08:16 - Paciente index 0 atualizado.
+2026-01-31 13:10:40 - Paciente index 0 atualizado.
+2026-01-31 15:12:12 - Paciente ativo index 0 atualizado.
+2026-01-31 15:13:40 - Paciente ativo index 0 atualizado.
+2026-01-31 20:13:15 - Novo paciente cadastrado.
+2026-01-31 20:15:24 - Paciente index 0 atualizado.
+2026-01-31 20:17:57 - Paciente ativo index 0 atualizado.
+2026-01-31 20:34:06 - Novo paciente cadastrado.
+2026-01-31 20:54:33 - Novo paciente cadastrado.
+2026-01-31 21:44:10 - Paciente ativo index 0 atualizado.
+2026-01-31 23:39:48 - Novo paciente cadastrado.
+2026-01-31 23:41:27 - Paciente ativo index 0 atualizado.
+2026-02-01 00:02:44 - Paciente ativo index 0 atualizado.
+2026-02-01 00:06:58 - Novo paciente cadastrado.
+2026-02-01 00:28:54 - Paciente ativo index 0 atualizado.
+2026-02-01 09:32:18 - Novo paciente cadastrado.
+2026-02-07 11:20:48 - Novo paciente cadastrado.
+2026-02-07 12:03:45 - Novo paciente cadastrado.
+2026-02-07 12:18:23 - Paciente ativo index 0 atualizado.
+2026-02-07 12:19:38 - Paciente ativo index 0 atualizado.
+2026-02-07 12:38:32 - Paciente ativo index 0 atualizado.
+2026-02-07 12:45:58 - Paciente ativo index 0 atualizado.
+2026-02-07 12:47:41 - Paciente ativo index 0 atualizado.
+2026-02-07 12:54:56 - Novo paciente cadastrado.
+2026-02-07 12:57:42 - Paciente index 0 atualizado.
+2026-02-07 13:15:28 - Paciente ativo index 1 atualizado.
+2026-02-07 13:16:27 - Paciente ativo index 0 atualizado.
+2026-02-07 13:16:55 - Paciente ativo index 0 atualizado.

@@ -62,11 +62,14 @@
                 $data_formatada = date('d/m/Y', strtotime($data_val));
                 $protocolo = 'AG' . date('YmdHis') . rand(100, 999);
                 
-                // --- SALVAR NO JSON ---
+                // --- SALVAR NO JSON CORRETO ---
+                // Caminho correto: dashboard/cliente/ -> ../dados/
                 $caminho_dados = '../dados/';
-                $arquivo_json = $caminho_dados . 'dados.json';
+                $arquivo_json = $caminho_dados . 'dados_visita_agendamento.json';
 
-                if (!is_dir($caminho_dados)) { mkdir($caminho_dados, 0777, true); }
+                if (!is_dir($caminho_dados)) { 
+                    mkdir($caminho_dados, 0777, true); 
+                }
 
                 $novo_registro = [
                     'protocolo'         => $protocolo,
@@ -77,32 +80,39 @@
                     'telefone'          => $telefone_val,
                     'cpf'               => $cpf_responsavel_val,
                     'data_registro'     => date('Y-m-d H:i:s'),
-                    'confirmado'        => false // Status inicial para gerência
+                    'confirmado'        => false
                 ];
 
                 $registros_atuais = [];
                 if (file_exists($arquivo_json)) {
-                    $registros_atuais = json_decode(file_get_contents($arquivo_json), true) ?? [];
+                    $conteudo = file_get_contents($arquivo_json);
+                    if ($conteudo !== false && trim($conteudo) !== '') {
+                        $registros_atuais = json_decode($conteudo, true) ?? [];
+                    }
                 }
+                
                 $registros_atuais[] = $novo_registro;
-                file_put_contents($arquivo_json, json_encode($registros_atuais, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-                $agendamento_sucesso = true;
                 
-                // --- MENSAGEM PARA O GESTOR (WHATSAPP) ---
-                $numero_gestor = "5581994527528";
-                $url_gerencia = "http://localhost/clinicaestrela/dashboard/clinica/visita_agendamento.php";
-                
-                $msg_gestor = "🚨 *NOVO AGENDAMENTO RECEBIDO*\n\n";
-                $msg_gestor .= "👤 *Responsável:* " . $nome_responsavel_val . "\n";
-                $msg_gestor .= "🎓 *Aluno:* " . $nome_aluno_val . "\n";
-                $msg_gestor .= "📅 *Data:* " . $data_formatada . "\n";
-                $msg_gestor .= "⏰ *Horário:* " . $horario_val . "\n";
-                $msg_gestor .= "📞 *Fone Cliente:* " . $telefone_val . "\n";
-                $msg_gestor .= "📋 *Protocolo:* " . $protocolo . "\n\n";
-                $msg_gestor .= "🔗 *Acesse para confirmar:* \n" . $url_gerencia;
-                
-                $whatsapp_url = "https://wa.me/" . $numero_gestor . "?text=" . urlencode($msg_gestor);
+                if (file_put_contents($arquivo_json, json_encode($registros_atuais, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+                    $agendamento_sucesso = true;
+                    
+                    // --- MENSAGEM PARA O GESTOR (WHATSAPP) ---
+                    $numero_gestor = "5581994527528";
+                    $url_gerencia = "http://localhost/clinicaestrela/dashboard/clinica/visita_agendamento.php";
+                    
+                    $msg_gestor = "🚨 *NOVO AGENDAMENTO RECEBIDO*\n\n";
+                    $msg_gestor .= "👤 *Responsável:* " . $nome_responsavel_val . "\n";
+                    $msg_gestor .= "🎓 *Aluno:* " . $nome_aluno_val . "\n";
+                    $msg_gestor .= "📅 *Data:* " . $data_formatada . "\n";
+                    $msg_gestor .= "⏰ *Horário:* " . $horario_val . "\n";
+                    $msg_gestor .= "📞 *Fone Cliente:* " . $telefone_val . "\n";
+                    $msg_gestor .= "📋 *Protocolo:* " . $protocolo . "\n\n";
+                    $msg_gestor .= "🔗 *Acesse para confirmar:* \n" . $url_gerencia;
+                    
+                    $whatsapp_url = "https://wa.me/" . $numero_gestor . "?text=" . urlencode($msg_gestor);
+                } else {
+                    $mensagem = 'Erro ao salvar agendamento. Verifique as permissões do diretório.';
+                }
             }
         }
     }
@@ -207,6 +217,7 @@
         </div>
     </div>
     
-    <script src="../js/script.js"></script>
+    <!-- INCLUA O SCRIPT CORRETO - o mesmo que visita_agendamento.php usa -->
+    <script src="../js/script_visita_agendamento.js"></script>
 </body>
 </html>

@@ -25,40 +25,22 @@
         "perfil": "recepcionista",
         "ativo": true,
         "criado_em": "2026-01-15 08:00:00"
-    },
-    {
-        "id": 4,
-        "nome": "Sandra",
-        "email": "sandra@sistema.com",
-        "senha": "Estrela2026",
-        "perfil": "Recepcionista",
-        "ativo": true,
-        "criado_em": "2026-01-17 13:38:20"
-    },
+    },    
     {
         "id": 5,
         "nome": "Fabiano",
         "email": "fabiano@sistema.com",
-        "senha": "Estrela2026",
-        "perfil": "Coordenador Clinico",
+        "senha": "2026",
+        "perfil": "medico",
         "ativo": true,
         "criado_em": "2026-01-17 14:27:26"
-    },
-    {
-        "id": 6,
-        "nome": "Ana Luiza",
-        "email": "analuiza@sistema.com",
-        "senha": "Estrela2026",
-        "perfil": "Musicoterapeuta",
-        "ativo": true,
-        "criado_em": "2026-01-17 14:36:33"
-    },
+    },    
     {
         "id": 7,
-        "nome": "Ricardo",
-        "email": "ricardo@sistema.com",
-        "senha": "Estrela2026",
-        "perfil": "Coordenador Clinico",
+        "nome": "Matheus",
+        "email": "matheus@sistema.com",
+        "senha": "2026",
+        "perfil": "coordenadorequipe",
         "ativo": true,
         "criado_em": "2026-01-19 17:52:10"
     }

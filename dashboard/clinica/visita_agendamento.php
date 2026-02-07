@@ -14,7 +14,7 @@ $nomeLogado = $_SESSION['usuario_nome'];
 $perfilLogado = $_SESSION['usuario_perfil'];
 
 
-$caminho_json = '../dados/dados_visita_agendamento.json';
+$caminho_json = '../dados/dados_visita_agendamento.json'; // Corrigido: caminho relativo
 $mensagem = '';
 $tipo_mensagem = '';
 
@@ -25,13 +25,26 @@ if (isset($_GET['ajax_confirmar'])) {
         $dados_json = file_get_contents($caminho_json);
         $agendamentos = json_decode($dados_json, true) ?? [];
 
+        $encontrado = false;
         foreach ($agendamentos as &$ag) {
             if ($ag['protocolo'] === $prot) {
                 $ag['confirmado'] = true;
+                $encontrado = true;
                 break;
             }
         }
-        file_put_contents($caminho_json, json_encode($agendamentos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        
+        if ($encontrado) {
+            if (file_put_contents($caminho_json, json_encode($agendamentos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+                echo 'OK';
+            } else {
+                echo 'ERRO';
+            }
+        } else {
+            echo 'NAO_ENCONTRADO';
+        }
+    } else {
+        echo 'ARQUIVO_NAO_EXISTE';
     }
     exit;
 }
@@ -56,10 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_protocolo']))
 $agendamentos = [];
 if (file_exists($caminho_json)) {
     $dados_json = file_get_contents($caminho_json);
-    $agendamentos = json_decode($dados_json, true) ?? [];
-    usort($agendamentos, function ($a, $b) {
-        return strtotime($b['data_registro']) - strtotime($a['data_registro']);
-    });
+    if ($dados_json !== false && trim($dados_json) !== '') {
+        $agendamentos = json_decode($dados_json, true) ?? [];
+        usort($agendamentos, function ($a, $b) {
+            return strtotime($b['data_registro']) - strtotime($a['data_registro']);
+        });
+    }
 }
 ?>
 
@@ -123,7 +138,7 @@ if (file_exists($caminho_json)) {
                             <?php foreach ($agendamentos as $ag):
                                 $is_confirmado = isset($ag['confirmado']) && $ag['confirmado'] === true;
                                 $tel_limpo = preg_replace('/\D/', '', $ag['telefone']);
-                                $msg_confirmacao = "Olá *" . $ag['nome_responsavel'] . "*, a Clínica Estrela confirma a visita do aluno *" . $ag['nome_aluno'] . "*...";
+                                $msg_confirmacao = "Olá *" . $ag['nome_responsavel'] . "*, a Clínica Estrela confirma a visita do aluno *" . $ag['nome_aluno'] . "* agendada para " . date('d/m/Y', strtotime($ag['data_visita'])) . " às " . $ag['horario'] . ". Estamos aguardando você!";
                                 $link_wa = "https://wa.me/55" . $tel_limpo . "?text=" . urlencode($msg_confirmacao);
                             ?>
                                 <tr>
@@ -142,7 +157,7 @@ if (file_exists($caminho_json)) {
                                     </td>
                                     <td>
                                         <a href="https://wa.me/55<?php echo $tel_limpo; ?>" target="_blank" class="btn-whatsapp-table">
-                                            <i class="fa-brands fa-whatsapp"></i> <?php echo $ag['telefone']; ?>
+                                            <i class="fa-brands fa-whatsapp"></i> <?php echo htmlspecialchars($ag['telefone']); ?>
                                         </a>
                                     </td>
                                     <td class="col-acoes">
@@ -156,9 +171,9 @@ if (file_exists($caminho_json)) {
                                                 <?php echo $is_confirmado ? 'Enviado' : 'Confirmar'; ?>
                                             </a>
 
-                                            <form method="POST" onsubmit="return confirm('Excluir?');" style="display:inline;">
+                                            <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este agendamento?');" style="display:inline;">
                                                 <input type="hidden" name="excluir_protocolo" value="<?php echo $ag['protocolo']; ?>">
-                                                <button type="submit" class="btn-excluir"><i class="fa-solid fa-trash-can"></i></button>
+                                                <button type="submit" class="btn-excluir" title="Excluir agendamento"><i class="fa-solid fa-trash-can"></i></button>
                                             </form>
                                         </div>
                                     </td>
