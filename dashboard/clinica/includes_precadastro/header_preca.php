@@ -1,5 +1,7 @@
 <?php
 // includes/header_preca.php
+// Pega o nome do arquivo atual para o menu ativo
+$pagina_atual = basename($_SERVER['PHP_SELF']);
 ?>
 
 <!-- Menu Mobile Toggle -->
@@ -31,19 +33,45 @@
     <!-- Menu de Navegação -->
     <nav class="menu">
         <ul>
-            <li><a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
-            <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
-            <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a></li>
+            <li <?php echo ($pagina_atual == 'painel_adm_pacientes.php') ? 'class="active"' : ''; ?>>
+                <a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a>
+            </li>
+            
+            <li <?php echo ($pagina_atual == 'painel_pacientes_pendentes.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a>
+            </li>
+            
+            <li <?php echo ($pagina_atual == 'painel_adm_preca.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a>
+            </li>
             
             <?php if ($perfilLogado !== 'recepcionista'): ?>
-                <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
-                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                <li <?php echo ($pagina_atual == 'painel_planoterapeutico.php') ? 'class="active"' : ''; ?>>
+                    <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_planoterapeutico.php"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a>
+                </li>
+                <li <?php echo ($pagina_atual == 'painel_adm_grade.php') ? 'class="active"' : ''; ?>>
+                    <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a>
+                </li>
+                <li <?php echo ($pagina_atual == 'painel_evolucoes.php') ? 'class="active"' : ''; ?>>
+                    <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a>
+                </li>
             <?php endif; ?>
-            <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
-            <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
-            <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
-            <li><a href="http://localhost/clinicaestrela/dashboard/clinica/login_cadastro_clinica.php"><i class="fas fa-user-plus"></i> <span>Adicionar Colaborador</span></a></li>
+            
+            <li <?php echo ($pagina_atual == 'painel_agenda.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_agenda.php"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
+            </li>
+            
+            <li <?php echo ($pagina_atual == 'visita_agendamento.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a>
+            </li>
+            
+            <li <?php echo ($pagina_atual == 'painel_salas.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/painel_salas.php"><i class="fas fa-door-closed"></i> <span>Salas</span></a>
+            </li>
+            
+            <li <?php echo ($pagina_atual == 'login_cadastro_clinica.php') ? 'class="active"' : ''; ?>>
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/login_cadastro_clinica.php"><i class="fas fa-user-plus"></i> <span>Adicionar Colaborador</span></a>
+            </li>
         </ul>
     </nav>
 

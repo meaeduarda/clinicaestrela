@@ -1,5 +1,5 @@
 <?php
-// C:\wamp64\www\clinicaestrela\dashboard\clinica\painel_administrativo_pacientes.php
+// painel_adm_grade.php
 session_start();
 
 // Verificação de Segurança
@@ -35,60 +35,10 @@ $perfilLogado = $_SESSION['usuario_perfil'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Menu Mobile Hamburger -->
-    <div class="mobile-menu-toggle">
-        <i class="fas fa-bars"></i>
-    </div>
-    
-    <!-- Mobile Header -->
-    <div class="mobile-header">
-    </div>
-    
+<body>    
     <div class="dashboard-container">
-        <!-- SIDEBAR FIXA -->
-        <aside class="sidebar">
-            <!-- Logo -->
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
-                </div>
-                <h1>Clinica Estrela</h1>
-                <div class="mobile-close">
-                    <i class="fas fa-times"></i>
-                </div>
-            </div>
-
-            <!-- Menu de Navegação -->
-            <nav class="menu">
-                <ul>
-                    <li><a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a></li>
-                    
-                    <?php if ($perfilLogado !== 'recepcionista'): ?>
-                        <li><a href="#"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
-                        <li class="active"><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
-                        <li><a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
-                    <?php endif; ?>
-                    <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
-                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
-                    <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
-                    <li><a href="http://localhost/clinicaestrela/dashboard/clinica/login_cadastro_clinica.php"><i class="fas fa-user-plus"></i> <span>Adicionar Colaborador</span></a></li>
-                </ul>
-            </nav>
-
-            <!-- Usuário Logado -->
-            <div class="user-info">
-                <div class="user-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Maria">
-                </div>
-                <div class="user-details">
-                    <h3>Maria</h3>
-                    <p>Coordenadora</p>
-                </div>
-            </div>
-        </aside>
+        <!-- SIDEBAR FIXA - Agora usando o header_preca.php -->
+        <?php include 'includes_precadastro/header_preca.php'; ?>
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
@@ -576,32 +526,10 @@ $perfilLogado = $_SESSION['usuario_perfil'];
 <script>
     // Scripts para interatividade
     document.addEventListener('DOMContentLoaded', function() {
-        // Menu Mobile
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        const mobileClose = document.querySelector('.mobile-close');
+        // Menu Mobile - AGORA USANDO O MESMO DO HEADER_PRECA.PHP
+        // O header_preca.php já tem seus próprios scripts de menu mobile,
+        // então vamos remover os scripts duplicados e manter apenas os específicos da grade
         
-        mobileMenuToggle.addEventListener('click', function() {
-            sidebar.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        
-        mobileClose.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        
-        // Fechar sidebar ao clicar fora (apenas mobile)
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(event.target) && 
-                !mobileMenuToggle.contains(event.target) && 
-                sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
         // Hover nos cards de KPI
         const kpiCards = document.querySelectorAll('.kpi-card');
         kpiCards.forEach(card => {
