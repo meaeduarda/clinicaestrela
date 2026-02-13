@@ -21,10 +21,13 @@ $mesSelecionado = isset($_GET['mes']) ? $_GET['mes'] : date('m');
 $paginaAtual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
 $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 
-// Anos disponíveis (dos últimos 5 anos)
+// ===== ANOS DISPONÍVEIS (1960 ATÉ ANO ATUAL + 1) =====
 $anosDisponiveis = [];
-for ($i = 0; $i < 5; $i++) {
-    $ano = date('Y') - $i;
+$anoInicial = 1960;
+$anoAtual = date('Y');
+$anoFinal = $anoAtual + 1; // Inclui o próximo ano
+
+for ($ano = $anoFinal; $ano >= $anoInicial; $ano--) {
     $anosDisponiveis[] = [
         'valor' => $ano,
         'texto' => $ano,
@@ -57,47 +60,35 @@ $meses = [
 ];
 $mesFormatado = $meses[$mesSelecionado] . " $anoSelecionado";
 
-// Dados dos pacientes (em produção viriam do banco com paginação)
-$todosPacientes = [
-    ['id' => 1, 'nome' => 'João Silva', 'idade' => '5 anos', 'responsavel' => 'Ana de Souza', 'telefone' => '(11) 98765-4321', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Joao_Silva_2024_04.pdf'],
-    ['id' => 2, 'nome' => 'Guilherme Souza', 'idade' => '4 anos', 'responsavel' => 'Regina Souza', 'telefone' => '(11) 98711-4572', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 3, 'nome' => 'Helena Alves', 'idade' => '6 anos', 'responsavel' => 'Carla Alves', 'telefone' => '(11) 99987-4403', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Helena_Alves_2024_04.pdf'],
-    ['id' => 4, 'nome' => 'Guilherme Martins', 'idade' => '5 anos', 'responsavel' => 'Patricia Martins', 'telefone' => '(11) 91020-5556', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Guilherme_Martins_2024_04.pdf'],
-    ['id' => 5, 'nome' => 'Mariana Santos', 'idade' => '8 anos', 'responsavel' => 'Renata Santos', 'telefone' => '(11) 93456-7810', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 6, 'nome' => 'Luisa Souza', 'idade' => '7 anos', 'responsavel' => 'Ana Souza', 'telefone' => '(11) 90215-0090', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Luisa_Souza_2024_04.pdf'],
-    ['id' => 7, 'nome' => 'Henrique Costa', 'idade' => '6 anos', 'responsavel' => 'Fernanda Costa', 'telefone' => '(11) 9000-4192', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 8, 'nome' => 'Sofia Santos', 'idade' => '7 anos', 'responsavel' => 'Marcos Santos', 'telefone' => '(11) 91234-5050', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Sofia_Santos_2024_04.pdf'],
-    ['id' => 9, 'nome' => 'Pedro Almeida', 'idade' => '6 anos', 'responsavel' => 'Fernanda Almeida', 'telefone' => '(11) 94676-1112', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 10, 'nome' => 'Lucas Pereira', 'idade' => '4 anos', 'responsavel' => 'Joana Pereira', 'telefone' => '(11) 98876-6543', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Lucas_Pereira_2024_04.pdf'],
-    ['id' => 11, 'nome' => 'Carlos Oliveira', 'idade' => '5 anos', 'responsavel' => 'Maria Oliveira', 'telefone' => '(11) 95555-4444', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 12, 'nome' => 'Ana Beatriz', 'idade' => '6 anos', 'responsavel' => 'Cláudia Santos', 'telefone' => '(11) 97777-8888', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Ana_Beatriz_2024_04.pdf'],
-    ['id' => 13, 'nome' => 'Rafael Lima', 'idade' => '7 anos', 'responsavel' => 'Patrícia Lima', 'telefone' => '(11) 93333-2222', 'pei_anexado' => false, 'pei_arquivo' => null],
-    ['id' => 14, 'nome' => 'Fernanda Costa', 'idade' => '5 anos', 'responsavel' => 'Roberto Costa', 'telefone' => '(11) 94444-5555', 'pei_anexado' => true, 'pei_arquivo' => 'PEI_Fernanda_Costa_2024_04.pdf'],
-    ['id' => 15, 'nome' => 'Miguel Santos', 'idade' => '6 anos', 'responsavel' => 'André Santos', 'telefone' => '(11) 96666-7777', 'pei_anexado' => false, 'pei_arquivo' => null],
-];
+// ===== DADOS DOS PACIENTES - INICIALMENTE VAZIO =====
+// Aqui você vai integrar com seu banco de dados ou JSON posteriormente
+$todosPacientes = []; // Array vazio - sem dados fictícios
 
-// Aplicar busca
-if ($busca) {
+// Exemplo de como será quando integrado:
+// $todosPacientes = json_decode(file_get_contents('caminho/do/arquivo.json'), true) ?? [];
+
+// Aplicar busca (quando houver dados)
+if ($busca && !empty($todosPacientes)) {
     $todosPacientes = array_filter($todosPacientes, function($paciente) use ($busca) {
-        return stripos($paciente['nome'], $busca) !== false || 
-               stripos($paciente['responsavel'], $busca) !== false;
+        return stripos($paciente['nome'] ?? '', $busca) !== false || 
+               stripos($paciente['responsavel'] ?? '', $busca) !== false;
     });
 }
 
-// Paginação
+// Paginação (quando houver dados)
 $totalPacientes = count($todosPacientes);
 $pacientesPorPagina = 10;
-$totalPaginas = ceil($totalPacientes / $pacientesPorPagina);
+$totalPaginas = $totalPacientes > 0 ? ceil($totalPacientes / $pacientesPorPagina) : 1;
 $paginaAtual = min($paginaAtual, $totalPaginas);
 
-// Pegar pacientes da página atual
+// Pegar pacientes da página atual (quando houver dados)
 $indiceInicio = ($paginaAtual - 1) * $pacientesPorPagina;
-$pacientesPagina = array_slice($todosPacientes, $indiceInicio, $pacientesPorPagina);
+$pacientesPagina = !empty($todosPacientes) ? array_slice($todosPacientes, $indiceInicio, $pacientesPorPagina) : [];
 
-// Contar PEIs anexados
+// Contar PEIs anexados (quando houver dados)
 $count_pei = 0;
 foreach ($todosPacientes as $paciente) {
-    if ($paciente['pei_anexado']) $count_pei++;
+    if (!empty($paciente['pei_anexado'])) $count_pei++;
 }
 ?>
 
@@ -127,6 +118,76 @@ foreach ($todosPacientes as $paciente) {
     <!-- Font Awesome e Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Ajustes para o dropdown de anos com muitos itens */
+        #anoDropdown {
+            max-height: 300px;
+            overflow-y: auto;
+            width: 100px;
+        }
+        
+        .dropdown-item {
+            white-space: nowrap;
+            padding: 8px 12px;
+        }
+
+        /* Estado vazio melhorado */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            font-size: 16px;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+
+        .empty-state .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .empty-state .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .kpi-card .kpi-content h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+    </style>
 </head>
 <body>
     <div class="mobile-menu-toggle">
@@ -227,6 +288,7 @@ foreach ($todosPacientes as $paciente) {
                 </div>
             </div>
 
+
             <!-- Filtros e Busca -->
             <div class="plan-filters">
                 <div class="filters-left">
@@ -302,7 +364,7 @@ foreach ($todosPacientes as $paciente) {
                 <div class="table-header">
                     <h3>Plano Terapêutico - PEI Mensal</h3>
                     <div class="table-actions">
-                        <button class="btn-export">
+                        <button class="btn-export" <?php echo empty($todosPacientes) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
                             <i class="fas fa-file-export"></i>
                             Exportar
                         </button>
@@ -320,41 +382,56 @@ foreach ($todosPacientes as $paciente) {
                             </tr>
                         </thead>
                         <tbody id="patientsTableBody">
-                            <?php if (count($pacientesPagina) > 0): ?>
+                            <?php if (empty($todosPacientes)): ?>
+                                <!-- Estado vazio - sem dados fictícios -->
+                                <tr>
+                                    <td colspan="4" class="no-results">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-medical"></i>
+                                            <h3>Nenhum paciente encontrado</h3>
+                                            <p>Os pacientes com PEI anexado aparecerão aqui quando você integrar com sua fonte de dados.</p>
+                                            <button class="btn-primary" onclick="alert('Funcionalidade de importação será implementada em breve!')">
+                                                <i class="fas fa-database"></i>
+                                                Importar Dados
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php elseif (count($pacientesPagina) > 0): ?>
                                 <?php foreach ($pacientesPagina as $paciente): ?>
                                     <tr class="patient-row">
                                         <td>
                                             <div class="patient-cell">
                                                 <div class="patient-avatar-small">
-                                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome']); ?>&background=random&color=fff"
-                                                         alt="<?php echo htmlspecialchars($paciente['nome']); ?>">
+                                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome'] ?? 'Paciente'); ?>&background=random&color=fff"
+                                                         alt="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>">
                                                 </div>
                                                 <div class="patient-name">
-                                                    <strong><?php echo htmlspecialchars($paciente['nome']); ?></strong>
-                                                    <span class="patient-age"><?php echo htmlspecialchars($paciente['idade']); ?></span>
+                                                    <strong><?php echo htmlspecialchars($paciente['nome'] ?? 'Nome não informado'); ?></strong>
+                                                    <span class="patient-age"><?php echo htmlspecialchars($paciente['idade'] ?? 'Idade n/d'); ?></span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="responsible-info">
-                                                <span class="responsible-text"><?php echo htmlspecialchars($paciente['responsavel']); ?></span>
+                                                <span class="responsible-text"><?php echo htmlspecialchars($paciente['responsavel'] ?? 'Responsável não informado'); ?></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="contact-phone"><?php echo htmlspecialchars($paciente['telefone']); ?></span>
+                                            <span class="contact-phone"><?php echo htmlspecialchars($paciente['telefone'] ?? 'Telefone não informado'); ?></span>
                                         </td>
                                         <td>
                                             <div class="action-buttons">
                                                 <button class="btn-attach-pei"
-                                                        data-patient-id="<?php echo $paciente['id']; ?>"
-                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome']); ?>">
+                                                        data-patient-id="<?php echo $paciente['id'] ?? ''; ?>"
+                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>">
                                                     <i class="fas fa-paperclip"></i>
                                                     Anexar PEI
                                                 </button>
                                                 <button class="btn-view-pei"
-                                                        data-patient-id="<?php echo $paciente['id']; ?>"
-                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome']); ?>"
-                                                        data-pei-anexado="<?php echo $paciente['pei_anexado'] ? 'true' : 'false'; ?>"
+                                                        data-patient-id="<?php echo $paciente['id'] ?? ''; ?>"
+                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>"
+                                                        data-pei-anexado="<?php echo !empty($paciente['pei_anexado']) ? 'true' : 'false'; ?>"
                                                         data-pei-arquivo="<?php echo htmlspecialchars($paciente['pei_arquivo'] ?? ''); ?>">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -374,8 +451,8 @@ foreach ($todosPacientes as $paciente) {
                     </table>
                 </div>
 
-                <!-- Paginação -->
-                <?php if ($totalPaginas > 1): ?>
+                <!-- Paginação (só mostra se houver dados) -->
+                <?php if (!empty($todosPacientes) && $totalPaginas > 1): ?>
                     <div class="pagination">
                         <!-- Botão Anterior -->
                         <?php if ($paginaAtual > 1): ?>
@@ -556,6 +633,15 @@ foreach ($todosPacientes as $paciente) {
                     mesDropdown.classList.remove('show');
                 }
             });
+
+            // Desabilitar botões de ação se não houver pacientes
+            <?php if (empty($todosPacientes)): ?>
+                document.querySelectorAll('.btn-attach-pei, .btn-view-pei').forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                });
+            <?php endif; ?>
         });
     </script>
 </body>
