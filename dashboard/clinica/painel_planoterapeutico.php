@@ -25,7 +25,7 @@ $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 $anosDisponiveis = [];
 $anoInicial = 1960;
 $anoAtual = date('Y');
-$anoFinal = $anoAtual + 1; // Inclui o próximo ano
+$anoFinal = $anoAtual + 1;
 
 for ($ano = $anoFinal; $ano >= $anoInicial; $ano--) {
     $anosDisponiveis[] = [
@@ -60,35 +60,246 @@ $meses = [
 ];
 $mesFormatado = $meses[$mesSelecionado] . " $anoSelecionado";
 
-// ===== DADOS DOS PACIENTES - INICIALMENTE VAZIO =====
-// Aqui você vai integrar com seu banco de dados ou JSON posteriormente
-$todosPacientes = []; // Array vazio - sem dados fictícios
+// ===== FUNÇÃO PARA CARREGAR PACIENTES =====
+function carregarPacientes() {
+    $caminhoPacientes = __DIR__ . '/../dados/ativo-cad.json';
+    $caminhoPEISalvo = __DIR__ . '/../dados/pei_salvo/pei_salvo.json';
+    $pacientesCarregados = [];
+    
+    if (file_exists($caminhoPacientes)) {
+        $pacientesJson = file_get_contents($caminhoPacientes);
+        $pacientes = json_decode($pacientesJson, true);
+        
+        if (is_array($pacientes)) {
+            // Carregar PEIs salvos
+            $peisSalvos = [];
+            if (file_exists($caminhoPEISalvo)) {
+                $peisSalvos = json_decode(file_get_contents($caminhoPEISalvo), true) ?: [];
+            }
+            
+            foreach ($pacientes as $paciente) {
+                // Filtrar apenas pacientes com status "Ativo"
+                if (isset($paciente['status']) && $paciente['status'] !== 'Ativo') {
+                    continue;
+                }
+                
+                // Gerar ID único baseado no nome + telefone
+                $pacienteId = md5(($paciente['nome_completo'] ?? '') . ($paciente['telefone'] ?? ''));
+                $peiInfo = $peisSalvos[$pacienteId] ?? null;
+                
+                // Calcular idade
+                $idade = 'Idade n/d';
+                if (!empty($paciente['nascimento'])) {
+                    try {
+                        $nascimento = new DateTime($paciente['nascimento']);
+                        $hoje = new DateTime();
+                        $idade = $nascimento->diff($hoje)->y . ' anos';
+                    } catch (Exception $e) {
+                        $idade = 'Idade n/d';
+                    }
+                }
+                
+                // Determinar responsável
+                $responsavel = 'Responsável não informado';
+                $tipoResponsavel = $paciente['responsavel'] ?? '';
+                
+                if (!empty($paciente['nome_mae'])) {
+                    $responsavel = $paciente['nome_mae'];
+                    if (!empty($tipoResponsavel)) {
+                        $responsavel = $tipoResponsavel . ': ' . $responsavel;
+                    }
+                } elseif (!empty($paciente['nome_pai'])) {
+                    $responsavel = $paciente['nome_pai'];
+                    if (!empty($tipoResponsavel)) {
+                        $responsavel = $tipoResponsavel . ': ' . $responsavel;
+                    }
+                } elseif (!empty($tipoResponsavel)) {
+                    $responsavel = $tipoResponsavel;
+                }
+                
+                $pacientesCarregados[] = [
+                    'id' => $pacienteId,
+                    'nome' => $paciente['nome_completo'] ?? 'Nome não informado',
+                    'idade' => $idade,
+                    'responsavel' => $responsavel,
+                    'telefone' => $paciente['telefone'] ?? 'Telefone não informado',
+                    'pei_anexado' => !is_null($peiInfo),
+                    'pei_arquivo' => $peiInfo['arquivo'] ?? '',
+                    'pei_nome_original' => $peiInfo['nome_original'] ?? '',
+                    'pei_data_upload' => $peiInfo['data_upload'] ?? '',
+                    'data_nascimento' => $paciente['nascimento'] ?? ''
+                ];
+            }
+        }
+    }
+    
+    return $pacientesCarregados;
+}
 
-// Exemplo de como será quando integrado:
-// $todosPacientes = json_decode(file_get_contents('caminho/do/arquivo.json'), true) ?? [];
+// ===== FUNÇÃO PARA VERIFICAR NOVOS PACIENTES =====
+function verificarNovosPacientes() {
+    $caminhoPacientes = __DIR__ . '/../dados/ativo-cad.json';
+    $novosPacientes = 0;
+    
+    if (file_exists($caminhoPacientes) && isset($_SESSION['pacientes_pei'])) {
+        $pacientesJson = file_get_contents($caminhoPacientes);
+        $pacientes = json_decode($pacientesJson, true);
+        
+        if (is_array($pacientes)) {
+            $idsSessao = array_column($_SESSION['pacientes_pei'], 'id');
+            
+            foreach ($pacientes as $paciente) {
+                // Filtrar apenas pacientes com status "Ativo"
+                if (isset($paciente['status']) && $paciente['status'] !== 'Ativo') {
+                    continue;
+                }
+                
+                $pacienteId = md5(($paciente['nome_completo'] ?? '') . ($paciente['telefone'] ?? ''));
+                
+                // Se o ID não existe na sessão, é um novo paciente
+                if (!in_array($pacienteId, $idsSessao)) {
+                    $novosPacientes++;
+                }
+            }
+        }
+    }
+    
+    return $novosPacientes;
+}
 
-// Aplicar busca (quando houver dados)
-if ($busca && !empty($todosPacientes)) {
-    $todosPacientes = array_filter($todosPacientes, function($paciente) use ($busca) {
-        return stripos($paciente['nome'] ?? '', $busca) !== false || 
-               stripos($paciente['responsavel'] ?? '', $busca) !== false;
+// ===== DADOS DOS PACIENTES =====
+// Verificar se deve recarregar os dados
+if (isset($_GET['importar']) && $_GET['importar'] == 'true') {
+    // Recarregar dados do JSON e salvar na sessão
+    $_SESSION['pacientes_pei'] = carregarPacientes();
+    
+    // Construir URL de redirecionamento corretamente
+    $params = $_GET;
+    unset($params['importar']);
+    
+    if (empty($params)) {
+        $redirectUrl = 'painel_planoterapeutico.php';
+    } else {
+        $redirectUrl = 'painel_planoterapeutico.php?' . http_build_query($params);
+    }
+    
+    header("Location: " . $redirectUrl);
+    exit();
+}
+
+// Verificar se há refresh (após upload de PEI)
+$refresh = isset($_GET['refresh']) && $_GET['refresh'] == 'true';
+if ($refresh) {
+    // Atualizar os dados da sessão com as informações mais recentes do JSON
+    $caminhoPEISalvo = __DIR__ . '/../dados/pei_salvo/pei_salvo.json';
+    if (file_exists($caminhoPEISalvo)) {
+        $peisSalvos = json_decode(file_get_contents($caminhoPEISalvo), true) ?: [];
+        
+        // Atualizar cada paciente na sessão com as informações mais recentes do PEI
+        if (isset($_SESSION['pacientes_pei']) && is_array($_SESSION['pacientes_pei'])) {
+            foreach ($_SESSION['pacientes_pei'] as &$paciente) {
+                $pacienteId = $paciente['id'];
+                if (isset($peisSalvos[$pacienteId])) {
+                    $paciente['pei_anexado'] = true;
+                    $paciente['pei_arquivo'] = $peisSalvos[$pacienteId]['arquivo'] ?? '';
+                    $paciente['pei_nome_original'] = $peisSalvos[$pacienteId]['nome_original'] ?? '';
+                    $paciente['pei_data_upload'] = $peisSalvos[$pacienteId]['data_upload'] ?? '';
+                } else {
+                    $paciente['pei_anexado'] = false;
+                    $paciente['pei_arquivo'] = '';
+                    $paciente['pei_nome_original'] = '';
+                    $paciente['pei_data_upload'] = '';
+                }
+            }
+        }
+    }
+}
+
+// Carregar pacientes da sessão ou do JSON se não existir
+if (isset($_SESSION['pacientes_pei']) && !empty($_SESSION['pacientes_pei'])) {
+    $todosPacientes = $_SESSION['pacientes_pei'];
+} else {
+    // Primeiro acesso - carregar automaticamente
+    $todosPacientes = carregarPacientes();
+    $_SESSION['pacientes_pei'] = $todosPacientes;
+}
+
+// Verificar quantos novos pacientes existem
+$novosPacientesCount = verificarNovosPacientes();
+
+// ===== APLICAR FILTROS DE ANO E MÊS =====
+$pacientesFiltrados = $todosPacientes;
+
+if (!empty($todosPacientes)) {
+    // Filtrar por ano e mês (baseado na data de upload do PEI)
+    $pacientesFiltrados = array_filter($todosPacientes, function($paciente) use ($anoSelecionado, $mesSelecionado) {
+        // Se o paciente tem PEI anexado, usar a data de upload para filtrar
+        if ($paciente['pei_anexado'] && !empty($paciente['pei_data_upload'])) {
+            $dataUpload = new DateTime($paciente['pei_data_upload']);
+            $anoUpload = $dataUpload->format('Y');
+            $mesUpload = $dataUpload->format('m');
+            
+            // Se o ano e mês do upload corresponderem aos selecionados, incluir
+            if ($anoUpload == $anoSelecionado && $mesUpload == $mesSelecionado) {
+                return true;
+            }
+            return false;
+        }
+        
+        // Se não tem PEI anexado, mostrar apenas se o filtro for mês/ano atual
+        // (pacientes sem PEI aparecem apenas no mês atual)
+        if (!$paciente['pei_anexado']) {
+            $mesAtual = date('m');
+            $anoAtual = date('Y');
+            return ($anoSelecionado == $anoAtual && $mesSelecionado == $mesAtual);
+        }
+        
+        return false;
     });
 }
 
-// Paginação (quando houver dados)
-$totalPacientes = count($todosPacientes);
+// Reindexar array após filtros
+if (!empty($pacientesFiltrados)) {
+    $pacientesFiltrados = array_values($pacientesFiltrados);
+}
+
+// APLICAR BUSCA - VERSÃO CORRIGIDA
+if (!empty($busca) && !empty($pacientesFiltrados)) {
+    $pacientesFiltrados = array_filter($pacientesFiltrados, function($paciente) use ($busca) {
+        $buscaLower = strtolower($busca);
+        $nomeLower = strtolower($paciente['nome'] ?? '');
+        $responsavelLower = strtolower($paciente['responsavel'] ?? '');
+        
+        return strpos($nomeLower, $buscaLower) !== false || 
+               strpos($responsavelLower, $buscaLower) !== false;
+    });
+}
+
+// Reindexar array após busca
+if (!empty($pacientesFiltrados)) {
+    $pacientesFiltrados = array_values($pacientesFiltrados);
+}
+
+// Paginação
+$totalPacientesFiltrados = count($pacientesFiltrados);
 $pacientesPorPagina = 10;
-$totalPaginas = $totalPacientes > 0 ? ceil($totalPacientes / $pacientesPorPagina) : 1;
+$totalPaginas = $totalPacientesFiltrados > 0 ? ceil($totalPacientesFiltrados / $pacientesPorPagina) : 1;
 $paginaAtual = min($paginaAtual, $totalPaginas);
 
-// Pegar pacientes da página atual (quando houver dados)
+// Pegar pacientes da página atual
 $indiceInicio = ($paginaAtual - 1) * $pacientesPorPagina;
-$pacientesPagina = !empty($todosPacientes) ? array_slice($todosPacientes, $indiceInicio, $pacientesPorPagina) : [];
+$pacientesPagina = !empty($pacientesFiltrados) ? array_slice($pacientesFiltrados, $indiceInicio, $pacientesPorPagina) : [];
 
-// Contar PEIs anexados (quando houver dados)
-$count_pei = 0;
+// Contar PEIs anexados no mês selecionado
+$count_pei_mes = 0;
+foreach ($pacientesFiltrados as $paciente) {
+    if (!empty($paciente['pei_anexado'])) $count_pei_mes++;
+}
+
+// Contar total de PEIs (todos os meses)
+$count_pei_total = 0;
 foreach ($todosPacientes as $paciente) {
-    if (!empty($paciente['pei_anexado'])) $count_pei++;
+    if (!empty($paciente['pei_anexado'])) $count_pei_total++;
 }
 ?>
 
@@ -186,6 +397,321 @@ foreach ($todosPacientes as $paciente) {
             font-size: 28px;
             font-weight: 700;
             color: #1e293b;
+        }
+
+        /* Estilos para a coluna PEI */
+        .pei-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pei-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pei-badge.anexado {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .pei-badge.sem-pei {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .pei-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-pei {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background-color: transparent;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-pei:hover {
+            background-color: #f1f5f9;
+            color: #3b82f6;
+        }
+
+        .btn-pei.attach {
+            width: auto;
+            padding: 0 12px;
+            gap: 6px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .btn-pei.attach:hover {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-pei.edit:hover {
+            color: #f59e0b;
+        }
+
+        /* Toast de notificação */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-notification.error {
+            background-color: #ef4444;
+        }
+
+        .toast-notification i {
+            font-size: 20px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Cards de estatísticas */
+        .stats-cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+        }
+
+        .stat-card .stat-title {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .stat-card .stat-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* Estilo para o botão Importar com notificação - CORRIGIDO */
+        .btn-import-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .btn-import {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: visible;
+        }
+
+        .btn-import:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd6 0%, #6a4392 100%);
+        }
+
+        .btn-import:active {
+            transform: translateY(0);
+        }
+
+        .btn-import i {
+            font-size: 16px;
+        }
+
+        .btn-import.notification {
+            animation: pulse 2s infinite;
+        }
+
+        .import-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6px;
+            box-shadow: 0 3px 8px rgba(239, 68, 68, 0.4);
+            animation: bounce 1s ease infinite;
+            border: 2px solid white;
+            z-index: 15;
+            line-height: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* Tooltip personalizado */
+        .import-tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .import-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 5px 5px 5px;
+            border-style: solid;
+            border-color: transparent transparent #1e293b transparent;
+        }
+
+        .btn-import-container:hover .import-tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -45px;
+        }
+
+        /* Melhorias na busca */
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .clear-search:hover {
+            color: #ef4444;
         }
     </style>
 </head>
@@ -288,6 +814,24 @@ foreach ($todosPacientes as $paciente) {
                 </div>
             </div>
 
+            <!-- Cards de Estatísticas -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-title">PEIs no mês</div>
+                    <div class="stat-value"><?php echo $count_pei_mes; ?></div>
+                    <div class="stat-subtitle"><?php echo $mesFormatado; ?></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total de PEIs</div>
+                    <div class="stat-value"><?php echo $count_pei_total; ?></div>
+                    <div class="stat-subtitle">Todos os meses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pacientes</div>
+                    <div class="stat-value"><?php echo count($todosPacientes); ?></div>
+                    <div class="stat-subtitle">Total ativos</div>
+                </div>
+            </div>
 
             <!-- Filtros e Busca -->
             <div class="plan-filters">
@@ -335,19 +879,36 @@ foreach ($todosPacientes as $paciente) {
                             </div>
                         </div>
                     </div>
+
+                    <!-- Botão Importar Dados - CORRIGIDO -->
+                    <div class="btn-import-container">
+                        <button class="btn-import <?php echo $novosPacientesCount > 0 ? 'notification' : ''; ?>" onclick="importarDados()">
+                            <i class="fas fa-database"></i>
+                            <span>Importar Dados</span>
+                            <?php if ($novosPacientesCount > 0): ?>
+                                <span class="import-badge">+<?php echo $novosPacientesCount; ?></span>
+                            <?php endif; ?>
+                        </button>
+                        <?php if ($novosPacientesCount > 0): ?>
+                            <div class="import-tooltip">
+                                <?php echo $novosPacientesCount; ?> novo(s) paciente(s) disponível(is)
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
                 <div class="filters-right">
-                    <form method="GET" class="search-form">
+                    <form method="GET" class="search-form" id="searchForm">
                         <input type="hidden" name="ano" value="<?php echo $anoSelecionado; ?>">
                         <input type="hidden" name="mes" value="<?php echo $mesSelecionado; ?>">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
                             <input type="text"
                                    name="busca"
-                                   placeholder="Buscar paciente..."
+                                   placeholder="Buscar paciente por nome ou responsável..."
                                    value="<?php echo htmlspecialchars($busca); ?>"
-                                   id="searchPatient">
+                                   id="searchPatient"
+                                   autocomplete="off">
                             <?php if ($busca): ?>
                                 <a href="?ano=<?php echo $anoSelecionado; ?>&mes=<?php echo $mesSelecionado; ?>"
                                    class="clear-search" title="Limpar busca">
@@ -359,12 +920,24 @@ foreach ($todosPacientes as $paciente) {
                 </div>
             </div>
 
+            <!-- Informação do filtro atual -->
+            <div style="margin: 10px 0; color: #64748b; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> 
+                Mostrando PEIs do mês de <strong><?php echo $mesFormatado; ?></strong>
+                <?php if (!empty($busca)): ?> 
+                    com busca por "<strong><?php echo htmlspecialchars($busca); ?></strong>"
+                <?php endif; ?>
+                <?php if (!empty($pacientesFiltrados)): ?>
+                    (<?php echo $totalPacientesFiltrados; ?> resultado(s))
+                <?php endif; ?>
+            </div>
+
             <!-- Tabela de Pacientes -->
             <div class="patients-table-container">
                 <div class="table-header">
                     <h3>Plano Terapêutico - PEI Mensal</h3>
                     <div class="table-actions">
-                        <button class="btn-export" <?php echo empty($todosPacientes) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
+                        <button class="btn-export" <?php echo empty($pacientesFiltrados) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
                             <i class="fas fa-file-export"></i>
                             Exportar
                         </button>
@@ -378,70 +951,102 @@ foreach ($todosPacientes as $paciente) {
                                 <th>Nome</th>
                                 <th>Responsável</th>
                                 <th>Contato</th>
+                                <th>PEI</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody id="patientsTableBody">
-                            <?php if (empty($todosPacientes)): ?>
-                                <!-- Estado vazio - sem dados fictícios -->
+                            <?php if (empty($pacientesFiltrados)): ?>
+                                <!-- Estado vazio com filtros -->
                                 <tr>
-                                    <td colspan="4" class="no-results">
+                                    <td colspan="5" class="no-results">
                                         <div class="empty-state">
-                                            <i class="fas fa-file-medical"></i>
-                                            <h3>Nenhum paciente encontrado</h3>
-                                            <p>Os pacientes com PEI anexado aparecerão aqui quando você integrar com sua fonte de dados.</p>
-                                            <button class="btn-primary" onclick="alert('Funcionalidade de importação será implementada em breve!')">
-                                                <i class="fas fa-database"></i>
-                                                Importar Dados
-                                            </button>
+                                            <i class="fas fa-calendar-times"></i>
+                                            <h3>Nenhum PEI encontrado</h3>
+                                            <p>Não há PEIs para o mês de <strong><?php echo $mesFormatado; ?></strong>
+                                            <?php if (!empty($busca)): ?> 
+                                                com a busca "<strong><?php echo htmlspecialchars($busca); ?></strong>"
+                                            <?php endif; ?>
+                                            </p>
+                                            <?php if ($anoSelecionado != date('Y') || $mesSelecionado != date('m')): ?>
+                                                <button class="btn-primary" onclick="window.location.href='?ano=<?php echo date('Y'); ?>&mes=<?php echo date('m'); ?>'">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Ver mês atual
+                                                </button>
+                                            <?php else: ?>
+                                                <button class="btn-primary" onclick="importarDados()">
+                                                    <i class="fas fa-database"></i>
+                                                    Importar Dados
+                                                </button>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>
                             <?php elseif (count($pacientesPagina) > 0): ?>
-                                <?php foreach ($pacientesPagina as $paciente): ?>
-                                    <tr class="patient-row">
+                                <?php foreach ($pacientesPagina as $index => $paciente): ?>
+                                    <tr class="patient-row" data-patient-id="<?php echo $paciente['id']; ?>" data-patient-index="<?php echo $index; ?>">
                                         <td>
                                             <div class="patient-cell">
                                                 <div class="patient-avatar-small">
-                                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome'] ?? 'Paciente'); ?>&background=random&color=fff"
-                                                         alt="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>">
+                                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome']); ?>&background=random&color=fff"
+                                                         alt="<?php echo htmlspecialchars($paciente['nome']); ?>">
                                                 </div>
                                                 <div class="patient-name">
-                                                    <strong><?php echo htmlspecialchars($paciente['nome'] ?? 'Nome não informado'); ?></strong>
-                                                    <span class="patient-age"><?php echo htmlspecialchars($paciente['idade'] ?? 'Idade n/d'); ?></span>
+                                                    <strong><?php echo htmlspecialchars($paciente['nome']); ?></strong>
+                                                    <span class="patient-age"><?php echo htmlspecialchars($paciente['idade']); ?></span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="responsible-info">
-                                                <span class="responsible-text"><?php echo htmlspecialchars($paciente['responsavel'] ?? 'Responsável não informado'); ?></span>
+                                                <span class="responsible-text"><?php echo htmlspecialchars($paciente['responsavel']); ?></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="contact-phone"><?php echo htmlspecialchars($paciente['telefone'] ?? 'Telefone não informado'); ?></span>
+                                            <span class="contact-phone"><?php echo htmlspecialchars($paciente['telefone']); ?></span>
                                         </td>
                                         <td>
-                                            <div class="action-buttons">
-                                                <button class="btn-attach-pei"
-                                                        data-patient-id="<?php echo $paciente['id'] ?? ''; ?>"
-                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>">
-                                                    <i class="fas fa-paperclip"></i>
-                                                    Anexar PEI
-                                                </button>
-                                                <button class="btn-view-pei"
-                                                        data-patient-id="<?php echo $paciente['id'] ?? ''; ?>"
-                                                        data-patient-name="<?php echo htmlspecialchars($paciente['nome'] ?? 'Paciente'); ?>"
-                                                        data-pei-anexado="<?php echo !empty($paciente['pei_anexado']) ? 'true' : 'false'; ?>"
-                                                        data-pei-arquivo="<?php echo htmlspecialchars($paciente['pei_arquivo'] ?? ''); ?>">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
+                                            <div class="pei-status">
+                                                <?php if ($paciente['pei_anexado']): ?>
+                                                    <span class="pei-badge anexado">
+                                                        <i class="fas fa-check-circle"></i>
+                                                        PEI Anexado
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="pei-badge sem-pei">
+                                                        <i class="fas fa-exclamation-circle"></i>
+                                                        Sem PEI
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="pei-actions">
+                                                <?php if ($paciente['pei_anexado']): ?>
+                                                    <button class="btn-pei" 
+                                                            onclick="visualizarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>', '<?php echo $paciente['pei_arquivo']; ?>')"
+                                                            title="Visualizar PEI">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn-pei edit"
+                                                            onclick="editarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>')"
+                                                            title="Editar PEI">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <button class="btn-pei attach"
+                                                            onclick="anexarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>')">
+                                                        <i class="fas fa-paperclip"></i>
+                                                        Anexar
+                                                    </button>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="4" class="no-results">
+                                    <td colspan="5" class="no-results">
                                         <i class="fas fa-search"></i>
                                         <p>Nenhum paciente encontrado para "<?php echo htmlspecialchars($busca); ?>"</p>
                                     </td>
@@ -451,10 +1056,9 @@ foreach ($todosPacientes as $paciente) {
                     </table>
                 </div>
 
-                <!-- Paginação (só mostra se houver dados) -->
-                <?php if (!empty($todosPacientes) && $totalPaginas > 1): ?>
+                <!-- Paginação -->
+                <?php if (!empty($pacientesFiltrados) && $totalPaginas > 1): ?>
                     <div class="pagination">
-                        <!-- Botão Anterior -->
                         <?php if ($paginaAtual > 1): ?>
                             <a href="?ano=<?php echo $anoSelecionado; ?>&mes=<?php echo $mesSelecionado; ?>&busca=<?php echo urlencode($busca); ?>&pagina=<?php echo $paginaAtual - 1; ?>"
                                class="pagination-btn prev">
@@ -468,13 +1072,11 @@ foreach ($todosPacientes as $paciente) {
                             </span>
                         <?php endif; ?>
 
-                        <!-- Informação da página -->
                         <div class="pagination-info">
                             <span class="current-page"><?php echo $paginaAtual; ?></span>
                             <span class="total-pages">de <?php echo $totalPaginas; ?></span>
                         </div>
 
-                        <!-- Botão Próximo -->
                         <?php if ($paginaAtual < $totalPaginas): ?>
                             <a href="?ano=<?php echo $anoSelecionado; ?>&mes=<?php echo $mesSelecionado; ?>&busca=<?php echo urlencode($busca); ?>&pagina=<?php echo $paginaAtual + 1; ?>"
                                class="pagination-btn next">
@@ -493,11 +1095,11 @@ foreach ($todosPacientes as $paciente) {
         </main>
     </div>
 
-    <!-- Modal para Anexar PEI -->
+    <!-- Modal para Anexar/Editar PEI -->
     <div id="attachPEIModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-paperclip"></i> Anexar PEI</h3>
+                <h3><i class="fas fa-paperclip"></i> <span id="modalTitle">Anexar PEI</span></h3>
                 <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body">
@@ -506,25 +1108,30 @@ foreach ($todosPacientes as $paciente) {
                     <p><strong>Mês referência:</strong> <span id="modalMonth"><?php echo $mesFormatado; ?></span></p>
                 </div>
 
-                <div class="file-upload-area">
-                    <input type="file" id="peiFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="file-input">
-                    <label for="peiFile" class="upload-label">
-                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                        <span class="upload-text">Clique para selecionar arquivo</span>
-                        <span class="upload-hint">ou arraste e solte aqui</span>
-                    </label>
-                    <div class="selected-file" id="selectedFile" style="display: none;">
-                        <i class="fas fa-file"></i>
-                        <span id="selectedFileName"></span>
-                        <button class="btn-remove-file" id="removeFile">
-                            <i class="fas fa-times"></i>
-                        </button>
+                <form id="peiUploadForm" enctype="multipart/form-data">
+                    <input type="hidden" name="paciente_id" id="pacienteId">
+                    <input type="hidden" name="acao" id="acao" value="anexar">
+                    
+                    <div class="file-upload-area">
+                        <input type="file" id="peiFile" name="pei_file" accept=".pdf" class="file-input" required>
+                        <label for="peiFile" class="upload-label">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <span class="upload-text">Clique para selecionar arquivo PDF</span>
+                            <span class="upload-hint">ou arraste e solte aqui</span>
+                        </label>
+                        <div class="selected-file" id="selectedFile" style="display: none;">
+                            <i class="fas fa-file-pdf"></i>
+                            <span id="selectedFileName"></span>
+                            <button type="button" class="btn-remove-file" id="removeFile">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <p class="file-formats">
+                            Formato aceito: PDF<br>
+                            Tamanho máximo: 10MB
+                        </p>
                     </div>
-                    <p class="file-formats">
-                        Formatos aceitos: PDF, DOC, DOCX, JPG, PNG<br>
-                        Tamanho máximo: 10MB
-                    </p>
-                </div>
+                </form>
 
                 <div class="modal-actions">
                     <button class="btn btn-secondary cancel-btn">
@@ -542,7 +1149,7 @@ foreach ($todosPacientes as $paciente) {
 
     <!-- Modal para Visualizar PEI -->
     <div id="viewPEIModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content modal-lg">
             <div class="modal-header">
                 <h3><i class="fas fa-eye"></i> Visualizar PEI</h3>
                 <button class="modal-close">&times;</button>
@@ -553,8 +1160,8 @@ foreach ($todosPacientes as $paciente) {
                     <p><strong>Mês referência:</strong> <span id="viewMonth"><?php echo $mesFormatado; ?></span></p>
                 </div>
 
-                <div id="peiContent">
-                    <!-- Conteúdo será carregado dinamicamente -->
+                <div id="peiContent" class="pdf-viewer">
+                    <!-- PDF será carregado aqui -->
                 </div>
 
                 <div class="modal-actions">
@@ -567,12 +1174,111 @@ foreach ($todosPacientes as $paciente) {
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="../../js/dashboard/clinica/painel_planoterapeutico.js"></script>
-    
     <script>
-        // Scripts para menu mobile e dropdowns
+        // Variável para controlar se houve refresh recente
+        let refreshRealizado = <?php echo $refresh ? 'true' : 'false'; ?>;
+        let novosPacientes = <?php echo $novosPacientesCount; ?>;
+        
+        // Função para importar dados
+        function importarDados() {
+            // Manter os parâmetros atuais e adicionar importar=true
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('importar', 'true');
+            window.location.href = window.location.pathname + '?' + urlParams.toString();
+        }
+
+        // Função para anexar PEI
+        function anexarPEI(pacienteId, pacienteNome) {
+            document.getElementById('modalTitle').textContent = 'Anexar PEI';
+            document.getElementById('modalPatientName').textContent = pacienteNome;
+            document.getElementById('pacienteId').value = pacienteId;
+            document.getElementById('acao').value = 'anexar';
+            document.getElementById('peiFile').required = true;
+            document.getElementById('peiUploadForm').reset();
+            document.getElementById('selectedFile').style.display = 'none';
+            
+            // Mostrar o label de upload novamente
+            document.querySelector('.upload-label').style.display = 'flex';
+            
+            const modal = document.getElementById('attachPEIModal');
+            modal.style.display = 'flex';
+        }
+
+        // Função para editar PEI
+        function editarPEI(pacienteId, pacienteNome) {
+            document.getElementById('modalTitle').textContent = 'Editar PEI';
+            document.getElementById('modalPatientName').textContent = pacienteNome;
+            document.getElementById('pacienteId').value = pacienteId;
+            document.getElementById('acao').value = 'editar';
+            document.getElementById('peiFile').required = true;
+            document.getElementById('peiUploadForm').reset();
+            document.getElementById('selectedFile').style.display = 'none';
+            
+            // Mostrar o label de upload novamente
+            document.querySelector('.upload-label').style.display = 'flex';
+            
+            const modal = document.getElementById('attachPEIModal');
+            modal.style.display = 'flex';
+        }
+
+        // Função para visualizar PEI
+        function visualizarPEI(pacienteId, pacienteNome, arquivo) {
+            document.getElementById('viewPatientName').textContent = pacienteNome;
+            
+            // Carregar PDF
+            const peiContent = document.getElementById('peiContent');
+            peiContent.innerHTML = `<iframe src="carregar_pei.php?id=${pacienteId}&arquivo=${encodeURIComponent(arquivo)}" width="100%" height="600px" style="border: none;"></iframe>`;
+            
+            const modal = document.getElementById('viewPEIModal');
+            modal.style.display = 'flex';
+        }
+
+        // Função para mostrar notificação toast
+        function mostrarToast(mensagem, tipo = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${tipo === 'error' ? 'error' : ''}`;
+            toast.innerHTML = `
+                <i class="fas ${tipo === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                <span>${mensagem}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s reverse';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Função para verificar novos pacientes periodicamente
+        function verificarNovosPacientesPeriodicamente() {
+            // Esta função pode ser implementada com AJAX para verificar novos pacientes
+            // sem recarregar a página. Por enquanto, vamos apenas mostrar uma mensagem
+            // se houver novos pacientes
+            if (novosPacientes > 0) {
+                console.log(`${novosPacientes} novo(s) paciente(s) disponível(is) para importar`);
+            }
+        }
+
+        // Configurar modais
         document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar notificação se houve refresh
+            if (refreshRealizado) {
+                mostrarToast('PEI atualizado com sucesso!');
+                
+                // Remover parâmetro refresh da URL
+                const url = new URL(window.location.href);
+                url.searchParams.delete('refresh');
+                window.history.replaceState({}, document.title, url.toString());
+            }
+
+            // Mostrar notificação se houver novos pacientes
+            if (novosPacientes > 0) {
+                mostrarToast(`${novosPacientes} novo(s) paciente(s) disponível(is) para importar`, 'success');
+            }
+
             // Menu Mobile
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
             const sidebar = document.querySelector('.sidebar');
@@ -606,6 +1312,12 @@ foreach ($todosPacientes as $paciente) {
             const mesDropdownBtn = document.getElementById('mesDropdownBtn');
             const mesDropdown = document.getElementById('mesDropdown');
 
+            // Fechar dropdowns quando clicar fora
+            function fecharDropdowns() {
+                if (anoDropdown) anoDropdown.classList.remove('show');
+                if (mesDropdown) mesDropdown.classList.remove('show');
+            }
+
             // Ano dropdown
             if (anoDropdownBtn && anoDropdown) {
                 anoDropdownBtn.addEventListener('click', function(e) {
@@ -634,14 +1346,154 @@ foreach ($todosPacientes as $paciente) {
                 }
             });
 
-            // Desabilitar botões de ação se não houver pacientes
-            <?php if (empty($todosPacientes)): ?>
-                document.querySelectorAll('.btn-attach-pei, .btn-view-pei').forEach(btn => {
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
-                    btn.style.cursor = 'not-allowed';
+            // Configurar modais
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.modal-close, .cancel-btn, .close-btn');
+
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    modals.forEach(modal => modal.style.display = 'none');
+                    
+                    // Limpar iframe quando fechar modal de visualização
+                    const peiContent = document.getElementById('peiContent');
+                    if (peiContent) {
+                        peiContent.innerHTML = '';
+                    }
                 });
-            <?php endif; ?>
+            });
+
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(event) {
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                        
+                        // Limpar iframe quando fechar modal de visualização
+                        const peiContent = document.getElementById('peiContent');
+                        if (peiContent) {
+                            peiContent.innerHTML = '';
+                        }
+                    }
+                });
+            });
+
+            // Upload de arquivo
+            const fileInput = document.getElementById('peiFile');
+            const selectedFile = document.getElementById('selectedFile');
+            const selectedFileName = document.getElementById('selectedFileName');
+            const removeFileBtn = document.getElementById('removeFile');
+            const uploadLabel = document.querySelector('.upload-label');
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        
+                        // Validar tamanho (10MB)
+                        if (file.size > 10 * 1024 * 1024) {
+                            mostrarToast('Arquivo muito grande. Tamanho máximo: 10MB', 'error');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Validar tipo
+                        if (file.type !== 'application/pdf') {
+                            mostrarToast('Apenas arquivos PDF são permitidos', 'error');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        selectedFileName.textContent = file.name;
+                        selectedFile.style.display = 'flex';
+                        uploadLabel.style.display = 'none';
+                    }
+                });
+            }
+
+            if (removeFileBtn) {
+                removeFileBtn.addEventListener('click', function() {
+                    fileInput.value = '';
+                    selectedFile.style.display = 'none';
+                    uploadLabel.style.display = 'flex';
+                });
+            }
+
+            // Salvar PEI
+            const btnSavePEI = document.getElementById('btnSavePEI');
+            if (btnSavePEI) {
+                btnSavePEI.addEventListener('click', function() {
+                    const form = document.getElementById('peiUploadForm');
+                    const formData = new FormData(form);
+                    
+                    // Validar se arquivo foi selecionado
+                    if (!fileInput.files || !fileInput.files[0]) {
+                        mostrarToast('Por favor, selecione um arquivo PDF', 'error');
+                        return;
+                    }
+                    
+                    // Desabilitar botão para evitar múltiplos envios
+                    btnSavePEI.disabled = true;
+                    btnSavePEI.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+                    
+                    // Enviar via AJAX
+                    fetch('salvar_pei.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Fechar modal
+                            document.getElementById('attachPEIModal').style.display = 'none';
+                            
+                            // Mostrar toast de sucesso
+                            mostrarToast('PEI salvo com sucesso!');
+                            
+                            // Recarregar a página após 1 segundo para mostrar as alterações
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            mostrarToast('Erro ao salvar PEI: ' + data.message, 'error');
+                            btnSavePEI.disabled = false;
+                            btnSavePEI.innerHTML = '<i class="fas fa-save"></i> Salvar PEI';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        mostrarToast('Erro ao salvar PEI. Tente novamente.', 'error');
+                        btnSavePEI.disabled = false;
+                        btnSavePEI.innerHTML = '<i class="fas fa-save"></i> Salvar PEI';
+                    });
+                });
+            }
+
+            // Adicionar submit ao formulário de busca para manter os filtros
+            const searchForm = document.getElementById('searchForm');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const busca = document.getElementById('searchPatient').value.trim();
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('busca', busca);
+                    urlParams.delete('pagina'); // Resetar página ao buscar
+                    window.location.href = window.location.pathname + '?' + urlParams.toString();
+                });
+            }
+
+            // Busca ao pressionar Enter
+            const searchInput = document.getElementById('searchPatient');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('searchForm').requestSubmit();
+                    }
+                });
+            }
+
+            // Verificar novos pacientes periodicamente (a cada 30 segundos)
+            setInterval(verificarNovosPacientesPeriodicamente, 30000);
         });
     </script>
 </body>
