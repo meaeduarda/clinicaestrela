@@ -263,7 +263,7 @@ if (!empty($pacientesFiltrados)) {
     $pacientesFiltrados = array_values($pacientesFiltrados);
 }
 
-// APLICAR BUSCA - VERSÃO CORRIGIDA
+// APLICAR BUSCA
 if (!empty($busca) && !empty($pacientesFiltrados)) {
     $pacientesFiltrados = array_filter($pacientesFiltrados, function($paciente) use ($busca) {
         $buscaLower = strtolower($busca);
@@ -331,221 +331,144 @@ foreach ($todosPacientes as $paciente) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Ajustes para o dropdown de anos com muitos itens */
-        #anoDropdown {
-            max-height: 300px;
-            overflow-y: auto;
-            width: 100px;
-        }
-        
-        .dropdown-item {
-            white-space: nowrap;
-            padding: 8px 12px;
-        }
-
-        /* Estado vazio melhorado */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: #f8fafc;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .empty-state i {
-            font-size: 64px;
-            color: #cbd5e1;
-            margin-bottom: 16px;
-        }
-
-        .empty-state h3 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 8px;
-        }
-
-        .empty-state p {
-            color: #64748b;
-            font-size: 16px;
-            max-width: 400px;
-            margin: 0 auto 20px;
-        }
-
-        .empty-state .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .empty-state .btn-primary:hover {
-            background-color: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .kpi-card .kpi-content h3 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        /* Estilos para a coluna PEI */
-        .pei-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .pei-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .pei-badge.anexado {
-            background-color: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #bfdbfe;
-        }
-
-        .pei-badge.sem-pei {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-        .pei-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-pei {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            border: none;
-            background-color: transparent;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-pei:hover {
-            background-color: #f1f5f9;
-            color: #3b82f6;
-        }
-
-        .btn-pei.attach {
-            width: auto;
-            padding: 0 12px;
-            gap: 6px;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .btn-pei.attach:hover {
-            background-color: #3b82f6;
-            border-color: #3b82f6;
-            color: white;
-        }
-
-        .btn-pei.edit:hover {
-            color: #f59e0b;
-        }
-
-        /* Toast de notificação */
-        .toast-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #10b981;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .toast-notification.error {
-            background-color: #ef4444;
-        }
-
-        .toast-notification i {
-            font-size: 20px;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Cards de estatísticas */
+        /* Cards de estatísticas - Personalizados igual à página de pacientes */
         .stats-cards {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
-            flex: 1;
-            min-width: 200px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #eef2f6;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid;
+            min-height: 100px;
         }
 
-        .stat-card .stat-title {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 8px;
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
-        .stat-card .stat-value {
-            font-size: 28px;
+        .stat-card.blue {
+            border-left-color: #3b82f6;
+        }
+
+        .stat-card.green {
+            border-left-color: #10b981;
+        }
+
+        .stat-card.purple {
+            border-left-color: #8b5cf6;
+        }
+
+        .stat-card.orange {
+            border-left-color: #f97316;
+        }
+
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .stat-card.blue .stat-icon {
+            background-color: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .stat-card.green .stat-icon {
+            background-color: #f0fdf4;
+            color: #10b981;
+        }
+
+        .stat-card.purple .stat-icon {
+            background-color: #f5f3ff;
+            color: #8b5cf6;
+        }
+
+        .stat-card.orange .stat-icon {
+            background-color: #fff7ed;
+            color: #f97316;
+        }
+
+        .stat-card .stat-icon i {
+            font-size: 18px;
+        }
+
+        .stat-card .stat-content h3 {
+            font-size: 24px;
             font-weight: 700;
             color: #1e293b;
+            margin-bottom: 4px;
+            line-height: 1;
+            font-size: clamp(20px, 5vw, 28px);
         }
 
-        .stat-card .stat-subtitle {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 4px;
+        .stat-card .stat-content p {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            word-break: break-word;
         }
 
-        /* Estilo para o botão Importar com notificação - CORRIGIDO */
+        /* Responsividade para os cards */
+        @media (max-width: 768px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .stat-card {
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 12px;
+            }
+            
+            .stat-card .stat-icon {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+        }
+
+        /* Para landscape em mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+        }
+
+        /* Efeito de clique para mobile */
+        @media (max-width: 768px) {
+            .stat-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* Ajustes para o botão Importar */
         .btn-import-container {
             position: relative;
             display: inline-block;
@@ -713,6 +636,128 @@ foreach ($todosPacientes as $paciente) {
         .clear-search:hover {
             color: #ef4444;
         }
+
+        /* Estilos para botões padronizados com a página de pacientes */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary i {
+            font-size: 16px;
+        }
+
+        .btn-primary.small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        /* Botões de ação padronizados */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .btn-action.view {
+            background-color: #10b981;
+        }
+
+        .btn-action.view:hover {
+            background-color: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-action.edit {
+            background-color: #3b82f6;
+        }
+
+        .btn-action.edit:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-action.attach {
+            width: auto;
+            padding: 0 16px;
+            gap: 8px;
+            background-color: #10b981;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn-action.attach:hover {
+            background-color: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-action.attach i {
+            font-size: 14px;
+        }
+
+        .btn-action:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .btn-action {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            
+            .btn-action.attach {
+                width: auto;
+                padding: 0 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons {
+                gap: 6px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -814,22 +859,50 @@ foreach ($todosPacientes as $paciente) {
                 </div>
             </div>
 
-            <!-- Cards de Estatísticas -->
+            <!-- Cards de Estatísticas - Personalizados -->
             <div class="stats-cards">
-                <div class="stat-card">
-                    <div class="stat-title">PEIs no mês</div>
-                    <div class="stat-value"><?php echo $count_pei_mes; ?></div>
-                    <div class="stat-subtitle"><?php echo $mesFormatado; ?></div>
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $count_pei_mes; ?></h3>
+                        <p>PEIs no mês</p>
+                        <small style="color: #64748b; font-size: 11px;"><?php echo $mesFormatado; ?></small>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-title">Total de PEIs</div>
-                    <div class="stat-value"><?php echo $count_pei_total; ?></div>
-                    <div class="stat-subtitle">Todos os meses</div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $count_pei_total; ?></h3>
+                        <p>Total de PEIs</p>
+                        <small style="color: #64748b; font-size: 11px;">Todos os meses</small>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-title">Pacientes</div>
-                    <div class="stat-value"><?php echo count($todosPacientes); ?></div>
-                    <div class="stat-subtitle">Total ativos</div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo count($todosPacientes); ?></h3>
+                        <p>Pacientes Ativos</p>
+                        <small style="color: #64748b; font-size: 11px;">Total cadastrados</small>
+                    </div>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $totalPacientesFiltrados; ?></h3>
+                        <p>Resultados</p>
+                        <small style="color: #64748b; font-size: 11px;">No filtro atual</small>
+                    </div>
                 </div>
             </div>
 
@@ -880,7 +953,7 @@ foreach ($todosPacientes as $paciente) {
                         </div>
                     </div>
 
-                    <!-- Botão Importar Dados - CORRIGIDO -->
+                    <!-- Botão Importar Dados -->
                     <div class="btn-import-container">
                         <button class="btn-import <?php echo $novosPacientesCount > 0 ? 'notification' : ''; ?>" onclick="importarDados()">
                             <i class="fas fa-database"></i>
@@ -1021,20 +1094,20 @@ foreach ($todosPacientes as $paciente) {
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="pei-actions">
+                                            <div class="action-buttons">
                                                 <?php if ($paciente['pei_anexado']): ?>
-                                                    <button class="btn-pei" 
+                                                    <button class="btn-action view" 
                                                             onclick="visualizarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>', '<?php echo $paciente['pei_arquivo']; ?>')"
                                                             title="Visualizar PEI">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-                                                    <button class="btn-pei edit"
+                                                    <button class="btn-action edit"
                                                             onclick="editarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>')"
                                                             title="Editar PEI">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                 <?php else: ?>
-                                                    <button class="btn-pei attach"
+                                                    <button class="btn-action attach"
                                                             onclick="anexarPEI('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars(addslashes($paciente['nome'])); ?>')">
                                                         <i class="fas fa-paperclip"></i>
                                                         Anexar
@@ -1254,9 +1327,6 @@ foreach ($todosPacientes as $paciente) {
 
         // Função para verificar novos pacientes periodicamente
         function verificarNovosPacientesPeriodicamente() {
-            // Esta função pode ser implementada com AJAX para verificar novos pacientes
-            // sem recarregar a página. Por enquanto, vamos apenas mostrar uma mensagem
-            // se houver novos pacientes
             if (novosPacientes > 0) {
                 console.log(`${novosPacientes} novo(s) paciente(s) disponível(is) para importar`);
             }
@@ -1312,7 +1382,6 @@ foreach ($todosPacientes as $paciente) {
             const mesDropdownBtn = document.getElementById('mesDropdownBtn');
             const mesDropdown = document.getElementById('mesDropdown');
 
-            // Fechar dropdowns quando clicar fora
             function fecharDropdowns() {
                 if (anoDropdown) anoDropdown.classList.remove('show');
                 if (mesDropdown) mesDropdown.classList.remove('show');
@@ -1354,7 +1423,6 @@ foreach ($todosPacientes as $paciente) {
                 btn.addEventListener('click', function() {
                     modals.forEach(modal => modal.style.display = 'none');
                     
-                    // Limpar iframe quando fechar modal de visualização
                     const peiContent = document.getElementById('peiContent');
                     if (peiContent) {
                         peiContent.innerHTML = '';
@@ -1368,7 +1436,6 @@ foreach ($todosPacientes as $paciente) {
                     if (event.target === modal) {
                         modal.style.display = 'none';
                         
-                        // Limpar iframe quando fechar modal de visualização
                         const peiContent = document.getElementById('peiContent');
                         if (peiContent) {
                             peiContent.innerHTML = '';
@@ -1449,7 +1516,7 @@ foreach ($todosPacientes as $paciente) {
                             // Mostrar toast de sucesso
                             mostrarToast('PEI salvo com sucesso!');
                             
-                            // Recarregar a página após 1 segundo para mostrar as alterações
+                            // Recarregar a página após 1 segundo
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1000);
@@ -1468,7 +1535,7 @@ foreach ($todosPacientes as $paciente) {
                 });
             }
 
-            // Adicionar submit ao formulário de busca para manter os filtros
+            // Adicionar submit ao formulário de busca
             const searchForm = document.getElementById('searchForm');
             if (searchForm) {
                 searchForm.addEventListener('submit', function(e) {
@@ -1476,7 +1543,7 @@ foreach ($todosPacientes as $paciente) {
                     const busca = document.getElementById('searchPatient').value.trim();
                     const urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('busca', busca);
-                    urlParams.delete('pagina'); // Resetar página ao buscar
+                    urlParams.delete('pagina');
                     window.location.href = window.location.pathname + '?' + urlParams.toString();
                 });
             }
