@@ -803,7 +803,7 @@ foreach ($todosPacientes as $paciente) {
                         </li>
                         
                         <li <?php echo ($pagina_atual == 'painel_evolucoes.php') ? 'class="active"' : ''; ?>>
-                            <a href="#"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a>
+                            <a href="painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a>
                         </li>
                     <?php endif; ?>
                     
