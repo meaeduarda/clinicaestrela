@@ -21,8 +21,9 @@ $terapiaFiltro = isset($_GET['terapia']) ? $_GET['terapia'] : '';
 $turnoFiltro = isset($_GET['turno']) ? $_GET['turno'] : '';
 
 // ===== CARREGAR PACIENTES DO JSON =====
-$caminhoPacientes = __DIR__ . '/../dados/ativo-cad.json';
+$caminhoPacientes = __DIR__ . '/../../dashboard/dados/ativo-cad.json';
 $pacientesAtivos = [];
+$totalAtivos = 0;
 
 if (file_exists($caminhoPacientes)) {
     $pacientesJson = file_get_contents($caminhoPacientes);
@@ -61,6 +62,8 @@ if (file_exists($caminhoPacientes)) {
                     'data_cadastro' => $paciente['data_ativacao'] ?? $paciente['data_registro'] ?? '',
                     'foto' => $paciente['foto'] ?? ''
                 ];
+                
+                $totalAtivos++;
             }
         }
     }
@@ -113,6 +116,24 @@ $terapias = [
 
 // Turnos
 $turnos = ['Manhã', 'Tarde'];
+
+// ===== LEITURA DE VISITAS AGENDADAS NÃO CONFIRMADAS =====
+$arquivoVisitas = __DIR__ . '/../../dashboard/dados/dados_visita_agendamento.json';
+$totalVisitasNaoConfirmadas = 0;
+
+if (file_exists($arquivoVisitas)) {
+    $conteudoVisitas = file_get_contents($arquivoVisitas);
+    if (!empty($conteudoVisitas)) {
+        $agendamentos = json_decode($conteudoVisitas, true);
+        if (is_array($agendamentos)) {
+            foreach ($agendamentos as $agendamento) {
+                if (isset($agendamento['confirmado']) && $agendamento['confirmado'] === false) {
+                    $totalVisitasNaoConfirmadas++;
+                }
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +162,39 @@ $turnos = ['Manhã', 'Tarde'];
     <!-- Font Awesome e Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Badge de visitas */
+        .visitas-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .icon-btn.with-badge {
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
 </head>
 <body>
     <div class="mobile-menu-toggle">
@@ -184,7 +238,7 @@ $turnos = ['Manhã', 'Tarde'];
                             <a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a>
                         </li>
                         
-                        <li <?php echo ($pagina_atual == 'painel_evolucoes.php') ? 'class="active"' : ''; ?>>
+                        <li class="active">
                             <a href="painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a>
                         </li>
                     <?php endif; ?>
@@ -226,12 +280,14 @@ $turnos = ['Manhã', 'Tarde'];
         <main class="main-content">
             <!-- Header -->
             <div class="main-top desktop-only">
-                <h2><i class="fas fa-chart-line"></i> <?php echo $modo_formulario ? 'Nova Evolução' : 'Evoluções'; ?></h2>
+                <h2><i class="fas fa-chart-line"></i> Evoluções</h2>
                 <div class="top-icons">
-                    <div class="icon-btn with-badge">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">2</span>
-                    </div>
+                    <a href="visita_agendamento.php" class="icon-btn with-badge" title="Visitas Agendadas não confirmadas">
+                        <i class="fas fa-calendar-check"></i>
+                        <?php if ($totalVisitasNaoConfirmadas > 0): ?>
+                            <span class="visitas-badge"><?php echo $totalVisitasNaoConfirmadas; ?></span>
+                        <?php endif; ?>
+                    </a>
                     <div class="icon-btn">
                         <i class="fas fa-user-circle"></i>
                     </div>
@@ -241,137 +297,243 @@ $turnos = ['Manhã', 'Tarde'];
                 </div>
             </div>
 
+            <!-- Cards de estatísticas (KPI) -->
+            <div class="stats-cards">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $totalAtivos; ?></h3>
+                        <p>Total de Pacientes</p>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>Evoluções hoje</p>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo date('d/m/Y'); ?></h3>
+                        <p>Data atual</p>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>Evoluções pendentes</p>
+                    </div>
+                </div>
+            </div>
+
             <?php if (!$modo_formulario): ?>
-                <!-- ===== MODO LISTA ===== -->
+                <!-- ===== MODO LISTA / HISTÓRICO ===== -->
                 
-                <!-- Breadcrumb -->
                 <div class="breadcrumb">
                     <span>Evoluções</span>
                 </div>
 
-                <!-- Cards de estatísticas -->
-                <div class="stats-cards">
-                    <div class="stat-card blue">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3><?php echo count($pacientesAtivos); ?></h3>
-                            <p>Total de Pacientes</p>
-                        </div>
-                    </div>
-                    <div class="stat-card green">
-                        <div class="stat-icon">
-                            <i class="fas fa-file-medical"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3>0</h3>
-                            <p>Evoluções hoje</p>
-                        </div>
-                    </div>
-                    <div class="stat-card purple">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3><?php echo date('d/m/Y'); ?></h3>
-                            <p>Data atual</p>
-                        </div>
-                    </div>
+                <!-- Tabs de navegação -->
+                <div class="evolution-tabs">
+                    <button class="evolution-tab active" data-tab="lista">
+                        <i class="fas fa-list"></i> Lista de Pacientes
+                    </button>
+                    <button class="evolution-tab" data-tab="nova">
+                        <i class="fas fa-plus-circle"></i> Nova Evolução
+                    </button>
+                    <button class="evolution-tab" data-tab="historico">
+                        <i class="fas fa-history"></i> Histórico
+                    </button>
                 </div>
 
-                <!-- Filtros -->
-                <div class="plan-filters">
-                    <div class="filters-left">
-                        <!-- Filtro por Nome -->
-                        <div class="filter-group">
-                            <div class="filter-label">
-                                <i class="fas fa-user"></i>
-                                <span>Paciente:</span>
+                <!-- Container da Lista de Pacientes -->
+                <div id="lista-container" style="display: block;">
+                    <!-- Filtros -->
+                    <div class="evolution-filters">
+                        <div class="filters-left">
+                            <!-- Filtro por Nome -->
+                            <div class="filter-group">
+                                <div class="filter-label">
+                                    <i class="fas fa-user"></i>
+                                    <span>Paciente:</span>
+                                </div>
+                                <form method="GET" style="display: flex; gap: 8px; width: 100%;">
+                                    <input type="text" 
+                                           name="paciente" 
+                                           value="<?php echo htmlspecialchars($pacienteFiltro); ?>" 
+                                           placeholder="Buscar por nome..."
+                                           class="filter-input">
+                                    <button type="submit" class="btn-filter" style="padding: 10px 20px;">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                    <?php if ($pacienteFiltro): ?>
+                                        <a href="painel_evolucoes.php" class="btn-clear">
+                                            <i class="fas fa-times"></i> Limpar
+                                        </a>
+                                    <?php endif; ?>
+                                </form>
                             </div>
-                            <form method="GET" style="display: flex; gap: 8px;">
-                                <input type="text" 
-                                       name="paciente" 
-                                       value="<?php echo htmlspecialchars($pacienteFiltro); ?>" 
-                                       placeholder="Buscar por nome..."
-                                       style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; width: 200px;">
-                                <button type="submit" class="btn-action view" style="padding: 8px 16px;">
-                                    <i class="fas fa-search"></i> Buscar
-                                </button>
-                                <?php if ($pacienteFiltro): ?>
-                                    <a href="painel_evolucoes.php" class="btn-cancel" style="padding: 8px 16px;">
-                                        <i class="fas fa-times"></i> Limpar
-                                    </a>
-                                <?php endif; ?>
-                            </form>
                         </div>
+                    </div>
+
+                    <!-- Cards de Pacientes -->
+                    <div class="patients-grid">
+                        <?php if (empty($pacientesFiltrados)): ?>
+                            <div class="empty-state" style="grid-column: 1 / -1;">
+                                <i class="fas fa-users"></i>
+                                <h4>Nenhum paciente ativo encontrado</h4>
+                                <p>Não há pacientes ativos cadastrados no momento.</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($pacientesFiltrados as $paciente): ?>
+                                <div class="patient-card">
+                                    <div class="patient-card-header">
+                                        <div class="patient-avatar">
+                                            <?php if (!empty($paciente['foto'])): ?>
+                                                <img src="<?php echo $paciente['foto']; ?>" alt="<?php echo htmlspecialchars($paciente['nome']); ?>">
+                                            <?php else: ?>
+                                                <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome']); ?>&background=random" alt="">
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="patient-info">
+                                            <div class="patient-name"><?php echo htmlspecialchars($paciente['nome']); ?></div>
+                                            <div class="patient-age">
+                                                <i class="fas fa-calendar-alt"></i> <?php echo $paciente['idade']; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="patient-details">
+                                        <div class="patient-detail-item">
+                                            <i class="fas fa-user-tie"></i>
+                                            <span><strong>Responsável:</strong> <?php echo htmlspecialchars($paciente['responsavel']); ?></span>
+                                        </div>
+                                        <div class="patient-detail-item">
+                                            <i class="fas fa-phone"></i>
+                                            <span><strong>Contato:</strong> <?php echo htmlspecialchars($paciente['telefone']); ?></span>
+                                        </div>
+                                        <?php if (!empty($paciente['data_cadastro'])): ?>
+                                            <div class="patient-detail-item">
+                                                <i class="fas fa-calendar-plus"></i>
+                                                <span><strong>Cadastro:</strong> <?php echo date('d/m/Y', strtotime($paciente['data_cadastro'])); ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <div class="patient-card-actions">
+                                        <a href="?paciente_id=<?php echo $paciente['id']; ?>" class="btn-card-action primary">
+                                            <i class="fas fa-plus"></i> Nova Evolução
+                                        </a>
+                                        <button class="btn-card-action secondary" onclick="verHistoricoPaciente('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars($paciente['nome']); ?>')">
+                                            <i class="fas fa-history"></i> Histórico
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
-                <!-- Tabela de Pacientes -->
-                <div class="patients-table-container">
-                    <div class="table-header">
-                        <h3>Selecione um paciente para fazer a evolução</h3>
-                    </div>
-
-                    <?php if (empty($pacientesFiltrados)): ?>
-                        <div class="no-results">
-                            <i class="fas fa-users"></i>
-                            <p>Nenhum paciente ativo encontrado</p>
+                <!-- Container do Histórico (inicialmente oculto) -->
+                <div id="historico-container" style="display: none;">
+                    <div class="historico-container">
+                        <div class="historico-header">
+                            <h3>
+                                <i class="fas fa-history"></i>
+                                Histórico de Evoluções
+                            </h3>
+                            <div class="historico-filters-advanced">
+                                <div class="filter-group small">
+                                    <div class="filter-label">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Data Início:</span>
+                                    </div>
+                                    <input type="date" id="data-inicio" class="filter-input">
+                                </div>
+                                <div class="filter-group small">
+                                    <div class="filter-label">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Data Fim:</span>
+                                    </div>
+                                    <input type="date" id="data-fim" class="filter-input">
+                                </div>
+                                <div class="filter-group small">
+                                    <div class="filter-label">
+                                        <i class="fas fa-stethoscope"></i>
+                                        <span>Terapia:</span>
+                                    </div>
+                                    <select id="terapia-filtro" class="filter-select">
+                                        <option value="">Todas</option>
+                                        <?php foreach ($terapias as $valor => $nome): ?>
+                                            <option value="<?php echo $valor; ?>"><?php echo $nome; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="filter-group small">
+                                    <div class="filter-label">
+                                        <i class="fas fa-user"></i>
+                                        <span>Paciente:</span>
+                                    </div>
+                                    <select id="paciente-historico" class="filter-select">
+                                        <option value="">Todos</option>
+                                        <?php foreach ($pacientesAtivos as $p): ?>
+                                            <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['nome']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="filter-actions">
+                                    <button class="btn-filter" id="btn-filtrar-historico">
+                                        <i class="fas fa-filter"></i> Filtrar
+                                    </button>
+                                    <button class="btn-clear" id="btn-limpar-historico">
+                                        <i class="fas fa-eraser"></i> Limpar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    <?php else: ?>
+
                         <div class="table-wrapper">
-                            <table class="patients-table">
+                            <table class="historico-table">
                                 <thead>
                                     <tr>
+                                        <th>Data</th>
                                         <th>Paciente</th>
-                                        <th>Idade</th>
-                                        <th>Responsável</th>
-                                        <th>Contato</th>
-                                        <th>Cadastro</th>
+                                        <th>Terapia</th>
+                                        <th>Profissional</th>
+                                        <th>Resumo</th>
+                                        <th>Turno</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach ($pacientesFiltrados as $paciente): ?>
+                                <tbody id="historico-table-body">
                                     <tr>
-                                        <td>
-                                            <div class="patient-cell">
-                                                <div class="patient-avatar-small">
-                                                    <?php if (!empty($paciente['foto'])): ?>
-                                                        <img src="<?php echo $paciente['foto']; ?>" alt="<?php echo htmlspecialchars($paciente['nome']); ?>">
-                                                    <?php else: ?>
-                                                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente['nome']); ?>&background=random" alt="">
-                                                    <?php endif; ?>
-                                                </div>
-                                                <div class="patient-name">
-                                                    <strong><?php echo htmlspecialchars($paciente['nome']); ?></strong>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><?php echo $paciente['idade']; ?></td>
-                                        <td><?php echo htmlspecialchars($paciente['responsavel']); ?></td>
-                                        <td><?php echo htmlspecialchars($paciente['telefone']); ?></td>
-                                        <td>
-                                            <?php 
-                                            if (!empty($paciente['data_cadastro'])) {
-                                                echo date('d/m/Y', strtotime($paciente['data_cadastro']));
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="?paciente_id=<?php echo $paciente['id']; ?>" 
-                                               class="btn-action view" 
-                                               style="text-decoration: none; padding: 8px 16px; background: #10b981; color: white; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px;">
-                                                <i class="fas fa-plus"></i> Nova Evolução
-                                            </a>
+                                        <td colspan="7" class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <p>Carregando histórico...</p>
                                         </td>
                                     </tr>
-                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
-                    <?php endif; ?>
+
+                        <div class="pagination">
+                            <div class="pagination-info">
+                                <span>Total: <span id="historico-total">0</span> evoluções</span>
+                            </div>
+                            <div class="pagination-controls" id="historico-pagination"></div>
+                        </div>
+                    </div>
                 </div>
 
             <?php else: ?>
@@ -379,28 +541,35 @@ $turnos = ['Manhã', 'Tarde'];
                 
                 <!-- Breadcrumb -->
                 <div class="breadcrumb">
-                    <a href="painel_evolucoes.php">Evoluções</a> > 
+                    <a href="painel_evolucoes.php">Evoluções</a> <i class="fas fa-chevron-right"></i>
                     <span>Nova Evolução</span>
                 </div>
 
                 <!-- Título da Página -->
                 <h1 class="page-title">
                     <i class="fas fa-chart-line"></i>
-                    Nova Evolução - <?php echo htmlspecialchars($paciente_selecionado['nome'] ?? ''); ?>
+                    Nova Evolução
                 </h1>
 
                 <!-- Card de Identificação do Paciente -->
                 <div class="card-identificacao">
-                    <h2 class="section-title">
-                        <i class="fas fa-id-card"></i>
-                        Identificação do Paciente
-                    </h2>
+                    <div class="identificacao-header">
+                        <div class="identificacao-avatar">
+                            <?php if (!empty($paciente_selecionado['foto'])): ?>
+                                <img src="<?php echo $paciente_selecionado['foto']; ?>" alt="<?php echo htmlspecialchars($paciente_selecionado['nome'] ?? ''); ?>">
+                            <?php else: ?>
+                                <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente_selecionado['nome'] ?? 'Paciente'); ?>&background=random" alt="">
+                            <?php endif; ?>
+                        </div>
+                        <div class="identificacao-titulo">
+                            <h3><?php echo htmlspecialchars($paciente_selecionado['nome'] ?? ''); ?></h3>
+                            <span><i class="fas fa-calendar-alt"></i> <?php echo $paciente_selecionado['idade'] ?? ''; ?></span>
+                        </div>
+                    </div>
                     
                     <div class="identificacao-content">
-                        <p><span class="label">Nome:</span> <?php echo htmlspecialchars($paciente_selecionado['nome'] ?? ''); ?></p>
-                        <p><span class="label">Idade:</span> <?php echo $paciente_selecionado['idade'] ?? ''; ?></p>
-                        <p><span class="label">Responsável:</span> <?php echo htmlspecialchars($paciente_selecionado['responsavel'] ?? ''); ?></p>
-                        <p><span class="label">Contato:</span> <?php echo htmlspecialchars($paciente_selecionado['telefone'] ?? ''); ?></p>
+                        <p><i class="fas fa-user-tie"></i> <span class="label">Responsável:</span> <?php echo htmlspecialchars($paciente_selecionado['responsavel'] ?? ''); ?></p>
+                        <p><i class="fas fa-phone"></i> <span class="label">Contato:</span> <?php echo htmlspecialchars($paciente_selecionado['telefone'] ?? ''); ?></p>
                     </div>
                 </div>
 
@@ -418,12 +587,16 @@ $turnos = ['Manhã', 'Tarde'];
                         
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label" for="data_sessao">Data da Sessão:</label>
+                                <label class="form-label" for="data_sessao">
+                                    <i class="fas fa-calendar-day"></i> Data da Sessão:
+                                </label>
                                 <input type="date" id="data_sessao" name="data_sessao" class="form-input" value="<?php echo $data_atual; ?>" required>
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label" for="turno">Turno:</label>
+                                <label class="form-label" for="turno">
+                                    <i class="fas fa-sun"></i> Turno:
+                                </label>
                                 <select id="turno" name="turno" class="form-input" required>
                                     <option value="">Selecione o turno</option>
                                     <?php foreach ($turnos as $turno): ?>
@@ -433,17 +606,23 @@ $turnos = ['Manhã', 'Tarde'];
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label" for="horario_inicio">Horário Início:</label>
+                                <label class="form-label" for="horario_inicio">
+                                    <i class="fas fa-clock"></i> Horário Início:
+                                </label>
                                 <input type="time" id="horario_inicio" name="horario_inicio" class="form-input" required>
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label" for="horario_fim">Horário Fim:</label>
+                                <label class="form-label" for="horario_fim">
+                                    <i class="fas fa-clock"></i> Horário Fim:
+                                </label>
                                 <input type="time" id="horario_fim" name="horario_fim" class="form-input" required>
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label" for="terapia">Terapia:</label>
+                                <label class="form-label" for="terapia">
+                                    <i class="fas fa-stethoscope"></i> Terapia:
+                                </label>
                                 <select id="terapia" name="terapia" class="form-input" required>
                                     <option value="">Selecione a terapia</option>
                                     <?php foreach ($terapias as $valor => $nome): ?>
@@ -460,7 +639,7 @@ $turnos = ['Manhã', 'Tarde'];
                             <i class="fas fa-heartbeat"></i>
                             Condição Apresentada no Atendimento
                         </h2>
-                        <textarea class="form-textarea" name="condicao" placeholder="Descrever brevemente o estado geral, comportamento, queixas, respostas etiológicas ou físicas observadas durante a sessão..."></textarea>
+                        <textarea class="form-textarea" name="condicao" placeholder="Descrever brevemente o estado geral, comportamento, queixas, respostas emocionais ou físicas observadas durante a sessão..."></textarea>
                     </div>
 
                     <!-- Materiais e Recursos -->
@@ -487,7 +666,7 @@ $turnos = ['Manhã', 'Tarde'];
                             <i class="fas fa-chart-line"></i>
                             Descrição da Evolução e Intervenções Realizadas
                         </h2>
-                        <textarea class="form-textarea" name="descricao" placeholder="Relatar desfechos relevantes e que foi realizado, respectando os requisitos, progresso observados, dificuldades correntes..."></textarea>
+                        <textarea class="form-textarea" name="descricao" placeholder="Relatar desfechos relevantes do que foi realizado, progressos observados, dificuldades encontradas..."></textarea>
                     </div>
 
                     <!-- Observações Complementares -->
@@ -496,7 +675,7 @@ $turnos = ['Manhã', 'Tarde'];
                             <i class="fas fa-sticky-note"></i>
                             Observações Complementares
                         </h2>
-                        <textarea class="form-textarea" name="observacoes" placeholder="..."></textarea>
+                        <textarea class="form-textarea" name="observacoes" placeholder="Informações adicionais relevantes..."></textarea>
                     </div>
 
                     <!-- Anexos -->
@@ -521,14 +700,14 @@ $turnos = ['Manhã', 'Tarde'];
 
                     <!-- Rodapé do Formulário -->
                     <div class="form-footer">
-                        <span class="clinic-label">CLÍNICA</span>
+                        <span class="clinic-label">CLÍNICA ESTRELA</span>
                         <div class="action-buttons">
                             <button type="submit" class="btn-save">
                                 <i class="fas fa-save"></i> Salvar Evolução
                             </button>
-                            <button type="button" class="btn-cancel" onclick="window.location.href='painel_evolucoes.php'">
-                                Cancelar
-                            </button>
+                            <a href="painel_evolucoes.php" class="btn-cancel">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -537,5 +716,30 @@ $turnos = ['Manhã', 'Tarde'];
     </div>
 
     <script src="../../js/dashboard/clinica/painel_evolucoes.js"></script>
+    
+    <script>
+        // Função para ver histórico de um paciente específico
+        function verHistoricoPaciente(pacienteId, pacienteNome) {
+            // Ativar a aba de histórico
+            const historicoTab = document.querySelector('.evolution-tab[data-tab="historico"]');
+            if (historicoTab) {
+                historicoTab.click();
+                
+                // Selecionar o paciente no filtro
+                setTimeout(() => {
+                    const selectPaciente = document.getElementById('paciente-historico');
+                    if (selectPaciente) {
+                        selectPaciente.value = pacienteId;
+                        
+                        // Disparar o clique no botão filtrar
+                        const btnFiltrar = document.getElementById('btn-filtrar-historico');
+                        if (btnFiltrar) {
+                            btnFiltrar.click();
+                        }
+                    }
+                }, 100);
+            }
+        }
+    </script>
 </body>
 </html>

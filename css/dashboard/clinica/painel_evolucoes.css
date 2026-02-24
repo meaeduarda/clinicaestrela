@@ -1,101 +1,501 @@
-/* ===== PAINEL EVOLUÇÕES - ESTILOS ESPECÍFICOS ===== */
-
-/* Cards de estatísticas */
+/* Cards de estatísticas (KPI) */
 .stats-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
     margin-bottom: 24px;
 }
 
 .stat-card {
     background: white;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 16px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     border-left: 4px solid;
-    min-height: 100px;
+    min-height: 110px;
 }
 
 .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-.stat-card.blue { border-left-color: #3b82f6; }
-.stat-card.green { border-left-color: #10b981; }
-.stat-card.purple { border-left-color: #8b5cf6; }
+.stat-card.blue { border-left-color: #3b82f6; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); }
+.stat-card.green { border-left-color: #10b981; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); }
+.stat-card.purple { border-left-color: #8b5cf6; background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%); }
+.stat-card.orange { border-left-color: #f59e0b; background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%); }
 
 .stat-card .stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
+    margin-right: 16px;
     flex-shrink: 0;
+    font-size: 24px;
 }
 
 .stat-card.blue .stat-icon {
-    background-color: #eff6ff;
+    background-color: #dbeafe;
     color: #3b82f6;
 }
 
 .stat-card.green .stat-icon {
-    background-color: #f0fdf4;
+    background-color: #d1fae5;
     color: #10b981;
 }
 
 .stat-card.purple .stat-icon {
-    background-color: #f5f3ff;
+    background-color: #ede9fe;
     color: #8b5cf6;
 }
 
-.stat-card .stat-icon i {
-    font-size: 18px;
+.stat-card.orange .stat-icon {
+    background-color: #fed7aa;
+    color: #f59e0b;
 }
 
 .stat-card .stat-content h3 {
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.stat-card .stat-content p {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Tabs de navegação */
+.evolution-tabs {
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.evolution-tab {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.evolution-tab i {
+    font-size: 16px;
+}
+
+.evolution-tab:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.evolution-tab.active {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Filtros - estilo igual ao plano terapêutico */
+.evolution-filters {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filters-left {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    width: 100%;
+    max-width: 900px; 
+}
+
+.filter-group.small {
+    min-width: 150px;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #1e293b;
+    font-weight: 600;
+    white-space: nowrap;
+    height: 44px;
+    background: transparent;
+    padding: 0;
+    margin-left: 0; 
+    min-width: 90px; 
+}
+
+.filter-label i {
+    color: #3b82f6;
+    font-size: 14px;
+}
+
+.filter-input {
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.filter-select {
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    background: #f8fafc;
+    cursor: pointer;
+    width: 100%;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.btn-filter {
+    padding: 0 20px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    min-width: 100px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.btn-filter:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59,130,246,0.3);
+}
+
+.btn-clear {
+    padding: 10px 20px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-clear:hover {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+/* Cards de pacientes (modo lista) */
+.patients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.patient-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #eef2f6;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
+}
+
+.patient-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.patient-card:hover::before {
+    opacity: 1;
+}
+
+.patient-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.patient-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.patient-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.patient-info {
+    flex: 1;
+}
+
+.patient-name {
+    font-size: 18px;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 4px;
 }
 
-.stat-card .stat-content p {
+.patient-age {
     font-size: 13px;
     color: #64748b;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-/* Card de identificação */
-.card-identificacao {
+.patient-age i {
+    font-size: 12px;
+    color: #3b82f6;
+}
+
+.patient-details {
     background: #f8fafc;
     border-radius: 12px;
-    padding: 20px;
+    padding: 12px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.patient-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.patient-detail-item i {
+    width: 16px;
+    color: #3b82f6;
+    font-size: 14px;
+}
+
+.patient-detail-item strong {
+    color: #1e293b;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.patient-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-card-action {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-card-action.primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-card-action.primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59,130,246,0.3);
+}
+
+.btn-card-action.secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-card-action.secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Card de identificação do paciente (modo formulário) */
+.card-identificacao {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    padding: 24px;
     margin-bottom: 24px;
     border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.identificacao-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.identificacao-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.identificacao-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.identificacao-titulo h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.identificacao-titulo span {
+    font-size: 14px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .identificacao-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 12px;
+    gap: 15px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
 }
 
 .identificacao-content p {
     color: #334155;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
 }
 
 .identificacao-content .label {
     font-weight: 600;
     color: #1e293b;
-    margin-right: 8px;
+    min-width: 90px;
+}
+
+.identificacao-content i {
+    color: #3b82f6;
+    width: 16px;
 }
 
 /* Grid para os campos do formulário */
@@ -114,13 +514,23 @@
 .form-label {
     font-weight: 600;
     color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.form-label i {
+    color: #3b82f6;
     font-size: 14px;
 }
 
 .form-input {
-    padding: 10px 12px;
+    padding: 12px 14px;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     color: #1e293b;
@@ -149,21 +559,24 @@
 .section-title i {
     color: #3b82f6;
     font-size: 20px;
+    background: #eff6ff;
+    padding: 6px;
+    border-radius: 8px;
 }
 
-/* Formulário */
+/* Formulário de evolução */
 .evolution-form {
     background: white;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     margin-top: 20px;
 }
 
 .form-section {
-    margin-bottom: 28px;
+    margin-bottom: 30px;
     border-bottom: 1px solid #eef2f6;
-    padding-bottom: 20px;
+    padding-bottom: 25px;
 }
 
 .form-section:last-child {
@@ -175,10 +588,10 @@
 /* Textareas */
 .form-textarea {
     width: 100%;
-    min-height: 100px;
+    min-height: 120px;
     padding: 16px;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    border-radius: 12px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     line-height: 1.6;
@@ -203,25 +616,25 @@
 /* Anexos */
 .anexos-container {
     background: #f8fafc;
-    border-radius: 10px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 20px;
 }
 
 .anexar-link {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 0;
+    padding: 10px 0;
     color: #3b82f6;
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
     border-bottom: 1px dashed #e2e8f0;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .anexar-link i {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .anexar-link a {
@@ -236,17 +649,17 @@
 .anexos-lista {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .anexo-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
+    padding: 10px 15px;
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
     color: #334155;
 }
@@ -254,12 +667,12 @@
 .anexo-item .anexo-nome {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .anexo-item .anexo-nome i {
     color: #ef4444;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .anexo-item .btn-remover-anexo {
@@ -277,9 +690,13 @@
 
 /* Breadcrumb */
 .breadcrumb {
-    margin: 16px 0 20px;
+    margin: 0 0 20px 0;
     color: #64748b;
     font-size: 14px;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .breadcrumb a {
@@ -297,6 +714,12 @@
     font-weight: 600;
 }
 
+.breadcrumb i {
+    margin: 0 8px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
 /* Título da página */
 .page-title {
     font-size: 28px;
@@ -305,43 +728,43 @@
     margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .page-title i {
     color: #3b82f6;
     background: #eff6ff;
-    padding: 8px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 12px;
     font-size: 24px;
 }
 
 /* Botões */
 .action-buttons {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     align-items: center;
 }
 
 .btn-save {
-    padding: 12px 30px;
+    padding: 14px 35px;
     background: #10b981;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     transition: all 0.2s;
 }
 
 .btn-save:hover {
     background: #059669;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
 }
 
 .btn-save i {
@@ -349,15 +772,19 @@
 }
 
 .btn-cancel {
-    padding: 12px 30px;
+    padding: 14px 35px;
     background: #f1f5f9;
     color: #64748b;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-cancel:hover {
@@ -372,7 +799,7 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 30px;
-    padding-top: 20px;
+    padding-top: 25px;
     border-top: 2px solid #eef2f6;
 }
 
@@ -383,138 +810,206 @@
     letter-spacing: 0.5px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .clinic-label::before {
     content: "★";
-    font-size: 18px;
+    font-size: 20px;
 }
 
-/* Tabela de pacientes */
-.patients-table-container {
+/* Tabela de histórico */
+.historico-container {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     margin-top: 20px;
 }
 
-.table-header {
+.historico-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-.table-header h3 {
-    font-size: 18px;
+.historico-header h3 {
+    font-size: 20px;
     font-weight: 600;
     color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.table-wrapper {
-    overflow-x: auto;
+.historico-header h3 i {
+    color: #3b82f6;
 }
 
-.patients-table {
+.historico-filters-advanced {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.historico-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.patients-table th {
+.historico-table th {
     text-align: left;
-    padding: 12px 16px;
+    padding: 15px 16px;
     background-color: #f8fafc;
-    color: #64748b;
+    color: #475569;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     border-bottom: 2px solid #e2e8f0;
 }
 
-.patients-table td {
+.historico-table td {
     padding: 16px;
     border-bottom: 1px solid #f1f5f9;
     color: #334155;
+    font-size: 14px;
+    vertical-align: middle;
 }
 
-.patient-cell {
-    display: flex;
+.historico-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.historico-table .badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-aba { background: #dbeafe; color: #1e40af; }
+.badge-fono { background: #d1fae5; color: #065f46; }
+.badge-to { background: #fed7aa; color: #92400e; }
+.badge-psicologia { background: #e9d5ff; color: #6b21a8; }
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    text-decoration: none;
 }
 
-.patient-avatar-small {
+.btn-icon:hover {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.btn-icon.danger:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+}
+
+/* Paginação */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.pagination-info {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-btn {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #f1f5f9;
-    flex-shrink: 0;
-}
-
-.patient-avatar-small img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.patient-name {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.patient-name strong {
-    font-weight: 600;
-    color: #1e293b;
+.pagination-btn:hover:not(:disabled) {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
 }
 
-.no-results {
+.pagination-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Loading e estados vazios */
+.loading-spinner {
     text-align: center;
     padding: 60px 20px;
     color: #64748b;
 }
 
-.no-results i {
+.loading-spinner i {
     font-size: 48px;
     margin-bottom: 16px;
+    color: #3b82f6;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #64748b;
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 20px;
     color: #cbd5e1;
 }
 
-/* Filtros */
-.plan-filters {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+.empty-state h4 {
+    font-size: 20px;
+    color: #1e293b;
+    margin-bottom: 10px;
 }
 
-.filters-left {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: center;
-}
-
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.filter-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.empty-state p {
     font-size: 14px;
-    color: #475569;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.filter-label i {
-    color: #3b82f6;
+    color: #64748b;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 /* Responsividade */
@@ -522,6 +1017,47 @@
     .stats-cards {
         grid-template-columns: 1fr;
         gap: 12px;
+    }
+    
+    .evolution-tabs {
+        flex-direction: column;
+    }
+    
+    .evolution-tab {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .filters-left {
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+    }
+    
+    .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    max-width: 800px; 
+    width: 100%;
+    }
+
+    .filter-actions {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .btn-filter, .btn-clear {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .patients-grid {
+        grid-template-columns: 1fr;
     }
     
     .form-grid {
@@ -544,22 +1080,37 @@
         flex-direction: column;
     }
     
-    .btn-save,
-    .btn-cancel {
+    .btn-save, .btn-cancel {
         width: 100%;
         justify-content: center;
     }
     
     .evolution-form {
-        padding: 16px;
+        padding: 20px;
     }
     
-    .filters-left {
+    .historico-header {
         flex-direction: column;
-        align-items: stretch;
+        gap: 15px;
+        align-items: flex-start;
     }
     
-    .filter-group {
+    .historico-filters-advanced {
         width: 100%;
+        flex-direction: column;
+    }
+    
+    .pagination {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .historico-table {
+        min-width: 900px;
     }
 }
