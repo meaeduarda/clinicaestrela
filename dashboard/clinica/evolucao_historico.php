@@ -8,6 +8,13 @@ if (!isset($_SESSION['usuario_id'])) {
     exit();
 }
 
+// Dados dinâmicos da sessão
+$nomeLogado = $_SESSION['usuario_nome'] ?? 'Maria Eduarda';
+$perfilLogado = $_SESSION['usuario_perfil'] ?? 'Admin';
+
+// Pega o nome do arquivo atual para o menu ativo
+$pagina_atual = basename($_SERVER['PHP_SELF']);
+
 // Dados do paciente
 $paciente_id = isset($_GET['paciente_id']) ? $_GET['paciente_id'] : '';
 $paciente_nome = isset($_GET['paciente_nome']) ? urldecode($_GET['paciente_nome']) : '';
@@ -24,6 +31,24 @@ $terapeuta = isset($_GET['terapeuta']) ? $_GET['terapeuta'] : '';
 $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $itens_por_pagina = 10;
 $offset = ($pagina - 1) * $itens_por_pagina;
+
+// ===== LEITURA DE VISITAS AGENDADAS NÃO CONFIRMADAS =====
+$arquivoVisitas = __DIR__ . '/../../dashboard/dados/dados_visita_agendamento.json';
+$totalVisitasNaoConfirmadas = 0;
+
+if (file_exists($arquivoVisitas)) {
+    $conteudoVisitas = file_get_contents($arquivoVisitas);
+    if (!empty($conteudoVisitas)) {
+        $agendamentos = json_decode($conteudoVisitas, true);
+        if (is_array($agendamentos)) {
+            foreach ($agendamentos as $agendamento) {
+                if (isset($agendamento['confirmado']) && $agendamento['confirmado'] === false) {
+                    $totalVisitasNaoConfirmadas++;
+                }
+            }
+        }
+    }
+}
 
 // Carregar evoluções
 $caminhoEvolucoes = __DIR__ . '/../../dashboard/dados/evolucoes.json';
@@ -107,379 +132,27 @@ function getTerapiaCor($terapia) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#3b82f6">
     <title>Histórico de Evoluções - <?php echo htmlspecialchars($paciente_nome); ?></title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/clinicaestrela/favicon/favicon-96x96.png" sizes="96x96">
 
-    <!-- Estilos CSS -->
+    <!-- Estilos CSS (mesmos do painel) -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_grade.css">
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_paciente.css">
+    <link rel="stylesheet" href="../../css/dashboard/clinica/painel_planoterapeutico.css">
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_evolucoes.css">
+    
+    <!-- CSS específico para o histórico -->
+    <link rel="stylesheet" href="../../css/dashboard/clinica/evolucao_historico.css">
     
     <!-- Font Awesome e Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Estilos específicos para o histórico */
-        .historico-paciente-header {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-        
-        .historico-paciente-nome {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .historico-paciente-info {
-            display: flex;
-            gap: 20px;
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .historico-paciente-info i {
-            margin-right: 8px;
-        }
-        
-        .historico-filters-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .historico-filters-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .historico-filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .historico-filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .historico-filter-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .historico-filter-input {
-            padding: 12px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            background: #f8fafc;
-        }
-        
-        .historico-filter-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: white;
-        }
-        
-        .historico-filter-actions {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-        }
-        
-        .historico-btn-filter {
-            padding: 12px 24px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            height: 46px;
-        }
-        
-        .historico-btn-clear {
-            padding: 12px 24px;
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            height: 46px;
-        }
-        
-        .evolucoes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .evolucao-card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eef2f6;
-            transition: all 0.3s ease;
-        }
-        
-        .evolucao-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
-        }
-        
-        .evolucao-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f1f5f9;
-        }
-        
-        .evolucao-data {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        .evolucao-terapia {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .evolucao-detalhes {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .evolucao-detalhe-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #475569;
-            font-size: 14px;
-        }
-        
-        .evolucao-detalhe-item i {
-            width: 20px;
-            color: #3b82f6;
-            font-size: 16px;
-        }
-        
-        .evolucao-detalhe-item strong {
-            color: #1e293b;
-            font-weight: 600;
-            margin-right: 5px;
-        }
-        
-        .evolucao-resumo {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 14px;
-            color: #334155;
-            line-height: 1.5;
-            border-left: 3px solid #3b82f6;
-        }
-        
-        .evolucao-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .evolucao-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            border: none;
-            text-decoration: none;
-        }
-        
-        .evolucao-btn-view {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .evolucao-btn-edit {
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .evolucao-btn-pdf {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .pagination-historico {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .pagination-info-historico {
-            color: #64748b;
-            font-size: 14px;
-        }
-        
-        .pagination-controls-historico {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .pagination-btn-historico {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #475569;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-        
-        .pagination-btn-historico:hover:not(.disabled) {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
-        }
-        
-        .pagination-btn-historico.active {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
-        }
-        
-        .pagination-btn-historico.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-        
-        .btn-voltar {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #f1f5f9;
-            color: #475569;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .btn-voltar:hover {
-            background: #e2e8f0;
-        }
-        
-        .empty-state-historico {
-            text-align: center;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 16px;
-            color: #64748b;
-        }
-        
-        .empty-state-historico i {
-            font-size: 64px;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-        }
-        
-        .empty-state-historico h3 {
-            font-size: 20px;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .historico-paciente-header {
-                padding: 20px;
-            }
-            
-            .historico-paciente-nome {
-                font-size: 22px;
-            }
-            
-            .historico-paciente-info {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .historico-filters-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .historico-filter-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .evolucoes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .pagination-historico {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="mobile-menu-toggle">
@@ -487,37 +160,98 @@ function getTerapiaCor($terapia) {
     </div>
 
     <div class="dashboard-container">
-        <!-- Sidebar (igual ao painel_evolucoes.php) -->
+        <!-- Sidebar COMPLETA (igual ao painel_evolucoes.php) -->
         <aside class="sidebar">
-            <!-- ... conteúdo da sidebar igual ao painel_evolucoes.php ... -->
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
+                </div>
+                <h1>Clinica Estrela</h1>
+                <div class="mobile-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <ul>
+                    <li><a href="painel_adm_pacientes.php"><i class="fas fa-user-check"></i> <span>Pacientes Ativos</span></a></li>
+                    <li><a href="painel_pacientes_pendentes.php"><i class="fas fa-users"></i> <span>Pacientes Pendentes</span></a></li>
+                    
+                    <?php if ($perfilLogado !== 'recepcionista'): ?>
+                        <li><a href="painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
+                        <li><a href="painel_planoterapeutico.php"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
+                        <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
+                        <li class="active"><a href="painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                    <?php endif; ?>
+                    
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
+                    <li><a href="visita_agendamento.php"><i class="fas fa-calendar-check"></i> <span>Visitas Agendadas</span></a></li>
+                    <li><a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a></li>
+                    <li><a href="login_cadastro_clinica.php"><i class="fas fa-user-plus"></i> <span>Adicionar Colaborador</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($nomeLogado); ?>&background=random" alt="<?php echo htmlspecialchars($nomeLogado); ?>">
+                </div>
+                <div class="user-details">
+                    <h3><?php echo htmlspecialchars($nomeLogado); ?></h3>
+                    <p><?php echo htmlspecialchars(ucfirst($perfilLogado)); ?></p>
+                </div>
+                <a href="logout.php" title="Sair" style="color: #ef4444; margin-left: 10px; text-decoration: none;">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
-            <div class="main-top">
+            <div class="main-top desktop-only">
                 <h2><i class="fas fa-history"></i> Histórico de Evoluções</h2>
+                <div class="top-icons">
+                    <a href="visita_agendamento.php" class="icon-btn with-badge" title="Visitas Agendadas não confirmadas">
+                        <i class="fas fa-calendar-check"></i>
+                        <?php if ($totalVisitasNaoConfirmadas > 0): ?>
+                            <span class="visitas-badge"><?php echo $totalVisitasNaoConfirmadas; ?></span>
+                        <?php endif; ?>
+                    </a>
+                    <div class="icon-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="icon-btn">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
             </div>
 
-            <!-- Botão Voltar -->
-            <a href="painel_evolucoes.php" class="btn-voltar">
-                <i class="fas fa-arrow-left"></i> Voltar para Lista de Pacientes
-            </a>
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-historico">
+                <a href="painel_evolucoes.php">Evoluções</a> <i class="fas fa-chevron-right"></i>
+                <span>Histórico de <?php echo htmlspecialchars($paciente_nome); ?></span>
+            </div>
 
-            <!-- Header do Paciente -->
-            <div class="historico-paciente-header">
-                <div class="historico-paciente-nome">
-                    <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($paciente_nome); ?>
+            <!-- Card de Identificação do Paciente (igual ao formulário) -->
+            <div class="card-identificacao-historico">
+                <div class="identificacao-header-historico">
+                    <div class="identificacao-avatar-historico">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($paciente_nome); ?>&background=3b82f6&color=fff" alt="<?php echo htmlspecialchars($paciente_nome); ?>">
+                    </div>
+                    <div class="identificacao-titulo-historico">
+                        <h3><?php echo htmlspecialchars($paciente_nome); ?></h3>
+                    </div>
                 </div>
-                <div class="historico-paciente-info">
-                    <span><i class="fas fa-user-tie"></i> Responsável: <?php echo htmlspecialchars($responsavel); ?></span>
-                    <span><i class="fas fa-phone"></i> <?php echo htmlspecialchars($telefone); ?></span>
+                
+                <div class="identificacao-content-historico">
+                    <p><i class="fas fa-user-tie"></i> <span class="label">Responsável:</span> <?php echo htmlspecialchars($responsavel ?: 'Não informado'); ?></p>
+                    <p><i class="fas fa-phone"></i> <span class="label">Contato:</span> <?php echo htmlspecialchars($telefone ?: 'Não informado'); ?></p>
                 </div>
             </div>
 
             <!-- Filtros -->
-            <div class="historico-filters-card">
-                <div class="historico-filters-title">
+            <div class="filters-card">
+                <div class="filters-title">
                     <i class="fas fa-filter"></i> Filtrar Evoluções
                 </div>
                 
@@ -527,20 +261,20 @@ function getTerapiaCor($terapia) {
                     <input type="hidden" name="responsavel" value="<?php echo htmlspecialchars($responsavel); ?>">
                     <input type="hidden" name="telefone" value="<?php echo htmlspecialchars($telefone); ?>">
                     
-                    <div class="historico-filters-grid">
-                        <div class="historico-filter-group">
-                            <label class="historico-filter-label">Data Início</label>
-                            <input type="date" name="data_inicio" class="historico-filter-input" value="<?php echo $data_inicio; ?>">
+                    <div class="filters-grid">
+                        <div class="filter-item">
+                            <label><i class="fas fa-calendar"></i> Data Início</label>
+                            <input type="date" name="data_inicio" value="<?php echo $data_inicio; ?>">
                         </div>
                         
-                        <div class="historico-filter-group">
-                            <label class="historico-filter-label">Data Fim</label>
-                            <input type="date" name="data_fim" class="historico-filter-input" value="<?php echo $data_fim; ?>">
+                        <div class="filter-item">
+                            <label><i class="fas fa-calendar"></i> Data Fim</label>
+                            <input type="date" name="data_fim" value="<?php echo $data_fim; ?>">
                         </div>
                         
-                        <div class="historico-filter-group">
-                            <label class="historico-filter-label">Terapia</label>
-                            <select name="terapia" class="historico-filter-input">
+                        <div class="filter-item">
+                            <label><i class="fas fa-stethoscope"></i> Terapia</label>
+                            <select name="terapia">
                                 <option value="">Todas</option>
                                 <?php foreach ($terapias as $valor => $nome): ?>
                                     <option value="<?php echo $valor; ?>" <?php echo $terapia == $valor ? 'selected' : ''; ?>>
@@ -550,16 +284,16 @@ function getTerapiaCor($terapia) {
                             </select>
                         </div>
                         
-                        <div class="historico-filter-group">
-                            <label class="historico-filter-label">Terapeuta</label>
-                            <input type="text" name="terapeuta" class="historico-filter-input" placeholder="Nome do terapeuta" value="<?php echo htmlspecialchars($terapeuta); ?>">
+                        <div class="filter-item">
+                            <label><i class="fas fa-user-md"></i> Terapeuta</label>
+                            <input type="text" name="terapeuta" placeholder="Nome do terapeuta" value="<?php echo htmlspecialchars($terapeuta); ?>">
                         </div>
                         
-                        <div class="historico-filter-actions">
-                            <button type="submit" class="historico-btn-filter">
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-filter">
                                 <i class="fas fa-search"></i> Filtrar
                             </button>
-                            <a href="evolucao_historico.php?paciente_id=<?php echo urlencode($paciente_id); ?>&paciente_nome=<?php echo urlencode($paciente_nome); ?>&responsavel=<?php echo urlencode($responsavel); ?>&telefone=<?php echo urlencode($telefone); ?>" class="historico-btn-clear">
+                            <a href="evolucao_historico.php?paciente_id=<?php echo urlencode($paciente_id); ?>&paciente_nome=<?php echo urlencode($paciente_nome); ?>&responsavel=<?php echo urlencode($responsavel); ?>&telefone=<?php echo urlencode($telefone); ?>" class="btn-clear-filter">
                                 <i class="fas fa-times"></i> Limpar
                             </a>
                         </div>
@@ -569,7 +303,7 @@ function getTerapiaCor($terapia) {
 
             <!-- Lista de Evoluções -->
             <?php if (empty($evolucoes_paginadas)): ?>
-                <div class="empty-state-historico">
+                <div class="empty-state">
                     <i class="fas fa-history"></i>
                     <h3>Nenhuma evolução encontrada</h3>
                     <p>Não há registros de evoluções para este paciente com os filtros selecionados.</p>
@@ -584,18 +318,20 @@ function getTerapiaCor($terapia) {
                         ?>
                         <div class="evolucao-card">
                             <div class="evolucao-header">
-                                <span class="evolucao-data"><?php echo $data_formatada; ?></span>
-                                <span class="evolucao-terapia" style="background-color: <?php echo $cor_terapia; ?>">
+                                <span class="evolucao-data">
+                                    <i class="fas fa-calendar-alt"></i> <?php echo $data_formatada; ?>
+                                </span>
+                                <span class="evolucao-terapia-badge" style="background-color: <?php echo $cor_terapia; ?>">
                                     <?php echo $evolucao['terapia']; ?>
                                 </span>
                             </div>
                             
                             <div class="evolucao-detalhes">
-                                <div class="evolucao-detalhe-item">
+                                <div class="evolucao-detalhe">
                                     <i class="fas fa-user-md"></i>
                                     <span><strong>Terapeuta:</strong> <?php echo htmlspecialchars($evolucao['terapeuta']); ?></span>
                                 </div>
-                                <div class="evolucao-detalhe-item">
+                                <div class="evolucao-detalhe">
                                     <i class="fas fa-clock"></i>
                                     <span><strong>Sessão:</strong> <?php echo $evolucao['horario_inicio']; ?> - <?php echo $evolucao['horario_fim']; ?> (<?php echo $evolucao['turno']; ?>)</span>
                                 </div>
@@ -607,13 +343,13 @@ function getTerapiaCor($terapia) {
                             </div>
                             
                             <div class="evolucao-actions">
-                                <a href="evolucao_visualizar.php?id=<?php echo $evolucao['id']; ?>" class="evolucao-btn evolucao-btn-view">
+                                <a href="#" class="btn-evolucao btn-evolucao-view" onclick="visualizarEvolucao(<?php echo $evolucao['id']; ?>)">
                                     <i class="fas fa-eye"></i> Visualizar
                                 </a>
-                                <a href="evolucao_editar.php?id=<?php echo $evolucao['id']; ?>" class="evolucao-btn evolucao-btn-edit">
+                                <a href="#" class="btn-evolucao btn-evolucao-edit" onclick="editarEvolucao(<?php echo $evolucao['id']; ?>)">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <a href="evolucao_pdf.php?id=<?php echo $evolucao['id']; ?>" class="evolucao-btn evolucao-btn-pdf" target="_blank">
+                                <a href="#" class="btn-evolucao btn-evolucao-pdf" onclick="gerarPDF(<?php echo $evolucao['id']; ?>)">
                                     <i class="fas fa-file-pdf"></i> PDF
                                 </a>
                             </div>
@@ -624,10 +360,10 @@ function getTerapiaCor($terapia) {
                 <!-- Paginação -->
                 <?php if ($total_paginas > 1): ?>
                     <div class="pagination-historico">
-                        <div class="pagination-info-historico">
+                        <div class="pagination-info">
                             Mostrando <?php echo $offset + 1; ?> - <?php echo min($offset + $itens_por_pagina, $total_evolucoes); ?> de <?php echo $total_evolucoes; ?> evoluções
                         </div>
-                        <div class="pagination-controls-historico">
+                        <div class="pagination-controls">
                             <?php
                             $url_base = "evolucao_historico.php?paciente_id=" . urlencode($paciente_id) . 
                                        "&paciente_nome=" . urlencode($paciente_nome) . 
@@ -639,27 +375,27 @@ function getTerapiaCor($terapia) {
                                        ($terapeuta ? "&terapeuta=" . urlencode($terapeuta) : "");
                             ?>
                             
-                            <a href="<?php echo $url_base; ?>&pagina=1" class="pagination-btn-historico <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                            <a href="<?php echo $url_base; ?>&pagina=1" class="pagination-btn <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
                                 <i class="fas fa-angle-double-left"></i>
                             </a>
                             
-                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $pagina - 1; ?>" class="pagination-btn-historico <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $pagina - 1; ?>" class="pagination-btn <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
                                 <i class="fas fa-angle-left"></i>
                             </a>
                             
                             <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
                                 <?php if ($i >= $pagina - 2 && $i <= $pagina + 2): ?>
-                                    <a href="<?php echo $url_base; ?>&pagina=<?php echo $i; ?>" class="pagination-btn-historico <?php echo $i == $pagina ? 'active' : ''; ?>">
+                                    <a href="<?php echo $url_base; ?>&pagina=<?php echo $i; ?>" class="pagination-btn <?php echo $i == $pagina ? 'active' : ''; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 <?php endif; ?>
                             <?php endfor; ?>
                             
-                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $pagina + 1; ?>" class="pagination-btn-historico <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $pagina + 1; ?>" class="pagination-btn <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                             
-                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $total_paginas; ?>" class="pagination-btn-historico <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                            <a href="<?php echo $url_base; ?>&pagina=<?php echo $total_paginas; ?>" class="pagination-btn <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
                                 <i class="fas fa-angle-double-right"></i>
                             </a>
                         </div>
@@ -688,6 +424,19 @@ function getTerapiaCor($terapia) {
                 });
             }
         });
+
+        // Funções para ações (placeholder)
+        function visualizarEvolucao(id) {
+            alert('Visualizar evolução ID: ' + id);
+        }
+
+        function editarEvolucao(id) {
+            alert('Editar evolução ID: ' + id);
+        }
+
+        function gerarPDF(id) {
+            alert('Gerar PDF da evolução ID: ' + id);
+        }
     </script>
 </body>
 </html>
