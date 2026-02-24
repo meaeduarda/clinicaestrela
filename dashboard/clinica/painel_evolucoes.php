@@ -435,7 +435,7 @@ if (file_exists($arquivoVisitas)) {
                                         <a href="?paciente_id=<?php echo $paciente['id']; ?>" class="btn-card-action primary">
                                             <i class="fas fa-plus"></i> Nova Evolução
                                         </a>
-                                        <button class="btn-card-action secondary" onclick="verHistoricoPaciente('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars($paciente['nome']); ?>')">
+                                        <button class="btn-card-action secondary" onclick="window.location.href='evolucao_historico.php?paciente_id=<?php echo $paciente['id']; ?>&paciente_nome=<?php echo urlencode($paciente['nome']); ?>&responsavel=<?php echo urlencode($paciente['responsavel']); ?>&telefone=<?php echo urlencode($paciente['telefone']); ?>'">
                                             <i class="fas fa-history"></i> Histórico
                                         </button>
                                     </div>
