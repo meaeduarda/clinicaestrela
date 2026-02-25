@@ -244,7 +244,7 @@ if (file_exists($arquivoVisitas)) {
                     <?php endif; ?>
                     
                     <li <?php echo ($pagina_atual == 'painel_agenda.php') ? 'class="active"' : ''; ?>>
-                        <a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
+                        <a href="painel_agenda.php"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
                     </li>
                     
                     <li <?php echo ($pagina_atual == 'visita_agendamento.php') ? 'class="active"' : ''; ?>>
@@ -252,7 +252,7 @@ if (file_exists($arquivoVisitas)) {
                     </li>
                     
                     <li <?php echo ($pagina_atual == 'painel_salas.php') ? 'class="active"' : ''; ?>>
-                        <a href="#"><i class="fas fa-door-closed"></i> <span>Salas</span></a>
+                        <a href="painel_salas.php"><i class="fas fa-door-closed"></i> <span>Salas</span></a>
                     </li>
                     
                     <li <?php echo ($pagina_atual == 'login_cadastro_clinica.php') ? 'class="active"' : ''; ?>>

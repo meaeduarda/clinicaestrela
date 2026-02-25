@@ -1,0 +1,439 @@
+/* css/dashboard/clinica/painel_agenda.css */
+/* Estilos específicos para a página de agenda */
+
+/* Container principal da agenda */
+.agenda-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 24px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.agenda-container:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Cabeçalho da agenda */
+.agenda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.agenda-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.agenda-title h2 {
+    font-size: 1.5rem;
+    color: #1e293b;
+    margin: 0;
+    font-weight: 600;
+}
+
+.agenda-title i {
+    color: #3b82f6;
+    font-size: 2rem;
+}
+
+/* Ações da agenda */
+.agenda-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-agenda {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-agenda-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-agenda-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-agenda-secondary {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-agenda-secondary:hover {
+    background: #f1f5f9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Seletor de visualização */
+.view-selector {
+    display: flex;
+    gap: 4px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.view-option {
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: #64748b;
+}
+
+.view-option.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #3b82f6;
+}
+
+.view-option:hover:not(.active) {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+/* Container do Google Calendar */
+.google-calendar-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 65%; /* Proporção ideal para calendário */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.google-calendar-container:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+    border-color: #3b82f6;
+}
+
+.google-calendar-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 15px;
+}
+
+/* Instruções do calendário */
+.calendar-instructions {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-instructions h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+}
+
+.calendar-instructions h4 i {
+    color: #3b82f6;
+    font-size: 1.2rem;
+}
+
+.calendar-instructions ol {
+    margin: 0 0 15px 0;
+    padding-left: 24px;
+    color: #475569;
+}
+
+.calendar-instructions li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.calendar-instructions code {
+    background: #e2e8f0;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    color: #dc2626;
+    font-size: 0.9rem;
+    border: 1px solid #cbd5e1;
+}
+
+.calendar-instructions a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.calendar-instructions a:hover {
+    text-decoration: underline;
+}
+
+/* Listas de feriados e eventos */
+.feriados-lista, .eventos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feriados-lista li, .eventos-lista li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.feriados-lista li:hover, .eventos-lista li:hover {
+    background: #f8fafc;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+}
+
+.feriados-lista li:last-child, .eventos-lista li:last-child {
+    border-bottom: none;
+}
+
+.feriados-lista span:first-child, .eventos-lista span:first-child {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.feriados-lista span:last-child, .eventos-lista span:last-child {
+    color: #64748b;
+}
+
+/* Badge de visitas não confirmadas */
+.visitas-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+    animation: pulse 2s infinite;
+    border: 2px solid white;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.icon-btn.with-badge {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .agenda-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .agenda-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .view-selector {
+        flex: 1;
+    }
+    
+    .btn-agenda {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .agenda-container {
+        padding: 16px;
+    }
+    
+    .agenda-title h2 {
+        font-size: 1.2rem;
+    }
+    
+    .view-selector {
+        width: 100%;
+    }
+    
+    .view-option {
+        flex: 1;
+        text-align: center;
+        padding: 8px 4px;
+        font-size: 0.8rem;
+    }
+    
+    .btn-agenda {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .calendar-instructions {
+        padding: 16px;
+    }
+    
+    .calendar-instructions ol {
+        padding-left: 20px;
+    }
+    
+    .calendar-instructions code {
+        font-size: 0.8rem;
+        word-break: break-all;
+    }
+    
+    .google-calendar-container {
+        padding-bottom: 100%; /* Mais altura em mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .agenda-actions {
+        flex-direction: column;
+    }
+    
+    .view-selector {
+        order: -1;
+    }
+    
+    .agenda-title i {
+        font-size: 1.5rem;
+    }
+    
+    .btn-agenda {
+        width: 100%;
+    }
+}
+
+/* Modo escuro (opcional) */
+@media (prefers-color-scheme: dark) {
+    .agenda-container {
+        background: #1e293b;
+        border-color: #334155;
+    }
+    
+    .agenda-title h2 {
+        color: #f1f5f9;
+    }
+    
+    .calendar-instructions {
+        background: #0f172a;
+        border-color: #334155;
+    }
+    
+    .calendar-instructions h4 {
+        color: #f1f5f9;
+    }
+    
+    .calendar-instructions ol {
+        color: #cbd5e1;
+    }
+    
+    .calendar-instructions code {
+        background: #334155;
+        color: #f87171;
+        border-color: #475569;
+    }
+    
+    .view-selector {
+        background: #0f172a;
+        border-color: #334155;
+    }
+    
+    .view-option {
+        color: #94a3b8;
+    }
+    
+    .view-option.active {
+        background: #1e293b;
+        color: #60a5fa;
+    }
+    
+    .view-option:hover:not(.active) {
+        background: #334155;
+        color: #e2e8f0;
+    }
+    
+    .btn-agenda-secondary {
+        background: #1e293b;
+        border-color: #334155;
+        color: #cbd5e1;
+    }
+    
+    .btn-agenda-secondary:hover {
+        background: #334155;
+    }
+    
+    .feriados-lista span:first-child,
+    .eventos-lista span:first-child {
+        color: #f1f5f9;
+    }
+    
+    .feriados-lista span:last-child,
+    .eventos-lista span:last-child {
+        color: #94a3b8;
+    }
+    
+    .feriados-lista li:hover,
+    .eventos-lista li:hover {
+        background: #0f172a;
+    }
+}
