@@ -344,19 +344,6 @@ if (file_exists($arquivoVisitas)) {
                     <span>Evoluções</span>
                 </div>
 
-                <!-- Tabs de navegação -->
-                <div class="evolution-tabs">
-                    <button class="evolution-tab active" data-tab="lista">
-                        <i class="fas fa-list"></i> Lista de Pacientes
-                    </button>
-                    <button class="evolution-tab" data-tab="nova">
-                        <i class="fas fa-plus-circle"></i> Nova Evolução
-                    </button>
-                    <button class="evolution-tab" data-tab="historico">
-                        <i class="fas fa-history"></i> Histórico
-                    </button>
-                </div>
-
                 <!-- Container da Lista de Pacientes -->
                 <div id="lista-container" style="display: block;">
                     <!-- Filtros -->
