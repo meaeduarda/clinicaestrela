@@ -9,7 +9,8 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 // Configurações
-$uploadDir = __DIR__ . '/../../dashboard/uploads/arq_evolucoes/';
+//$uploadDir = __DIR__ . '/../../dashboard/uploads/arq_evolucoes/';
+$uploadDir = __DIR__ . '/../uploads/arq_evolucoes/';
 $dadosFile = __DIR__ . '/../../dashboard/dados/evolucao_pacientes.json';
 
 // Criar diretório de upload se não existir

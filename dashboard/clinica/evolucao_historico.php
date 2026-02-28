@@ -651,8 +651,8 @@ function contarAnexos($evolucao) {
                                 <a href="#" class="btn-evolucao btn-evolucao-view" onclick="visualizarEvolucao('<?php echo $evolucao['id']; ?>'); return false;">
                                     <i class="fas fa-eye"></i> Visualizar
                                 </a>
-                                <a href="#" class="btn-evolucao btn-evolucao-pdf" onclick="gerarPDF('<?php echo $evolucao['id']; ?>'); return false;">
-                                    <i class="fas fa-file-pdf"></i> PDF
+                                <a href="/clinicaestrela/dashboard/<?php echo $evolucao['anexos'][0]['caminho'] ?? '#'; ?>" target="_blank" class="btn-evolucao btn-evolucao-pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
                                 </a>
                             </div>
                         </div>
@@ -773,7 +773,7 @@ function contarAnexos($evolucao) {
                         <div class="anexo-item-modal">
                             <i class="fas ${icon}"></i>
                             <span class="anexo-nome">${anexo.nome_original || anexo.nome_arquivo}</span>
-                            <a href="../../${anexo.caminho}" target="_blank" class="anexo-link">
+                            <a href="/clinicaestrela//dashboard/${anexo.caminho}" target="_blank" class="anexo-link">
                                 <i class="fas fa-download"></i> Visualizar
                             </a>
                         </div>
