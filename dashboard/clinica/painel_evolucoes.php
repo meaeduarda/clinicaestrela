@@ -589,8 +589,8 @@ if (file_exists($caminhoEvolucoes)) {
                                         <a href="?paciente_id=<?php echo $paciente['id']; ?>" class="btn-card-action primary">
                                             <i class="fas fa-plus"></i> Nova Evolução
                                         </a>
-                                        <button class="btn-card-action secondary" onclick="window.location.href='evolucao_historico.php?paciente_id=<?php echo $paciente['id']; ?>&paciente_nome=<?php echo urlencode($paciente['nome']); ?>&responsavel=<?php echo urlencode($paciente['responsavel']); ?>&telefone=<?php echo urlencode($paciente['telefone']); ?>'">
-                                            <i class="fas fa-history"></i> Histórico
+                                        <button class="btn-card-action secondary" onclick="verHistoricoPaciente('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars($paciente['nome'], ENT_QUOTES); ?>')">
+                                        <i class="fas fa-history"></i> Histórico
                                         </button>
                                     </div>
                                 </div>
@@ -794,16 +794,19 @@ if (file_exists($caminhoEvolucoes)) {
             <?php endif; ?>
         </main>
     </div>
-
-    <script src="../../js/dashboard/clinica/painel_evolucoes.js"></script>
-    <script src="../../js/dashboard/clinica/evolucao_upload.js"></script>
+   
+    <script src="/clinicaestrela/dashboard/js/painel_evolucoes.js"></script>
+    <script src="/clinicaestrela/dashboard/js/evolucao_upload.js"></script>
     
     <script>
-        // Função para ver histórico de um paciente específico
-        function verHistoricoPaciente(pacienteId, pacienteNome) {
-            window.location.href = 'evolucao_historico.php?paciente_id=' + pacienteId + 
-                                  '&paciente_nome=' + encodeURIComponent(pacienteNome);
-        }
+    function verHistoricoPaciente(pacienteId, pacienteNome) {
+        var url = 'evolucao_historico.php?paciente_id=' + encodeURIComponent(pacienteId) + 
+                  '&paciente_nome=' + encodeURIComponent(pacienteNome) +
+                  '&responsavel=' + encodeURIComponent('<?php echo addslashes($paciente["responsavel"] ?? ""); ?>') +
+                  '&telefone=' + encodeURIComponent('<?php echo addslashes($paciente["telefone"] ?? ""); ?>');
+        window.location.href = url;
+    }
     </script>
+    
 </body>
 </html>
