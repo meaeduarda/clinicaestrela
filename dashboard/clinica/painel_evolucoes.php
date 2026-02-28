@@ -134,6 +134,23 @@ if (file_exists($arquivoVisitas)) {
         }
     }
 }
+
+// ===== CARREGAR ESTATÍSTICAS DE EVOLUÇÕES =====
+$caminhoEvolucoes = __DIR__ . '/../../dashboard/dados/evolucao_pacientes.json';
+$totalEvolucoesHoje = 0;
+$totalEvolucoesPendentes = 0;
+
+if (file_exists($caminhoEvolucoes)) {
+    $evolucoesJson = file_get_contents($caminhoEvolucoes);
+    $evolucoes = json_decode($evolucoesJson, true) ?: [];
+    
+    $dataHoje = date('Y-m-d');
+    foreach ($evolucoes as $evolucao) {
+        if (isset($evolucao['data_sessao']) && $evolucao['data_sessao'] === $dataHoje) {
+            $totalEvolucoesHoje++;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -193,6 +210,156 @@ if (file_exists($arquivoVisitas)) {
             position: relative;
             text-decoration: none;
             color: inherit;
+        }
+
+        /* Estilos para anexos */
+        .anexos-container {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .anexar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .anexar-link:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .anexar-link i {
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .anexar-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .anexar-link a:hover {
+            text-decoration: underline;
+        }
+
+        .anexos-lista {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .anexo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anexo-icon {
+            width: 36px;
+            height: 36px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+        }
+
+        .anexo-info {
+            flex: 1;
+        }
+
+        .anexo-nome {
+            font-weight: 500;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .anexo-tamanho {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .anexo-remove {
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 5px;
+        }
+
+        .anexo-remove:hover {
+            color: #ef4444;
+        }
+
+        /* Estilo para mensagens de feedback */
+        .alert-success, .alert-error {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .alert-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .loading-spinner i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -313,7 +480,7 @@ if (file_exists($arquivoVisitas)) {
                         <i class="fas fa-file-medical"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>0</h3>
+                        <h3><?php echo $totalEvolucoesHoje; ?></h3>
                         <p>Evoluções hoje</p>
                     </div>
                 </div>
@@ -331,14 +498,14 @@ if (file_exists($arquivoVisitas)) {
                         <i class="fas fa-history"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>0</h3>
-                        <p>Evoluções pendentes</p>
+                        <h3><?php echo count($pacientesAtivos); ?></h3>
+                        <p>Pacientes ativos</p>
                     </div>
                 </div>
             </div>
 
             <?php if (!$modo_formulario): ?>
-                <!-- ===== MODO LISTA / HISTÓRICO ===== -->
+                <!-- ===== MODO LISTA ===== -->
                 
                 <div class="breadcrumb">
                     <span>Evoluções</span>
@@ -432,99 +599,23 @@ if (file_exists($arquivoVisitas)) {
                     </div>
                 </div>
 
-                <!-- Container do Histórico (inicialmente oculto) -->
-                <div id="historico-container" style="display: none;">
-                    <div class="historico-container">
-                        <div class="historico-header">
-                            <h3>
-                                <i class="fas fa-history"></i>
-                                Histórico de Evoluções
-                            </h3>
-                            <div class="historico-filters-advanced">
-                                <div class="filter-group small">
-                                    <div class="filter-label">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>Data Início:</span>
-                                    </div>
-                                    <input type="date" id="data-inicio" class="filter-input">
-                                </div>
-                                <div class="filter-group small">
-                                    <div class="filter-label">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>Data Fim:</span>
-                                    </div>
-                                    <input type="date" id="data-fim" class="filter-input">
-                                </div>
-                                <div class="filter-group small">
-                                    <div class="filter-label">
-                                        <i class="fas fa-stethoscope"></i>
-                                        <span>Terapia:</span>
-                                    </div>
-                                    <select id="terapia-filtro" class="filter-select">
-                                        <option value="">Todas</option>
-                                        <?php foreach ($terapias as $valor => $nome): ?>
-                                            <option value="<?php echo $valor; ?>"><?php echo $nome; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="filter-group small">
-                                    <div class="filter-label">
-                                        <i class="fas fa-user"></i>
-                                        <span>Paciente:</span>
-                                    </div>
-                                    <select id="paciente-historico" class="filter-select">
-                                        <option value="">Todos</option>
-                                        <?php foreach ($pacientesAtivos as $p): ?>
-                                            <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['nome']); ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="filter-actions">
-                                    <button class="btn-filter" id="btn-filtrar-historico">
-                                        <i class="fas fa-filter"></i> Filtrar
-                                    </button>
-                                    <button class="btn-clear" id="btn-limpar-historico">
-                                        <i class="fas fa-eraser"></i> Limpar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="table-wrapper">
-                            <table class="historico-table">
-                                <thead>
-                                    <tr>
-                                        <th>Data</th>
-                                        <th>Paciente</th>
-                                        <th>Terapia</th>
-                                        <th>Profissional</th>
-                                        <th>Resumo</th>
-                                        <th>Turno</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="historico-table-body">
-                                    <tr>
-                                        <td colspan="7" class="loading-spinner">
-                                            <i class="fas fa-spinner fa-spin"></i>
-                                            <p>Carregando histórico...</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="pagination">
-                            <div class="pagination-info">
-                                <span>Total: <span id="historico-total">0</span> evoluções</span>
-                            </div>
-                            <div class="pagination-controls" id="historico-pagination"></div>
-                        </div>
-                    </div>
-                </div>
-
             <?php else: ?>
                 <!-- ===== MODO FORMULÁRIO ===== -->
+                
+                <!-- Mensagens de feedback -->
+                <?php if (isset($_GET['success'])): ?>
+                    <div class="alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <?php echo htmlspecialchars($_GET['success']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <?php echo htmlspecialchars($_GET['error']); ?>
+                    </div>
+                <?php endif; ?>
                 
                 <!-- Breadcrumb -->
                 <div class="breadcrumb">
@@ -562,8 +653,10 @@ if (file_exists($arquivoVisitas)) {
 
                 <!-- Formulário de Evolução -->
                 <form class="evolution-form" method="POST" action="salvar_evolucao.php" enctype="multipart/form-data">
-                    <input type="hidden" name="paciente_id" value="<?php echo $_GET['paciente_id']; ?>">
+                    <input type="hidden" name="paciente_id" value="<?php echo htmlspecialchars($_GET['paciente_id']); ?>">
                     <input type="hidden" name="paciente_nome" value="<?php echo htmlspecialchars($paciente_selecionado['nome'] ?? ''); ?>">
+                    <input type="hidden" name="responsavel" value="<?php echo htmlspecialchars($paciente_selecionado['responsavel'] ?? ''); ?>">
+                    <input type="hidden" name="telefone" value="<?php echo htmlspecialchars($paciente_selecionado['telefone'] ?? ''); ?>">
                     
                     <!-- Dados da Sessão -->
                     <div class="form-section">
@@ -653,7 +746,7 @@ if (file_exists($arquivoVisitas)) {
                             <i class="fas fa-chart-line"></i>
                             Descrição da Evolução e Intervenções Realizadas
                         </h2>
-                        <textarea class="form-textarea" name="descricao" placeholder="Relatar desfechos relevantes do que foi realizado, progressos observados, dificuldades encontradas..."></textarea>
+                        <textarea class="form-textarea" name="descricao" placeholder="Relatar desfechos relevantes do que foi realizado, progressos observados, dificuldades encontradas..." required></textarea>
                     </div>
 
                     <!-- Observações Complementares -->
@@ -703,29 +796,13 @@ if (file_exists($arquivoVisitas)) {
     </div>
 
     <script src="../../js/dashboard/clinica/painel_evolucoes.js"></script>
+    <script src="../../js/dashboard/clinica/evolucao_upload.js"></script>
     
     <script>
         // Função para ver histórico de um paciente específico
         function verHistoricoPaciente(pacienteId, pacienteNome) {
-            // Ativar a aba de histórico
-            const historicoTab = document.querySelector('.evolution-tab[data-tab="historico"]');
-            if (historicoTab) {
-                historicoTab.click();
-                
-                // Selecionar o paciente no filtro
-                setTimeout(() => {
-                    const selectPaciente = document.getElementById('paciente-historico');
-                    if (selectPaciente) {
-                        selectPaciente.value = pacienteId;
-                        
-                        // Disparar o clique no botão filtrar
-                        const btnFiltrar = document.getElementById('btn-filtrar-historico');
-                        if (btnFiltrar) {
-                            btnFiltrar.click();
-                        }
-                    }
-                }, 100);
-            }
+            window.location.href = 'evolucao_historico.php?paciente_id=' + pacienteId + 
+                                  '&paciente_nome=' + encodeURIComponent(pacienteNome);
         }
     </script>
 </body>

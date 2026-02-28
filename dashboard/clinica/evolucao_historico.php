@@ -27,6 +27,10 @@ $data_fim = isset($_GET['data_fim']) ? $_GET['data_fim'] : '';
 $terapia = isset($_GET['terapia']) ? $_GET['terapia'] : '';
 $terapeuta = isset($_GET['terapeuta']) ? $_GET['terapeuta'] : '';
 
+// Mensagens de feedback
+$success_message = isset($_GET['success']) ? $_GET['success'] : '';
+$error_message = isset($_GET['error']) ? $_GET['error'] : '';
+
 // Paginação
 $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $itens_por_pagina = 10;
@@ -50,8 +54,8 @@ if (file_exists($arquivoVisitas)) {
     }
 }
 
-// Carregar evoluções
-$caminhoEvolucoes = __DIR__ . '/../../dashboard/dados/evolucoes.json';
+// Carregar evoluções do arquivo correto
+$caminhoEvolucoes = __DIR__ . '/../../dashboard/dados/evolucao_pacientes.json';
 $evolucoes = [];
 
 if (file_exists($caminhoEvolucoes)) {
@@ -61,38 +65,40 @@ if (file_exists($caminhoEvolucoes)) {
 
 // Filtrar por paciente
 $evolucoes_paciente = array_filter($evolucoes, function($e) use ($paciente_id) {
-    return $e['paciente_id'] === $paciente_id;
+    return isset($e['paciente_id']) && $e['paciente_id'] === $paciente_id;
 });
 
 // Aplicar filtros adicionais
 if ($data_inicio) {
     $evolucoes_paciente = array_filter($evolucoes_paciente, function($e) use ($data_inicio) {
-        return $e['data_sessao'] >= $data_inicio;
+        return isset($e['data_sessao']) && $e['data_sessao'] >= $data_inicio;
     });
 }
 
 if ($data_fim) {
     $evolucoes_paciente = array_filter($evolucoes_paciente, function($e) use ($data_fim) {
-        return $e['data_sessao'] <= $data_fim;
+        return isset($e['data_sessao']) && $e['data_sessao'] <= $data_fim;
     });
 }
 
 if ($terapia) {
     $evolucoes_paciente = array_filter($evolucoes_paciente, function($e) use ($terapia) {
-        return $e['terapia'] === $terapia;
+        return isset($e['terapia']) && $e['terapia'] === $terapia;
     });
 }
 
 if ($terapeuta) {
     $evolucoes_paciente = array_filter($evolucoes_paciente, function($e) use ($terapeuta) {
-        return stripos($e['terapeuta'], $terapeuta) !== false;
+        return isset($e['terapeuta']) && stripos($e['terapeuta'], $terapeuta) !== false;
     });
 }
 
 // Reindexar e ordenar por data (mais recente primeiro)
 $evolucoes_paciente = array_values($evolucoes_paciente);
 usort($evolucoes_paciente, function($a, $b) {
-    return strtotime($b['data_sessao']) - strtotime($a['data_sessao']);
+    $dataA = isset($a['data_sessao']) ? strtotime($a['data_sessao']) : 0;
+    $dataB = isset($b['data_sessao']) ? strtotime($b['data_sessao']) : 0;
+    return $dataB - $dataA;
 });
 
 $total_evolucoes = count($evolucoes_paciente);
@@ -105,13 +111,24 @@ $terapias = [
     'Fonoaudiologia' => 'Fonoaudiologia',
     'Terapia Ocupacional' => 'Terapia Ocupacional',
     'Psicologia' => 'Psicologia',
+    'Psicopedagogia' => 'Psicopedagogia',
     'Fisioterapia' => 'Fisioterapia',
-    'Musicoterapia' => 'Musicoterapia'
+    'Musicoterapia' => 'Musicoterapia',
+    'Arteterapia' => 'Arteterapia',
+    'Equoterapia' => 'Equoterapia',
+    'Integração Sensorial' => 'Integração Sensorial',
+    'Neuropsicologia' => 'Neuropsicologia',
+    'Nutrição' => 'Nutrição'
 ];
 
 // Função para formatar data
 function formatarData($data) {
-    return date('d/m/Y', strtotime($data));
+    if (empty($data)) return 'Data não informada';
+    try {
+        return date('d/m/Y', strtotime($data));
+    } catch (Exception $e) {
+        return $data;
+    }
 }
 
 // Função para obter cor da terapia
@@ -121,10 +138,21 @@ function getTerapiaCor($terapia) {
         'Fonoaudiologia' => '#10b981',
         'Terapia Ocupacional' => '#f59e0b',
         'Psicologia' => '#8b5cf6',
+        'Psicopedagogia' => '#a855f7',
         'Fisioterapia' => '#ef4444',
-        'Musicoterapia' => '#ec4899'
+        'Musicoterapia' => '#ec4899',
+        'Arteterapia' => '#d946ef',
+        'Equoterapia' => '#84cc16',
+        'Integração Sensorial' => '#06b6d4',
+        'Neuropsicologia' => '#6366f1',
+        'Nutrição' => '#f97316'
     ];
     return $cores[$terapia] ?? '#64748b';
+}
+
+// Função para contar anexos
+function contarAnexos($evolucao) {
+    return isset($evolucao['anexos']) && is_array($evolucao['anexos']) ? count($evolucao['anexos']) : 0;
 }
 ?>
 
@@ -140,8 +168,12 @@ function getTerapiaCor($terapia) {
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/clinicaestrela/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/clinicaestrela/favicon/favicon.svg">
+    <link rel="shortcut icon" href="/clinicaestrela/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/clinicaestrela/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/clinicaestrela/favicon/site.webmanifest">
 
-    <!-- Estilos CSS (mesmos do painel) -->
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_grade.css">
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_paciente.css">
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_planoterapeutico.css">
@@ -153,6 +185,254 @@ function getTerapiaCor($terapia) {
     <!-- Font Awesome e Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Badge de visitas */
+        .visitas-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .icon-btn.with-badge {
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Estilo para mensagens de feedback */
+        .alert-success, .alert-error {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .alert-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Badge de anexos */
+        .anexos-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .anexos-badge i {
+            color: #3b82f6;
+        }
+
+        /* Modal de visualização */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section-title i {
+            color: #3b82f6;
+        }
+
+        .modal-section-content {
+            color: #334155;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .modal-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-info-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .modal-info-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .anexos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .anexo-item-modal {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .anexo-item-modal i {
+            font-size: 1.2rem;
+            color: #3b82f6;
+        }
+
+        .anexo-item-modal .anexo-nome {
+            flex: 1;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .anexo-item-modal .anexo-link {
+            color: #3b82f6;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .anexo-item-modal .anexo-link:hover {
+            background: #e2e8f0;
+        }
+    </style>
 </head>
 <body>
     <div class="mobile-menu-toggle">
@@ -160,7 +440,7 @@ function getTerapiaCor($terapia) {
     </div>
 
     <div class="dashboard-container">
-        <!-- Sidebar COMPLETA (igual ao painel_evolucoes.php) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">
@@ -232,7 +512,22 @@ function getTerapiaCor($terapia) {
                 <span>Histórico de <?php echo htmlspecialchars($paciente_nome); ?></span>
             </div>
 
-            <!-- Card de Identificação do Paciente (igual ao formulário) -->
+            <!-- Mensagens de feedback -->
+            <?php if ($success_message): ?>
+                <div class="alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <?php echo htmlspecialchars($success_message); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($error_message): ?>
+                <div class="alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php echo htmlspecialchars($error_message); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Card de Identificação do Paciente -->
             <div class="card-identificacao-historico">
                 <div class="identificacao-header-historico">
                     <div class="identificacao-avatar-historico">
@@ -307,14 +602,18 @@ function getTerapiaCor($terapia) {
                     <i class="fas fa-history"></i>
                     <h3>Nenhuma evolução encontrada</h3>
                     <p>Não há registros de evoluções para este paciente com os filtros selecionados.</p>
+                    <a href="painel_evolucoes.php?paciente_id=<?php echo urlencode($paciente_id); ?>" class="btn-primary" style="margin-top: 20px; display: inline-block; padding: 10px 20px; background: #3b82f6; color: white; border-radius: 6px; text-decoration: none;">
+                        <i class="fas fa-plus"></i> Nova Evolução
+                    </a>
                 </div>
             <?php else: ?>
                 <div class="evolucoes-grid">
                     <?php foreach ($evolucoes_paginadas as $evolucao): ?>
                         <?php 
-                            $cor_terapia = getTerapiaCor($evolucao['terapia']);
-                            $data_formatada = formatarData($evolucao['data_sessao']);
-                            $resumo = substr($evolucao['descricao'], 0, 100) . (strlen($evolucao['descricao']) > 100 ? '...' : '');
+                            $cor_terapia = getTerapiaCor($evolucao['terapia'] ?? '');
+                            $data_formatada = formatarData($evolucao['data_sessao'] ?? '');
+                            $resumo = isset($evolucao['descricao']) ? substr($evolucao['descricao'], 0, 100) . (strlen($evolucao['descricao']) > 100 ? '...' : '') : '';
+                            $total_anexos = contarAnexos($evolucao);
                         ?>
                         <div class="evolucao-card">
                             <div class="evolucao-header">
@@ -322,34 +621,37 @@ function getTerapiaCor($terapia) {
                                     <i class="fas fa-calendar-alt"></i> <?php echo $data_formatada; ?>
                                 </span>
                                 <span class="evolucao-terapia-badge" style="background-color: <?php echo $cor_terapia; ?>">
-                                    <?php echo $evolucao['terapia']; ?>
+                                    <?php echo htmlspecialchars($evolucao['terapia'] ?? 'Não especificada'); ?>
                                 </span>
                             </div>
                             
                             <div class="evolucao-detalhes">
                                 <div class="evolucao-detalhe">
                                     <i class="fas fa-user-md"></i>
-                                    <span><strong>Terapeuta:</strong> <?php echo htmlspecialchars($evolucao['terapeuta']); ?></span>
+                                    <span><strong>Terapeuta:</strong> <?php echo htmlspecialchars($evolucao['terapeuta'] ?? 'Não informado'); ?></span>
                                 </div>
                                 <div class="evolucao-detalhe">
                                     <i class="fas fa-clock"></i>
-                                    <span><strong>Sessão:</strong> <?php echo $evolucao['horario_inicio']; ?> - <?php echo $evolucao['horario_fim']; ?> (<?php echo $evolucao['turno']; ?>)</span>
+                                    <span><strong>Sessão:</strong> <?php echo htmlspecialchars($evolucao['horario_inicio'] ?? ''); ?> - <?php echo htmlspecialchars($evolucao['horario_fim'] ?? ''); ?> (<?php echo htmlspecialchars($evolucao['turno'] ?? ''); ?>)</span>
                                 </div>
+                                <?php if ($total_anexos > 0): ?>
+                                    <div class="evolucao-detalhe">
+                                        <i class="fas fa-paperclip"></i>
+                                        <span><strong>Anexos:</strong> <?php echo $total_anexos; ?> arquivo(s)</span>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             
                             <div class="evolucao-resumo">
                                 <i class="fas fa-quote-left" style="color: #3b82f6; opacity: 0.5; margin-right: 5px;"></i>
-                                <?php echo htmlspecialchars($resumo); ?>
+                                <?php echo htmlspecialchars($resumo ?: 'Sem descrição'); ?>
                             </div>
                             
                             <div class="evolucao-actions">
-                                <a href="#" class="btn-evolucao btn-evolucao-view" onclick="visualizarEvolucao(<?php echo $evolucao['id']; ?>)">
+                                <a href="#" class="btn-evolucao btn-evolucao-view" onclick="visualizarEvolucao('<?php echo $evolucao['id']; ?>'); return false;">
                                     <i class="fas fa-eye"></i> Visualizar
                                 </a>
-                                <a href="#" class="btn-evolucao btn-evolucao-edit" onclick="editarEvolucao(<?php echo $evolucao['id']; ?>)">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <a href="#" class="btn-evolucao btn-evolucao-pdf" onclick="gerarPDF(<?php echo $evolucao['id']; ?>)">
+                                <a href="#" class="btn-evolucao btn-evolucao-pdf" onclick="gerarPDF('<?php echo $evolucao['id']; ?>'); return false;">
                                     <i class="fas fa-file-pdf"></i> PDF
                                 </a>
                             </div>
@@ -405,6 +707,23 @@ function getTerapiaCor($terapia) {
         </main>
     </div>
 
+    <!-- Modal de Visualização -->
+    <div id="visualizarModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-medical"></i> Detalhes da Evolução</h2>
+                <span class="modal-close" onclick="fecharModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Conteúdo carregado via JavaScript -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Menu mobile
         document.addEventListener('DOMContentLoaded', function() {
@@ -423,19 +742,180 @@ function getTerapiaCor($terapia) {
                     document.body.style.overflow = '';
                 });
             }
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModal();
+                }
+            });
         });
 
-        // Funções para ações (placeholder)
+        // Dados das evoluções (para visualização)
+        const evolucoesData = <?php echo json_encode($evolucoes_paciente); ?>;
+
         function visualizarEvolucao(id) {
-            alert('Visualizar evolução ID: ' + id);
+            const evolucao = evolucoesData.find(e => e.id === id);
+            if (!evolucao) {
+                alert('Evolução não encontrada');
+                return;
+            }
+
+            const modalBody = document.getElementById('modal-body');
+            
+            // Formatar anexos
+            let anexosHtml = '';
+            if (evolucao.anexos && evolucao.anexos.length > 0) {
+                anexosHtml = '<div class="anexos-list">';
+                evolucao.anexos.forEach(anexo => {
+                    const icon = anexo.tipo && anexo.tipo.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image';
+                    anexosHtml += `
+                        <div class="anexo-item-modal">
+                            <i class="fas ${icon}"></i>
+                            <span class="anexo-nome">${anexo.nome_original || anexo.nome_arquivo}</span>
+                            <a href="../../${anexo.caminho}" target="_blank" class="anexo-link">
+                                <i class="fas fa-download"></i> Visualizar
+                            </a>
+                        </div>
+                    `;
+                });
+                anexosHtml += '</div>';
+            } else {
+                anexosHtml = '<p style="color: #64748b;">Nenhum anexo</p>';
+            }
+
+            modalBody.innerHTML = `
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-calendar-alt"></i> Informações da Sessão
+                    </div>
+                    <div class="modal-info-grid">
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Data</span>
+                            <span class="modal-info-value">${formatarData(evolucao.data_sessao)}</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Horário</span>
+                            <span class="modal-info-value">${evolucao.horario_inicio || ''} - ${evolucao.horario_fim || ''}</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Turno</span>
+                            <span class="modal-info-value">${evolucao.turno || ''}</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Terapia</span>
+                            <span class="modal-info-value">${evolucao.terapia || ''}</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Terapeuta</span>
+                            <span class="modal-info-value">${evolucao.terapeuta || ''}</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <span class="modal-info-label">Data Registro</span>
+                            <span class="modal-info-value">${formatarDataHora(evolucao.data_registro)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                ${evolucao.condicao ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-heartbeat"></i> Condição Apresentada
+                    </div>
+                    <div class="modal-section-content">${escapeHtml(evolucao.condicao)}</div>
+                </div>
+                ` : ''}
+
+                ${evolucao.materiais ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-tools"></i> Materiais e Recursos
+                    </div>
+                    <div class="modal-section-content">${escapeHtml(evolucao.materiais)}</div>
+                </div>
+                ` : ''}
+
+                ${evolucao.estrategias ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-brain"></i> Estratégias e Métodos
+                    </div>
+                    <div class="modal-section-content">${escapeHtml(evolucao.estrategias)}</div>
+                </div>
+                ` : ''}
+
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-chart-line"></i> Descrição da Evolução
+                    </div>
+                    <div class="modal-section-content">${escapeHtml(evolucao.descricao || 'Sem descrição')}</div>
+                </div>
+
+                ${evolucao.observacoes ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-sticky-note"></i> Observações Complementares
+                    </div>
+                    <div class="modal-section-content">${escapeHtml(evolucao.observacoes)}</div>
+                </div>
+                ` : ''}
+
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-paperclip"></i> Anexos (${evolucao.anexos ? evolucao.anexos.length : 0})
+                    </div>
+                    <div class="modal-section-content">
+                        ${anexosHtml}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('visualizarModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        function editarEvolucao(id) {
-            alert('Editar evolução ID: ' + id);
+        function fecharModal() {
+            document.getElementById('visualizarModal').style.display = 'none';
+            document.body.style.overflow = '';
         }
 
         function gerarPDF(id) {
-            alert('Gerar PDF da evolução ID: ' + id);
+            window.location.href = 'gerar_pdf_evolucao.php?id=' + id;
+        }
+
+        function formatarData(data) {
+            if (!data) return 'Não informada';
+            try {
+                const d = new Date(data);
+                return d.toLocaleDateString('pt-BR');
+            } catch (e) {
+                return data;
+            }
+        }
+
+        function formatarDataHora(data) {
+            if (!data) return 'Não informada';
+            try {
+                const d = new Date(data);
+                return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR');
+            } catch (e) {
+                return data;
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('visualizarModal');
+            if (event.target == modal) {
+                fecharModal();
+            }
         }
     </script>
 </body>

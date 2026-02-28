@@ -613,7 +613,7 @@
     font-style: italic;
 }
 
-/* Anexos */
+/* Anexos - Estilos aprimorados */
 .anexos-container {
     background: #f8fafc;
     border-radius: 12px;
@@ -624,22 +624,28 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 0;
-    color: #3b82f6;
-    font-weight: 500;
-    font-size: 14px;
+    padding: 15px;
+    background: white;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
     cursor: pointer;
-    border-bottom: 1px dashed #e2e8f0;
-    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.anexar-link:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
 }
 
 .anexar-link i {
-    font-size: 18px;
+    color: #3b82f6;
+    font-size: 1.2rem;
 }
 
 .anexar-link a {
-    color: #3b82f6;
+    color: #2563eb;
     text-decoration: none;
+    font-weight: 500;
 }
 
 .anexar-link a:hover {
@@ -647,6 +653,7 @@
 }
 
 .anexos-lista {
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -655,37 +662,93 @@
 .anexo-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
+    gap: 12px;
+    padding: 12px;
     background: white;
+    border-radius: 6px;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #334155;
+    animation: slideIn 0.3s ease;
 }
 
-.anexo-item .anexo-nome {
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.anexo-icon {
+    width: 36px;
+    height: 36px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+}
+
+.anexo-info {
+    flex: 1;
+}
+
+.anexo-nome {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 0.95rem;
+}
+
+.anexo-tamanho {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.anexo-remove {
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px;
+}
+
+.anexo-remove:hover {
+    color: #ef4444;
+}
+
+/* Estilo para mensagens de feedback */
+.alert-success, .alert-error {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
+    animation: slideDown 0.3s ease;
 }
 
-.anexo-item .anexo-nome i {
-    color: #ef4444;
-    font-size: 16px;
+.alert-success {
+    background: #10b981;
+    color: white;
 }
 
-.anexo-item .btn-remover-anexo {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 4px;
+.alert-error {
+    background: #ef4444;
+    color: white;
 }
 
-.anexo-item .btn-remover-anexo:hover {
-    color: #ef4444;
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Breadcrumb */
@@ -791,6 +854,29 @@
     background: #fee2e2;
     color: #ef4444;
     border-color: #ef4444;
+}
+
+/* Botão primário para ações */
+.btn-primary {
+    padding: 10px 20px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59,130,246,0.3);
 }
 
 /* Rodapé do formulário */
@@ -955,9 +1041,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
-.pagination-btn:hover:not(:disabled) {
+.pagination-btn:hover:not(.disabled) {
     background: #3b82f6;
     color: white;
     border-color: #3b82f6;
@@ -969,9 +1056,10 @@
     border-color: #3b82f6;
 }
 
-.pagination-btn:disabled {
+.pagination-btn.disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 /* Loading e estados vazios */
@@ -1012,6 +1100,189 @@
     margin: 0 auto;
 }
 
+/* Badge de anexos */
+.anexos-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+.anexos-badge i {
+    color: #3b82f6;
+}
+
+/* Modal de visualização */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 50px auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-close {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.modal-close:hover {
+    opacity: 0.8;
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-section {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.modal-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-section-title i {
+    color: #3b82f6;
+}
+
+.modal-section-content {
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.modal-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-info-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.modal-info-value {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.anexos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.anexo-item-modal {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.anexo-item-modal i {
+    font-size: 1.2rem;
+    color: #3b82f6;
+}
+
+.anexo-item-modal .anexo-nome {
+    flex: 1;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.anexo-item-modal .anexo-link {
+    color: #3b82f6;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.anexo-item-modal .anexo-link:hover {
+    background: #e2e8f0;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .stats-cards {
@@ -1029,21 +1300,21 @@
     }
     
     .filters-left {
-    display: flex;
-    justify-content: center; 
-    width: 100%;
+        display: flex;
+        justify-content: center; 
+        width: 100%;
     }
     
     .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: #f8fafc;
-    padding: 5px;
-    border-radius: 10px;
-    border: 1px solid #e2e8f0;
-    max-width: 800px; 
-    width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #f8fafc;
+        padding: 5px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        max-width: 800px; 
+        width: 100%;
     }
 
     .filter-actions {
@@ -1112,5 +1383,14 @@
     
     .historico-table {
         min-width: 900px;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        width: auto;
+    }
+    
+    .modal-info-grid {
+        grid-template-columns: 1fr;
     }
 }
