@@ -61,14 +61,14 @@ body {
 }
 
 .mascote-left {
-    bottom: 10%;
+    bottom: 1%;
     left: calc(50% - 410px);
     max-width: 200px;
     width: 100%;
 }
 
 .mascote-right {
-    bottom: 10%;
+    bottom: 1%;
     right: calc(50% - 410px);
     max-width: 200px;
     width: 100%;
