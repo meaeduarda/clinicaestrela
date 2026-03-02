@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Acesso - Clínica Estrela</title>
+    
+    <!-- Favicon - caminhos corrigidos para relativos -->
+    <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+    <link rel="manifest" href="../../favicon/site.webmanifest">
+
+    <!-- Fontes e ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS da Página de Links -->
+    <link rel="stylesheet" href="../../css/links.css">
+</head>
+<body>
+    <!-- Background com imagem e overlay -->
+    <div class="login-background">
+        <div class="background-overlay"></div>
+    </div>
+    
+    <!-- Mascotes -->
+    <div class="mascote mascote-left">
+        <img src="../../imagens/mascote_up.png" alt="Mascote" class="mascote-img">
+    </div>
+    
+    <!-- Croninho com link para www.cronossolutions.com.br -->
+    <div class="mascote mascote-right">
+        <a href="https://www.cronossolutions.com.br" target="_blank" rel="noopener noreferrer" style="display: block; pointer-events: auto; cursor: pointer;">
+            <img src="../../imagens/croninho_up.png" alt="Croninho - Cronos Solutions" class="mascote-img">
+        </a>
+    </div>
+    
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo-container">
+                <img src="../../imagens/logo.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
+                <span>Clínica <strong>Estrela</strong></span>
+            </div>
+            <h1>Central de Acesso</h1>
+            <p>Selecione o painel desejado</p>
+        </div>
+        
+        <div class="login-content">
+            <div class="links-container">
+                <!-- Painel Administrativo -->
+                <a href="http://localhost/clinicaestrela/dashboard/clinica/login_clinica.php" class="link-button">
+                    <i class="fas fa-user-md"></i>
+                    <div class="button-content">
+                        <span class="button-title">Painel Administrativo Clinica</span>
+                    </div>
+                </a>
+                
+                <!-- Painel Cliente -->
+                <a href="http://localhost/clinicaestrela/dashboard/cliente/login_cliente.php" class="link-button">
+                    <i class="fas fa-user"></i>
+                    <div class="button-content">
+                        <span class="button-title">Painel Cliente</span>
+                    </div>
+                </a>
+                
+                <!-- Site Institucional -->
+                <a href="http://localhost/clinicaestrela/" class="link-button">
+                    <i class="fas fa-globe"></i>
+                    <div class="button-content">
+                        <span class="button-title">Site Institucional</span>
+                    </div>
+                </a>
+                
+                <!-- Painel Recepção -->
+                <a href="#" class="link-button" id="recepcao-link">
+                    <i class="fas fa-hospital-user"></i>
+                    <div class="button-content">
+                        <span class="button-title">Painel Recepção</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
