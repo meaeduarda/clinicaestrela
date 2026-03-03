@@ -1,1 +1,62 @@
-[]
+[
+    {
+        "id": 1,
+        "nome": "Sala 01 - ABA",
+        "capacidade": 3,
+        "tipo": "ABA"
+    },
+    {
+        "id": 2,
+        "nome": "Sala 02 - Fono",
+        "capacidade": 3,
+        "tipo": "Fono"
+    },
+    {
+        "id": 3,
+        "nome": "Sala 03 - Fono",
+        "capacidade": 2,
+        "tipo": "Fono"
+    },
+    {
+        "id": 4,
+        "nome": "Sala 04 - ABA",
+        "capacidade": 4,
+        "tipo": "ABA"
+    },
+    {
+        "id": 5,
+        "nome": "Sala 05 - ABA",
+        "capacidade": 4,
+        "tipo": "ABA"
+    },
+    {
+        "id": 6,
+        "nome": "Sala 06 - TO",
+        "capacidade": 2,
+        "tipo": "TO"
+    },
+    {
+        "id": 7,
+        "nome": "Sala 07 - TO",
+        "capacidade": 2,
+        "tipo": "TO"
+    },
+    {
+        "id": 8,
+        "nome": "Sala 08 - Funcional",
+        "capacidade": 2,
+        "tipo": "Funcional"
+    },
+    {
+        "id": 9,
+        "nome": "Sala 09 - Jogos",
+        "capacidade": 4,
+        "tipo": "ABA"
+    },
+    {
+        "id": 10,
+        "nome": "Sala 10 - ABA",
+        "capacidade": 2,
+        "tipo": "ABA"
+    }
+]
