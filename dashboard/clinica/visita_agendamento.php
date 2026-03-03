@@ -185,7 +185,7 @@ if (file_exists($caminho_json)) {
             </div>
 
             <div class="footer-actions">
-                <a href="painel_administrativo_pacientes.php" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Painel</a>
+                <a href="painel_adm_pacientes.php" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Painel</a>
                 <a href="../cliente/novo_agendamento.php" class="btn-novo"><i class="fa-solid fa-plus"></i> Novo</a>
             </div>
         </div>
