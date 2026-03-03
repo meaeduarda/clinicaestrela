@@ -62,7 +62,7 @@
     {
         "id": 11,
         "nome": "Sala 11 - ABA",
-        "capacidade": 2,
+        "capacidade": 4,
         "tipo": "ABA",
         "data_criacao": "2026-03-03 10:04:39"
     }
