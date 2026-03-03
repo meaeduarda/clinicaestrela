@@ -46,6 +46,44 @@ if (file_exists($arquivoVisitas)) {
     }
 }
 
+// --- LEITURA DAS SALAS DO ARQUIVO JSON ---
+$arquivoSalas = __DIR__ . '/../../dashboard/dados/salas.json';
+$salas = [];
+
+// Criar arquivo se não existir
+if (!file_exists($arquivoSalas)) {
+    file_put_contents($arquivoSalas, json_encode([]));
+}
+
+if (file_exists($arquivoSalas)) {
+    $conteudoSalas = file_get_contents($arquivoSalas);
+    if (!empty($conteudoSalas)) {
+        $salas = json_decode($conteudoSalas, true);
+        if (!is_array($salas)) {
+            $salas = [];
+        }
+    }
+}
+
+// Se não houver salas, criar algumas padrão
+if (empty($salas)) {
+    $salas = [
+        ['id' => 1, 'nome' => 'Sala 01 - ABA', 'capacidade' => 3, 'tipo' => 'ABA'],
+        ['id' => 2, 'nome' => 'Sala 02 - Fono', 'capacidade' => 3, 'tipo' => 'Fono'],
+        ['id' => 3, 'nome' => 'Sala 03 - Fono', 'capacidade' => 2, 'tipo' => 'Fono'],
+        ['id' => 4, 'nome' => 'Sala 04 - ABA', 'capacidade' => 4, 'tipo' => 'ABA'],
+        ['id' => 5, 'nome' => 'Sala 05 - ABA', 'capacidade' => 4, 'tipo' => 'ABA'],
+        ['id' => 6, 'nome' => 'Sala 06 - TO', 'capacidade' => 2, 'tipo' => 'TO'],
+        ['id' => 7, 'nome' => 'Sala 07 - TO', 'capacidade' => 2, 'tipo' => 'TO'],
+        ['id' => 8, 'nome' => 'Sala 08 - Funcional', 'capacidade' => 2, 'tipo' => 'Funcional'],
+        ['id' => 9, 'nome' => 'Sala 09 - Jogos', 'capacidade' => 4, 'tipo' => 'ABA'],
+        ['id' => 10, 'nome' => 'Sala 10 - ABA', 'capacidade' => 2, 'tipo' => 'ABA']
+    ];
+    file_put_contents($arquivoSalas, json_encode($salas, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
+$capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
+
 // Função para obter a cor baseada no tipo de terapia
 function getCorPorTipo($tipo) {
     $cores = [
@@ -63,22 +101,6 @@ function getCorPorTipo($tipo) {
     
     return $cores[$tipo] ?? '#94a3b8';
 }
-
-// Dados das salas
-$salas = [
-    ['id' => 1, 'nome' => 'Sala 01 - ABA', 'capacidade' => 3, 'tipo' => 'ABA'],
-    ['id' => 2, 'nome' => 'Sala 02 - Fono', 'capacidade' => 3, 'tipo' => 'Fono'],
-    ['id' => 3, 'nome' => 'Sala 03 - Fono', 'capacidade' => 2, 'tipo' => 'Fono'],
-    ['id' => 4, 'nome' => 'Sala 04 - ABA', 'capacidade' => 4, 'tipo' => 'ABA'],
-    ['id' => 5, 'nome' => 'Sala 05 - ABA', 'capacidade' => 4, 'tipo' => 'ABA'],
-    ['id' => 6, 'nome' => 'Sala 06 - TO', 'capacidade' => 2, 'tipo' => 'TO'],
-    ['id' => 7, 'nome' => 'Sala 07 - TO', 'capacidade' => 2, 'tipo' => 'TO'],
-    ['id' => 8, 'nome' => 'Sala 08 - Funcional', 'capacidade' => 2, 'tipo' => 'Funcional'],
-    ['id' => 9, 'nome' => 'Sala 09 - Jogos', 'capacidade' => 4, 'tipo' => 'ABA'],
-    ['id' => 10, 'nome' => 'Sala 10 - ABA', 'capacidade' => 2, 'tipo' => 'ABA']
-];
-
-$capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
 ?>
 
 <!DOCTYPE html>
@@ -286,6 +308,40 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
         .btn-cancel:hover {
             background: #4b5563;
         }
+
+        /* Loading overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 10002;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .loading-overlay.active {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -395,11 +451,11 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                     <div class="sala-card" id="sala-<?php echo $sala['id']; ?>">
                         <div class="sala-color-bar" style="background-color: <?php echo $cor; ?>;"></div>
                         <div class="sala-content">
-                            <h3 class="sala-nome"><?php echo $sala['nome']; ?></h3>
+                            <h3 class="sala-nome"><?php echo htmlspecialchars($sala['nome']); ?></h3>
                             <div class="sala-info">
                                 <span><i class="fas fa-user-friends"></i> Até <?php echo $sala['capacidade']; ?> pessoas</span>
                                 <span class="sala-tipo" style="background-color: <?php echo $cor; ?>20; color: <?php echo $cor; ?>; border: 1px solid <?php echo $cor; ?>40;">
-                                    <?php echo $sala['tipo']; ?>
+                                    <?php echo htmlspecialchars($sala['tipo']); ?>
                                 </span>
                             </div>
                             
@@ -408,7 +464,7 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                                 <button class="btn-action edit" onclick="editarSala(<?php echo $sala['id']; ?>)" title="Editar sala">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-action delete" onclick="confirmarExclusao(<?php echo $sala['id']; ?>, '<?php echo $sala['nome']; ?>')" title="Excluir sala">
+                                <button class="btn-action delete" onclick="confirmarExclusao(<?php echo $sala['id']; ?>, '<?php echo htmlspecialchars($sala['nome'], ENT_QUOTES); ?>')" title="Excluir sala">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -420,9 +476,9 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                 <div class="sala-card add-sala" onclick="abrirModalAdicionarSala()">
                     <div class="sala-color-bar" style="background-color: #9ca3af;"></div>
                     <div class="sala-content">
-                        <h3 class="sala-nome">Sala 11 - Adicionar Sala</h3>
+                        <h3 class="sala-nome">Adicionar Nova Sala</h3>
                         <div class="sala-info">
-                            <span>Adicionar Sala</span>
+                            <span>Clique para adicionar</span>
                             <div class="btn-add-sala">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -445,16 +501,12 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                             <input type="hidden" id="salaId" name="salaId" value="">
                             
                             <div class="form-group">
-                                <label for="salaNumero"><i class="fas fa-hashtag"></i> Número da Sala</label>
-                                <input type="number" id="salaNumero" class="form-control" placeholder="Ex: 11" required>
-                            </div>
-                            <div class="form-group">
                                 <label for="salaNome"><i class="fas fa-tag"></i> Nome da Sala</label>
-                                <input type="text" id="salaNome" class="form-control" placeholder="Ex: Sala 11 - ABA" required>
+                                <input type="text" id="salaNome" class="form-control" placeholder="Ex: Sala 11 - ABA" required maxlength="100">
                             </div>
                             <div class="form-group">
                                 <label for="salaCapacidade"><i class="fas fa-user-friends"></i> Capacidade (pessoas)</label>
-                                <input type="number" id="salaCapacidade" class="form-control" placeholder="Ex: 4" min="1" max="20" required>
+                                <input type="number" id="salaCapacidade" class="form-control" placeholder="Ex: 4" min="1" max="50" required>
                             </div>
                             <div class="form-group">
                                 <label for="salaTipo"><i class="fas fa-stethoscope"></i> Tipo de Terapia</label>
@@ -501,6 +553,12 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                     </div>
                 </div>
             </div>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner"></div>
+                <p>Processando...</p>
+            </div>
         </main>
     </div>
 
@@ -508,7 +566,6 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
         // Variáveis globais
         let salaParaExcluir = null;
         let salas = <?php echo json_encode($salas); ?>;
-        let proximoId = <?php echo count($salas) + 1; ?>;
 
         // Menu mobile
         document.addEventListener('DOMContentLoaded', function() {
@@ -538,17 +595,6 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
                 });
             }
 
-            // Efeitos nos cards
-            const statCards = document.querySelectorAll('.stat-card');
-            statCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-
             // Fechar modal com ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
@@ -559,34 +605,45 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
 
             // Fechar modal clicando fora
             const modalSala = document.getElementById('modalSala');
-            modalSala.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharModalSala();
-                }
-            });
+            if (modalSala) {
+                modalSala.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        fecharModalSala();
+                    }
+                });
+            }
 
             // Fechar modal de confirmação clicando fora
             const confirmacaoModal = document.getElementById('confirmacaoModal');
-            confirmacaoModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharConfirmacaoModal();
-                }
-            });
+            if (confirmacaoModal) {
+                confirmacaoModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        fecharConfirmacaoModal();
+                    }
+                });
+            }
 
             // Botões do modal de confirmação
-            document.getElementById('cancelarExclusao').addEventListener('click', fecharConfirmacaoModal);
-            document.getElementById('confirmarExclusao').addEventListener('click', function() {
-                if (salaParaExcluir) {
-                    excluirSala(salaParaExcluir.id);
-                }
-            });
+            const cancelarExclusao = document.getElementById('cancelarExclusao');
+            const confirmarExclusao = document.getElementById('confirmarExclusao');
+            
+            if (cancelarExclusao) {
+                cancelarExclusao.addEventListener('click', fecharConfirmacaoModal);
+            }
+            
+            if (confirmarExclusao) {
+                confirmarExclusao.addEventListener('click', function() {
+                    if (salaParaExcluir) {
+                        excluirSala(salaParaExcluir.id);
+                    }
+                });
+            }
         });
 
         // Funções do Modal de Sala
         function abrirModalAdicionarSala() {
             document.getElementById('modal-titulo').innerHTML = '<i class="fas fa-plus-circle"></i> Adicionar Nova Sala';
             document.getElementById('salaId').value = '';
-            document.getElementById('salaNumero').value = proximoId;
             document.getElementById('salaNome').value = '';
             document.getElementById('salaCapacidade').value = '';
             document.getElementById('salaTipo').value = '';
@@ -596,11 +653,13 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
 
         function editarSala(id) {
             const sala = salas.find(s => s.id === id);
-            if (!sala) return;
+            if (!sala) {
+                mostrarNotificacao('erro', 'Sala não encontrada.');
+                return;
+            }
             
             document.getElementById('modal-titulo').innerHTML = '<i class="fas fa-edit"></i> Editar Sala';
             document.getElementById('salaId').value = sala.id;
-            document.getElementById('salaNumero').value = sala.id;
             document.getElementById('salaNome').value = sala.nome;
             document.getElementById('salaCapacidade').value = sala.capacidade;
             document.getElementById('salaTipo').value = sala.tipo;
@@ -614,54 +673,73 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
             document.getElementById('formSala').reset();
         }
 
-        function salvarSala() {
+        async function salvarSala() {
             const id = document.getElementById('salaId').value;
-            const numero = document.getElementById('salaNumero').value;
-            const nome = document.getElementById('salaNome').value;
+            const nome = document.getElementById('salaNome').value.trim();
             const capacidade = document.getElementById('salaCapacidade').value;
             const tipo = document.getElementById('salaTipo').value;
 
-            if (!numero || !nome || !capacidade || !tipo) {
+            // Validações
+            if (!nome || !capacidade || !tipo) {
                 mostrarNotificacao('erro', 'Por favor, preencha todos os campos obrigatórios.');
                 return;
             }
+
+            if (nome.length < 3) {
+                mostrarNotificacao('erro', 'O nome da sala deve ter pelo menos 3 caracteres.');
+                return;
+            }
+
+            if (capacidade < 1 || capacidade > 50) {
+                mostrarNotificacao('erro', 'A capacidade deve ser entre 1 e 50 pessoas.');
+                return;
+            }
+
+            // Mostrar loading
+            document.getElementById('loadingOverlay').classList.add('active');
 
             const btnSalvar = document.getElementById('btnSalvarSala');
             const textoOriginal = btnSalvar.innerHTML;
             btnSalvar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
             btnSalvar.disabled = true;
 
-            setTimeout(() => {
-                if (id) {
-                    // Editar sala existente
-                    const index = salas.findIndex(s => s.id == id);
-                    if (index !== -1) {
-                        salas[index] = {
-                            ...salas[index],
-                            nome: nome,
-                            capacidade: parseInt(capacidade),
-                            tipo: tipo
-                        };
-                    }
-                    mostrarNotificacao('sucesso', 'Sala editada com sucesso!');
+            try {
+                const formData = new FormData();
+                formData.append('acao', id ? 'editar' : 'adicionar');
+                if (id) formData.append('id', id);
+                formData.append('nome', nome);
+                formData.append('capacidade', capacidade);
+                formData.append('tipo', tipo);
+
+                console.log('Enviando dados:', Object.fromEntries(formData));
+
+                const response = await fetch('salvar_sala.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                console.log('Resposta do servidor:', result);
+
+                if (result.status === 'success') {
+                    mostrarNotificacao('sucesso', result.message);
+                    fecharModalSala();
+                    
+                    // Recarregar a página após 1 segundo
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
                 } else {
-                    // Adicionar nova sala
-                    const novaSala = {
-                        id: proximoId,
-                        nome: nome,
-                        capacidade: parseInt(capacidade),
-                        tipo: tipo
-                    };
-                    salas.push(novaSala);
-                    proximoId++;
-                    mostrarNotificacao('sucesso', 'Sala adicionada com sucesso!');
+                    mostrarNotificacao('erro', result.message || 'Erro desconhecido');
                 }
-                
-                fecharModalSala();
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarNotificacao('erro', 'Erro ao conectar com o servidor.');
+            } finally {
+                document.getElementById('loadingOverlay').classList.remove('active');
                 btnSalvar.innerHTML = textoOriginal;
                 btnSalvar.disabled = false;
-                location.reload(); // Recarregar para mostrar as alterações
-            }, 1000);
+            }
         }
 
         // Funções de exclusão
@@ -679,48 +757,50 @@ $capacidadeTotal = array_sum(array_column($salas, 'capacidade'));
             salaParaExcluir = null;
         }
 
-        function excluirSala(id) {
+        async function excluirSala(id) {
+            // Mostrar loading
+            document.getElementById('loadingOverlay').classList.add('active');
+
             const btnConfirmar = document.getElementById('confirmarExclusao');
             const textoOriginal = btnConfirmar.innerHTML;
             btnConfirmar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Excluindo...';
             btnConfirmar.disabled = true;
 
-            setTimeout(() => {
-                const index = salas.findIndex(s => s.id === id);
-                if (index !== -1) {
-                    salas.splice(index, 1);
+            try {
+                const formData = new FormData();
+                formData.append('acao', 'excluir');
+                formData.append('id', id);
+
+                console.log('Excluindo sala:', id);
+
+                const response = await fetch('salvar_sala.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                console.log('Resposta do servidor:', result);
+
+                if (result.status === 'success') {
+                    mostrarNotificacao('sucesso', result.message);
+                    fecharConfirmacaoModal();
                     
-                    // Remover o card da sala
-                    const salaCard = document.getElementById(`sala-${id}`);
-                    if (salaCard) {
-                        salaCard.style.backgroundColor = '#fee2e2';
-                        salaCard.style.transition = 'all 0.3s';
-                        setTimeout(() => {
-                            salaCard.remove();
-                            mostrarNotificacao('sucesso', 'Sala excluída com sucesso!');
-                            
-                            // Atualizar contadores
-                            atualizarContadores();
-                        }, 300);
-                    }
+                    // Recarregar a página após 1 segundo
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    mostrarNotificacao('erro', result.message || 'Erro desconhecido');
+                    fecharConfirmacaoModal();
                 }
-                
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarNotificacao('erro', 'Erro ao conectar com o servidor.');
                 fecharConfirmacaoModal();
+            } finally {
+                document.getElementById('loadingOverlay').classList.remove('active');
                 btnConfirmar.innerHTML = textoOriginal;
                 btnConfirmar.disabled = false;
-            }, 1000);
-        }
-
-        function atualizarContadores() {
-            const totalSalas = salas.length;
-            const capacidadeTotal = salas.reduce((acc, sala) => acc + sala.capacidade, 0);
-            
-            // Atualizar os cards de estatísticas
-            const statCards = document.querySelectorAll('.stat-card h3');
-            if (statCards.length >= 4) {
-                statCards[0].textContent = totalSalas; // Total de Salas
-                statCards[1].textContent = capacidadeTotal; // Capacidade Total
-                statCards[3].textContent = totalSalas; // Salas Disponíveis
             }
         }
 
