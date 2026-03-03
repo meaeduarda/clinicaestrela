@@ -14,7 +14,7 @@
     {
         "id": 3,
         "nome": "Sala 03 - Fono",
-        "capacidade": 2,
+        "capacidade": 1,
         "tipo": "Fono"
     },
     {
@@ -58,5 +58,12 @@
         "nome": "Sala 10 - ABA",
         "capacidade": 2,
         "tipo": "ABA"
+    },
+    {
+        "id": 11,
+        "nome": "Sala 11 - ABA",
+        "capacidade": 5,
+        "tipo": "ABA",
+        "data_criacao": "2026-03-03 10:02:17"
     }
 ]
