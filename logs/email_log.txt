@@ -1,0 +1,6 @@
+[2026-03-02 23:56:22] E-mail para: mariaeduardaaraujodemoraes@gmail.com - Nome: Eduarda Guimaraes - Link: http://localhost/clinicaestrela/dashboard/cliente/verificar_email.php?token=24c786bf97fb08a7250b74dba39d2488820920e62d83958cb247a82cf9e69d1d
+[2026-03-02 23:58:21] E-mail para: eduardaaraujodemoraes@gmail.com - Nome: Maria Eduarda - Link: http://localhost/clinicaestrela/dashboard/cliente/verificar_email.php?token=360d6fde92a8009f81a2498e0bf8eca006ae7824c5b883760f20ce179e75ba33
+[2026-03-03 22:04:54] E-mail para: mariaeduardaaraujodemoraes@gmail.com - Nome: Eduarda Guimaraes - Link: http://localhost/clinicaestrela/dashboard/cliente/verificar_email.php?token=1dd707fb1ccf9ce582e870977a11c6cbc2548d19e77eb6f892042a224f077be0
+[2026-03-03 22:12:52] E-mail para: mariaeduardaaraujodemoraes@gmail.com - Nome: Eduarda Guimaraes - Link: http://localhost/clinicaestrela/dashboard/cliente/verificar_email.php?token=9d9f5596ed09eba031a77caccfeaf8b73678dd433402aa12e9660383ecd72d28
+[2026-03-03 22:33:20] Tentando enviar para: mariaeduardaaraujodemoraes@gmail.com - PHPMailer instalado: SIM
+[2026-03-03 22:33:25] ✅ E-mail enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com

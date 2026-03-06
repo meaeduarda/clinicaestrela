@@ -1,0 +1,31 @@
+[2026-03-03 22:35:23] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números: 46, 55, 93
+[2026-03-03 22:43:39] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números: 15, 89, 48
+[2026-03-03 22:51:15] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números: 53, 42, 29
+[2026-03-03 22:51:20] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números: 43, 36, 16
+[2026-03-03 23:09:20] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números: 54, 91, 94
+[2026-03-03 23:23:53] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números e-mail: 54, 28, 78 - Número site: 54
+[2026-03-03 23:35:15] ✅ 2FA enviado para: mariaeduardaaraujodemoraes@gmail.com - Números e-mail: 89, 46, 99 - Número site: 89
+[2026-03-03 23:51:55] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 68, 13, 74 - Site: 74
+[2026-03-03 23:52:01] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-04 00:06:21] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 63, 62, 59 - Site: 59
+[2026-03-04 00:06:26] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-04 00:14:40] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 34, 96, 82 - Site: 96
+[2026-03-04 00:14:45] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 13:21:53] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 95, 88, 52 - Site: 88
+[2026-03-06 13:22:02] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 13:34:03] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 56, 70, 91 - Site: 56
+[2026-03-06 13:34:08] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 13:40:06] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 40, 31, 86 - Site: 31
+[2026-03-06 13:40:12] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 13:48:05] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 85, 94, 62 - Site: 94
+[2026-03-06 13:48:11] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 13:48:11] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 56, 46, 67 - Site: 67
+[2026-03-06 13:48:16] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:10:49] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 45, 39, 31 - Site: 31
+[2026-03-06 14:10:54] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:23:38] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 69, 34, 84 - Site: 34
+[2026-03-06 14:23:43] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:23:44] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 50, 17, 32 - Site: 17
+[2026-03-06 14:23:49] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:23:49] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 94, 56, 36 - Site: 36
+[2026-03-06 14:23:54] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nome_completo": "Maria Eduarda",
+        "email": "mariaeduardaaraujodemoraes@gmail.com",
+        "celular": "(81) 99452-7528",
+        "parentesco": "Mãe",
+        "nome_crianca": "Joao Roberto",
+        "senha_hash": "$2y$10$rEkoMgpqQNgoTL60n5jYTO4T.G8\/AFuTted\/7XfdBCBR6haYD8OIm",
+        "nivel_senha": "forte",
+        "verification_token": "0012e344fcc58f6eeacf17170d32b28fc7886ab9525cc5dd488d1320fe1f7a5c",
+        "verified": true,
+        "data_cadastro": "2026-03-03 22:33:20",
+        "ativo": true,
+        "verified_at": "2026-03-03 22:34:51",
+        "ultimo_acesso": "2026-03-06 14:25:48"
+    }
+]

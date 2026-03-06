@@ -1,0 +1,69 @@
+[2026-03-03 23:52:01] Página: login_cliente.php - Session ID: cvt6md03f6i6k06futqsgs6rq7
+SESSION: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 68
+            [1] => 13
+            [2] => 74
+        )
+
+    [2fa_numero_site] => 74
+    [2fa_expira] => 1772582515
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772581915
+    [2fa_session_id] => cvt6md03f6i6k06futqsgs6rq7
+)
+
+[2026-03-03 23:58:39] Página: login_cliente.php - Session ID: 2t6rbtbg5sm0ddltpgdnagbfsv
+SESSION: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 89
+            [1] => 46
+            [2] => 99
+        )
+
+    [2fa_numero_site] => 89
+    [2fa_expira] => 1772581510
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772580910
+)
+
+[2026-03-03 23:58:44] Página: login_cliente.php - Session ID: 2t6rbtbg5sm0ddltpgdnagbfsv
+SESSION: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 89
+            [1] => 46
+            [2] => 99
+        )
+
+    [2fa_numero_site] => 89
+    [2fa_expira] => 1772581510
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772580910
+)
+
+[2026-03-03 23:58:46] Página: login_cliente.php - Session ID: 2t6rbtbg5sm0ddltpgdnagbfsv
+SESSION: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 89
+            [1] => 46
+            [2] => 99
+        )
+
+    [2fa_numero_site] => 89
+    [2fa_expira] => 1772581510
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772580910
+)
+

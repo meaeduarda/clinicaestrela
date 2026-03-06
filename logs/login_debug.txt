@@ -1,0 +1,22 @@
+[2026-03-03 23:51:55] Tentativa de login - Session ID: cvt6md03f6i6k06futqsgs6rq7
+[2026-03-04 00:06:21] Tentativa de login - Session ID: vull3kqq8a409vmmreum7stog6
+[2026-03-04 00:14:40] Tentativa de login - Session ID: 2t6rbtbg5sm0ddltpgdnagbfsv
+[2026-03-06 13:20:14] Tentativa de login - Session ID: 8s9h2cee1vid46ld66ja7nm6ro
+[2026-03-06 13:20:14] ERRO: E-mail não encontrado: eduarda@sistema.com
+[2026-03-06 13:21:52] Tentativa de login - Session ID: 8s9h2cee1vid46ld66ja7nm6ro
+[2026-03-06 13:34:03] Tentativa de login - Session ID: 9kneh9l0tmr542surkoepklkfn
+[2026-03-06 13:40:06] Tentativa de login - Session ID: ootoncek6otkb9a27qj1vng75m
+[2026-03-06 13:48:05] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 13:48:11] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:05:10] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:05:10] ERRO: Senha incorreta para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:07:22] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:07:22] ERRO: Senha incorreta para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:10:35] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:10:35] ERRO: Senha incorreta para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:10:49] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:23:30] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:23:31] ERRO: Senha incorreta para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-06 14:23:38] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:23:43] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-06 14:23:49] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp

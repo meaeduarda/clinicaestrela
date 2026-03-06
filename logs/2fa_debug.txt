@@ -1,0 +1,299 @@
+[2026-03-03 23:35:10] 2FA iniciado para: mariaeduardaaraujodemoraes@gmail.com - Site: 89 - Expira: 2026-03-03 23:45:10
+[2026-03-03 23:35:45] Verificando 2FA - GET: Array
+(
+    [numero] => 89
+)
+
+[2026-03-03 23:35:45] ERRO: Sessão 2FA não encontrada
+================================================================================
+[2026-03-03 23:51:55] 2FA INICIADO
+Session ID: cvt6md03f6i6k06futqsgs6rq7
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 68, 13, 74
+Número site: 74
+Expira em: 2026-03-04 00:01:55
+================================================================================
+================================================================================
+[2026-03-03 23:53:07] VERIFICAÇÃO 2FA INICIADA
+Session ID: cvt6md03f6i6k06futqsgs6rq7
+Cookie PHPSESSID: cvt6md03f6i6k06futqsgs6rq7
+GET: Array
+(
+    [numero] => 74
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 68
+            [1] => 13
+            [2] => 74
+        )
+
+    [2fa_numero_site] => 74
+    [2fa_expira] => 1772582515
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772581915
+    [2fa_session_id] => cvt6md03f6i6k06futqsgs6rq7
+)
+
+================================================================================
+[2026-03-03 23:53:07] Tempo restante: 528 segundos
+[2026-03-03 23:53:07] Comparando: Escolha=74, Correto=74
+[2026-03-03 23:53:07] ✅ SUCESSO! Número correto
+[2026-03-03 23:53:07] ✅ Redirecionando para painel_cliente.php
+================================================================================
+[2026-03-04 00:06:21] 2FA INICIADO
+Session ID: vull3kqq8a409vmmreum7stog6
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 63, 62, 59
+Número site: 59
+Expira em: 2026-03-04 00:16:21
+================================================================================
+================================================================================
+[2026-03-04 00:07:18] VERIFICAÇÃO 2FA INICIADA
+Session ID: vull3kqq8a409vmmreum7stog6
+Cookie PHPSESSID: vull3kqq8a409vmmreum7stog6
+GET: Array
+(
+    [numero] => 59
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 63
+            [1] => 62
+            [2] => 59
+        )
+
+    [2fa_numero_site] => 59
+    [2fa_expira] => 1772583381
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772582781
+    [2fa_session_id] => vull3kqq8a409vmmreum7stog6
+)
+
+================================================================================
+[2026-03-04 00:07:18] Tempo restante: 543 segundos
+[2026-03-04 00:07:18] Comparando: Escolha=59, Correto=59
+[2026-03-04 00:07:18] ✅ SUCESSO! Número correto
+[2026-03-04 00:07:18] ✅ Redirecionando para painel_cliente.php
+================================================================================
+[2026-03-04 00:14:40] 2FA INICIADO
+Session ID: 2t6rbtbg5sm0ddltpgdnagbfsv
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 34, 96, 82
+Número site: 96
+Expira em: 2026-03-04 00:24:40
+================================================================================
+================================================================================
+[2026-03-04 00:16:38] VERIFICAÇÃO 2FA INICIADA
+Session ID: vull3kqq8a409vmmreum7stog6
+Cookie PHPSESSID: vull3kqq8a409vmmreum7stog6
+GET: Array
+(
+    [escolha] => 53
+)
+
+SESSION KEYS: responsavel_id, responsavel_nome, responsavel_email, responsavel_celular, responsavel_parentesco, responsavel_nome_crianca, 2fa_verified, login_time
+SESSION DATA: Array
+(
+    [responsavel_id] => 1
+    [responsavel_nome] => Maria Eduarda
+    [responsavel_email] => mariaeduardaaraujodemoraes@gmail.com
+    [responsavel_celular] => (81) 99452-7528
+    [responsavel_parentesco] => Mãe
+    [responsavel_nome_crianca] => Joao Roberto
+    [2fa_verified] => 1
+    [login_time] => 1772582838
+)
+
+================================================================================
+[2026-03-04 00:16:38] ERRO: Sessão 2FA não encontrada
+Variáveis disponíveis: Array
+(
+    [0] => responsavel_id
+    [1] => responsavel_nome
+    [2] => responsavel_email
+    [3] => responsavel_celular
+    [4] => responsavel_parentesco
+    [5] => responsavel_nome_crianca
+    [6] => 2fa_verified
+    [7] => login_time
+)
+
+================================================================================
+[2026-03-06 13:21:53] 2FA INICIADO
+Session ID: 8s9h2cee1vid46ld66ja7nm6ro
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 95, 88, 52
+Número site: 88
+Expira em: 2026-03-06 13:31:53
+================================================================================
+================================================================================
+[2026-03-06 13:24:19] VERIFICAÇÃO 2FA INICIADA
+Session ID: 8s9h2cee1vid46ld66ja7nm6ro
+Cookie PHPSESSID: 8s9h2cee1vid46ld66ja7nm6ro
+GET: Array
+(
+    [numero] => 88
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 95
+            [1] => 88
+            [2] => 52
+        )
+
+    [2fa_numero_site] => 88
+    [2fa_expira] => 1772803913
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772803313
+    [2fa_session_id] => 8s9h2cee1vid46ld66ja7nm6ro
+)
+
+================================================================================
+[2026-03-06 13:24:19] Tempo restante: 454 segundos
+[2026-03-06 13:24:19] Comparando: Escolha=88, Correto=88
+[2026-03-06 13:24:19] ✅ SUCESSO! Número correto
+[2026-03-06 13:24:19] ✅ Redirecionando para painel_cliente.php
+================================================================================
+[2026-03-06 13:34:03] 2FA INICIADO
+Session ID: 9kneh9l0tmr542surkoepklkfn
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 56, 70, 91
+Número site: 56
+Expira em: 2026-03-06 13:37:23
+================================================================================
+================================================================================
+[2026-03-06 13:40:06] 2FA INICIADO
+Session ID: ootoncek6otkb9a27qj1vng75m
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 40, 31, 86
+Número site: 31
+Expira em: 2026-03-06 13:42:06
+================================================================================
+================================================================================
+[2026-03-06 13:40:44] VERIFICAÇÃO 2FA INICIADA
+Session ID: ootoncek6otkb9a27qj1vng75m
+Cookie PHPSESSID: ootoncek6otkb9a27qj1vng75m
+GET: Array
+(
+    [numero] => 31
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 40
+            [1] => 31
+            [2] => 86
+        )
+
+    [2fa_numero_site] => 31
+    [2fa_expira] => 1772804526
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772804406
+    [2fa_session_id] => ootoncek6otkb9a27qj1vng75m
+)
+
+================================================================================
+[2026-03-06 13:40:44] Tempo restante: 82 segundos
+[2026-03-06 13:40:44] Comparando: Escolha=31, Correto=31
+[2026-03-06 13:40:44] ✅ SUCESSO! Número correto
+[2026-03-06 13:40:44] ✅ Redirecionando para painel_cliente.php
+================================================================================
+[2026-03-06 13:48:05] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 85, 94, 62
+Número site: 94
+Expira em: 2026-03-06 13:53:05
+================================================================================
+================================================================================
+[2026-03-06 13:48:11] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 56, 46, 67
+Número site: 67
+Expira em: 2026-03-06 13:53:11
+================================================================================
+================================================================================
+[2026-03-06 14:10:49] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 45, 39, 31
+Número site: 31
+Expira em: 2026-03-06 14:15:49
+================================================================================
+================================================================================
+[2026-03-06 14:23:38] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 69, 34, 84
+Número site: 34
+Expira em: 2026-03-06 14:28:38
+================================================================================
+================================================================================
+[2026-03-06 14:23:44] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 50, 17, 32
+Número site: 17
+Expira em: 2026-03-06 14:28:44
+================================================================================
+================================================================================
+[2026-03-06 14:23:49] 2FA INICIADO
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 94, 56, 36
+Número site: 36
+Expira em: 2026-03-06 14:28:49
+================================================================================
+================================================================================
+[2026-03-06 14:25:48] VERIFICAÇÃO 2FA INICIADA
+Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+Cookie PHPSESSID: k7f0ne2kuk7lghn0kg19o17sfp
+GET: Array
+(
+    [numero] => 36
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 94
+            [1] => 56
+            [2] => 36
+        )
+
+    [2fa_numero_site] => 36
+    [2fa_expira] => 1772807329
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1772807029
+    [2fa_session_id] => k7f0ne2kuk7lghn0kg19o17sfp
+)
+
+================================================================================
+[2026-03-06 14:25:48] Tempo restante: 181 segundos
+[2026-03-06 14:25:48] Comparando: Escolha=36, Correto=36
+[2026-03-06 14:25:48] ✅ SUCESSO! Número correto
+[2026-03-06 14:25:48] ✅ Redirecionando para painel_cliente.php
