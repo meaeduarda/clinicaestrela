@@ -181,24 +181,6 @@ if (file_exists($caminhoEvolucoes)) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Badge de visitas */
-        .visitas-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite;
-        }
         
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -453,20 +435,6 @@ if (file_exists($caminhoEvolucoes)) {
             <!-- Header -->
             <div class="main-top desktop-only">
                 <h2><i class="fas fa-chart-line"></i> Evoluções</h2>
-                <div class="top-icons">
-                    <a href="visita_agendamento.php" class="icon-btn with-badge" title="Visitas Agendadas não confirmadas">
-                        <i class="fas fa-calendar-check"></i>
-                        <?php if ($totalVisitasNaoConfirmadas > 0): ?>
-                            <span class="visitas-badge"><?php echo $totalVisitasNaoConfirmadas; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <div class="icon-btn">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
             </div>
 
             <!-- Cards de estatísticas (KPI) -->

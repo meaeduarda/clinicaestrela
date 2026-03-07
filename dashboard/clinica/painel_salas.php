@@ -431,20 +431,6 @@ function getCorPorTipo($tipo) {
             <!-- Header -->
             <div class="main-top desktop-only">
                 <h2><i class="fas fa-door-closed"></i> Salas</h2>
-                <div class="top-icons">
-                    <a href="visita_agendamento.php" class="icon-btn with-badge" title="Visitas Agendadas não confirmadas">
-                        <i class="fas fa-calendar-check"></i>
-                        <?php if ($totalVisitasNaoConfirmadas > 0): ?>
-                            <span class="visitas-badge"><?php echo $totalVisitasNaoConfirmadas; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <div class="icon-btn">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
             </div>
 
             <!-- Salas Grid -->

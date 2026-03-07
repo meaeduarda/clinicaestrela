@@ -305,15 +305,6 @@ if (file_exists($arquivoJson)) {
         <main class="main-content">
             <div class="main-top desktop-only">
                 <h2><i class="fas fa-clipboard-list"></i> Lista de Pacientes Pendentes</h2>
-                <div class="top-icons">
-                    <div class="icon-btn with-badge">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">2</span>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                </div>
             </div>
 
             <div class="patient-card" style="margin-bottom: 20px;">

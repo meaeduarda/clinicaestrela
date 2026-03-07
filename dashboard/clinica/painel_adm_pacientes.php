@@ -554,6 +554,8 @@ if (file_exists($arquivoVisitas)) {
         .icon-btn.with-badge:hover {
             color: inherit;
         }
+
+        
     </style>
 </head>
 <body>
@@ -624,9 +626,6 @@ if (file_exists($arquivoVisitas)) {
                     </a>
                     <div class="icon-btn">
                         <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-cog"></i>
                     </div>
                 </div>
             </div>

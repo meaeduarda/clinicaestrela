@@ -850,18 +850,6 @@ foreach ($todosPacientes as $paciente) {
             <!-- Header -->
             <div class="main-top desktop-only">
                 <h2><i class="fas fa-calendar-check"></i> Plano Terapêutico</h2>
-                <div class="top-icons">
-                    <div class="icon-btn with-badge">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">2</span>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
             </div>
 
             <!-- Cards de Estatísticas - Personalizados -->

@@ -19,26 +19,24 @@
 <body>
     <div class="page-container">
         <div class="main-wrapper">
-            <!-- Mascote à esquerda (FORA do container branco) - VISÍVEL APENAS NO DESKTOP -->
             <div class="mascote-container desktop-only">
                 <img src="../../imagens/mascote_up.png" alt="Mascote" class="mascote-image">
             </div>
             
             <!-- Container branco do formulário -->
             <div class="form-card">
-                <!-- Logo DENTRO do container (APENAS LOGO NO CARD) -->
                 <div class="card-header">
                     <div class="logo-container">
                         <img src="../../imagens/logo_marca_aside.png" alt="Clínica Estrela" class="logo-image">
                     </div>
                 </div>
                 
-                <!-- MASCOTE MOBILE (aparece apenas no mobile, DENTRO DO CARD, depois da logo) -->
+              
                 <div class="mascote-mobile-container">
                     <img src="../../imagens/mascote_down.png" alt="Mascote" class="mascote-mobile">
                 </div>
                 
-                <!-- TÍTULO (DENTRO DO CARD, depois do mascote no mobile) -->
+                
                 <div class="form-title-container">
                     <h2 class="form-title">Cadastro de Colaborador</h2>
                 </div>
@@ -162,7 +160,7 @@
                             <div class="field-row">
                                 <label for="nome" class="field-label required">Nome:</label>
                                 <div class="field-input-wrapper">
-                                    <input type="text" id="nome" name="nome" class="field-input" placeholder="Ana Silva" value="<?php echo htmlspecialchars($nome); ?>">
+                                    <input type="text" id="nome" name="nome" class="field-input" placeholder="Nome Completo" value="<?php echo htmlspecialchars($nome); ?>">
                                     <?php if ($form_submitted && $nome_error): ?>
                                         <div class="error-message"><?php echo $nome_error; ?></div>
                                     <?php endif; ?>

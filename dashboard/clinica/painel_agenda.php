@@ -392,9 +392,6 @@ if (file_exists($arquivoVisitas)) {
                     <div class="icon-btn">
                         <i class="fas fa-user-circle"></i>
                     </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-cog"></i>
-                    </div>
                 </div>
             </div>
 
