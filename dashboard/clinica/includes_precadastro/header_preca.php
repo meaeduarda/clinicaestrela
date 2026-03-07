@@ -12,23 +12,25 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 <!-- Header Mobile -->
 <div class="mobile-header">
     <h1>Pré-Cadastro Clínico</h1>
-    <div class="mobile-close" id="mobileClose">
-        <i class="fas fa-times"></i>
-    </div>
 </div>
 
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
     <!-- Logo -->
-    <div class="logo">
-        <div class="logo-icon">
-            <img src="../../imagens/logo_clinica_estrela.png" alt="Logo" class="logo-img">
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="../../imagens/logo_saas.png" alt="Logo PuzzleCare" class="logo-img">
+            </div>
+            <div class="logo-text-container">
+                <h1>
+                    <span class="puzzle-azul">Puzzle</span><span class="care-verde">Care</span>
+                </h1>
+                <span class="logo-subtitle">by Cronos Solutions Tech</span>
+            </div>
+            <div class="mobile-close">
+                <i class="fas fa-times"></i>
+            </div>
         </div>
-        <h1>Clinica Estrela</h1>
-        <div class="mobile-close">
-            <i class="fas fa-times"></i>
-        </div>
-    </div>
 
     <!-- Menu de Navegação -->
     <nav class="menu">

@@ -37,7 +37,7 @@ $perfilLogado = $_SESSION['usuario_perfil'];
 </head>
 <body>    
     <div class="dashboard-container">
-        <!-- SIDEBAR FIXA - Agora usando o header_preca.php -->
+        <!-- SIDEBAR FIXA  -->
         <?php include 'includes_precadastro/header_preca.php'; ?>
 
         <!-- CONTEÚDO PRINCIPAL -->
@@ -526,10 +526,43 @@ $perfilLogado = $_SESSION['usuario_perfil'];
 <script>
     // Scripts para interatividade
     document.addEventListener('DOMContentLoaded', function() {
-        // Menu Mobile - AGORA USANDO O MESMO DO HEADER_PRECA.PHP
-        // O header_preca.php já tem seus próprios scripts de menu mobile,
-        // então vamos remover os scripts duplicados e manter apenas os específicos da grade
+        // ===== MENU MOBILE - Usando o mesmo padrão das outras páginas =====
+        const menuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeMenu = document.querySelector('.logo .mobile-close');
         
+        console.log('Menu toggle:', menuToggle);
+        console.log('Sidebar:', sidebar);
+        console.log('Close menu:', closeMenu);
+        
+        if (menuToggle && sidebar && closeMenu) {
+            menuToggle.addEventListener('click', function() {
+                console.log('Abrindo menu');
+                sidebar.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeMenu.addEventListener('click', function() {
+                console.log('Fechando menu');
+                sidebar.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Fechar ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target) && 
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        } else {
+            console.log('Elementos do menu não encontrados!');
+        }
+        // ===== FIM DO MENU MOBILE =====
+
         // Hover nos cards de KPI
         const kpiCards = document.querySelectorAll('.kpi-card');
         kpiCards.forEach(card => {

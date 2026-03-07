@@ -585,6 +585,33 @@ if (file_exists($arquivoJson)) {
 
         // Configurar eventos do modal
         document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const closeMenu = document.querySelector('.logo .mobile-close');
+            
+            if (menuToggle && sidebar && closeMenu) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeMenu.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+                
+                // Fechar ao clicar fora
+                document.addEventListener('click', function(event) {
+                    if (window.innerWidth <= 768 && 
+                        !sidebar.contains(event.target) && 
+                        !menuToggle.contains(event.target) && 
+                        sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
             // Botão cancelar exclusão
             document.getElementById('cancelDelete').addEventListener('click', function() {
                 closeConfirmationModal();

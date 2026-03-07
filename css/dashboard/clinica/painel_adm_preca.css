@@ -126,6 +126,7 @@ body {
     border-bottom: 1px solid #f1f5f9;
     position: relative;
     height: 80px;
+    gap: 12px; 
 }
 
 .logo-icon {
@@ -134,8 +135,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
     flex-shrink: 0;
+    margin-right: 0; 
 }
 
 .logo-img {
@@ -151,6 +152,105 @@ body {
     color: #1e293b;
     letter-spacing: 0.5px;
     white-space: nowrap;
+}
+
+.logo-text-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.logo-text-container h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.logo-subtitle {
+    font-size: 9px;
+    color: #94a3b8;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+
+.puzzle-azul {
+    color: #3b82f6;
+}
+
+.care-verde {
+    color: #10b981; 
+}
+
+
+.logo-text-container h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.logo-text-container h1 span {
+    display: inline; 
+}
+
+
+@media (max-width: 1024px) {
+    .logo-text-container {
+        display: none; 
+    }
+    
+    .logo-icon {
+        margin-right: 0; 
+    }
+}
+
+/* Ajuste para mobile quando sidebar expande */
+@media (max-width: 768px) {
+    .logo-text-container {
+        display: flex; 
+    }
+    
+    .logo-icon {
+        margin-right: 12px; 
+    }
+    
+    .logo-text-container h1 {
+        font-size: 16px; 
+    }
+    
+    .logo-subtitle {
+        font-size: 8px; 
+    }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 480px) {
+    .logo-text-container h1 {
+        font-size: 15px;
+    }
+    
+    .logo-subtitle {
+        font-size: 7px;
+    }
+}
+
+/* Ajuste para tablets em modo paisagem */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .logo {
+        justify-content: center;
+    }
+    
+    .logo-icon {
+        margin-right: 0;
+    }
 }
 
 /* Menu de Navegação - PADRÃO DO PROJETO */

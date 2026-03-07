@@ -370,12 +370,17 @@ if (file_exists($caminhoEvolucoes)) {
 
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+            <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
+                    <img src="../../imagens/logo_saas.png" alt="Logo PuzzleCare" class="logo-img">
                 </div>
-                <h1>Clinica Estrela</h1>
+                <div class="logo-text-container">
+                    <h1>
+                        <span class="puzzle-azul">Puzzle</span><span class="care-verde">Care</span>
+                    </h1>
+                    <span class="logo-subtitle">by Cronos Solutions Tech</span>
+                </div>
                 <div class="mobile-close">
                     <i class="fas fa-times"></i>
                 </div>

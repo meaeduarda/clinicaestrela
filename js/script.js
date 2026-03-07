@@ -1,7 +1,3 @@
-// ============================================
-// MENU MÓVEL
-// ============================================
-
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const navLinks = document.getElementById('navLinks');
 
