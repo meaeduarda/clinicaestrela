@@ -208,9 +208,6 @@ if (empty($paciente['foto'])) {
 
             <div class="main-top desktop-only">
                 <h2><i class="fas fa-file-medical"></i> <?php echo $modoEdicao ? 'Editar Paciente' : 'Pré-Cadastro Clínico'; ?></h2>
-                <div class="top-icons">
-                    <div class="icon-btn"><i class="fas fa-user-circle"></i></div>
-                </div>
             </div>
 
             <?php include 'includes_precadastro/paciente_card.php'; ?>

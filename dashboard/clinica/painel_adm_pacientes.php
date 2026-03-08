@@ -624,9 +624,6 @@ if (file_exists($arquivoVisitas)) {
                             <span class="visitas-badge"><?php echo $totalVisitasNaoConfirmadas; ?></span>
                         <?php endif; ?>
                     </a>
-                    <div class="icon-btn">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
                 </div>
             </div>
 
