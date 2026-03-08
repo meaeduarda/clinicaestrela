@@ -88,5 +88,15 @@
         "perfil": "Coordenador Clinico",
         "ativo": true,
         "criado_em": "2026-03-08 13:53:22"
+    },
+    {
+        "id": 11,
+        "nome": "Amanda",
+        "email": "cronossoluionsdev@gmail.com",
+        "senha": "clinicaestrela123",
+        "perfil": "Nutricionista",
+        "ativo": true,
+        "senha_temporaria": true,
+        "criado_em": "2026-03-08 15:01:11"
     }
 ]

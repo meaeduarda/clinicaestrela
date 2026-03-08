@@ -392,7 +392,7 @@
                         <?php if ($email_enviado): ?>
                             <br><small style="color: #155724; background-color: #d4edda; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
                                 <i class="fas fa-envelope"></i> 
-                                <strong>E-mail enviado!</strong> As instruções foram enviadas para <?php echo htmlspecialchars($email); ?>
+                                <strong>E-mail enviado!</strong> As instruções foram enviadas para seu E-mail <?php echo htmlspecialchars($email); ?>
                             </small>
                         <?php else: ?>
                             <br><small style="color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
