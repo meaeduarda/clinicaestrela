@@ -889,6 +889,34 @@
     border-top: 2px solid #eef2f6;
 }
 
+/* Rodapé - PADRÃO PARA TODAS AS PÁGINAS */
+.main-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #e2e8f0;
+    color: #94a3b8;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-logo i {
+    color: #fbbf24; 
+    font-size: 1.1rem;
+}
+
+.footer-logo span {
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #94a3b8;
+}
+
+
 .clinic-label {
     font-weight: 700;
     color: #f59e0b;

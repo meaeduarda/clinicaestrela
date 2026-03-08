@@ -549,6 +549,9 @@ function getCorPorTipo($tipo) {
                 <div class="loading-spinner"></div>
                 <p>Processando...</p>
             </div>
+            <footer class="main-footer">
+                <div class="footer-logo"><i class="fas fa-star"></i> <span>CLÍNICA ESTRELA</span></div>
+            </footer>
         </main>
     </div>
 

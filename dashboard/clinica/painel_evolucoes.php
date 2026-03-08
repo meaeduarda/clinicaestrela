@@ -765,6 +765,9 @@ if (file_exists($caminhoEvolucoes)) {
                     </div>
                 </form>
             <?php endif; ?>
+            <footer class="main-footer">
+                <div class="footer-logo"><i class="fas fa-star"></i> <span>CLÍNICA ESTRELA</span></div>
+            </footer>
         </main>
     </div>
    

@@ -791,6 +791,9 @@ if (file_exists($arquivoVisitas)) {
                     </div>
                 </div>
             </div>
+            <footer class="main-footer">
+                <div class="footer-logo"><i class="fas fa-star"></i> <span>CLÍNICA ESTRELA</span></div>
+            </footer>
         </main>
     </div>
 
