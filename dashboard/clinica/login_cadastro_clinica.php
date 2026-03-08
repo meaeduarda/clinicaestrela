@@ -31,22 +31,91 @@
                     </div>
                 </div>
                 
-              
                 <div class="mascote-mobile-container">
                     <img src="../../imagens/mascote_down.png" alt="Mascote" class="mascote-mobile">
                 </div>
-                
                 
                 <div class="form-title-container">
                     <h2 class="form-title">Cadastro de Colaborador</h2>
                 </div>
                 
                 <?php
+                // Função para enviar e-mail de boas-vindas (versão silenciosa para desenvolvimento)
+                function enviarEmailBoasVindas($email, $nome, $senha) {
+                    // Em ambiente de desenvolvimento, apenas retorna false simulando falha
+                    // e a senha será mostrada na tela
+                    
+                    // Descomente as linhas abaixo quando estiver em produção com servidor de email configurado
+                    /*
+                    $assunto = "Clínica Estrela - Seu cadastro foi realizado";
+                    
+                    $mensagem = "
+                    <html>
+                    <head>
+                        <title>Cadastro realizado</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                            .header { background-color: #2A5C8F; color: white; padding: 20px; text-align: center; }
+                            .content { padding: 20px; background-color: #f9f9f9; }
+                            .info-box { background-color: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0; }
+                            .botao { background-color: #2A5C8F; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; }
+                            .footer { font-size: 12px; color: #666; text-align: center; padding: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h2>Clínica Estrela</h2>
+                            </div>
+                            <div class='content'>
+                                <h3>Olá, $nome!</h3>
+                                <p>Seu cadastro no sistema da Clínica Estrela foi realizado com sucesso.</p>
+                                
+                                <div class='info-box'>
+                                    <p><strong>Suas credenciais de acesso:</strong></p>
+                                    <p><strong>E-mail:</strong> $email</p>
+                                    <p><strong>Senha temporária:</strong> $senha</p>
+                                </div>
+                                
+                                <p>Por questões de segurança, você deve alterar sua senha no primeiro acesso.</p>
+                                
+                                <div style='text-align: center;'>
+                                    <a href='http://localhost/clinicaestrela/dashboard/clinica/definir_nova_senha.php?email=" . urlencode($email) . "&temp=1' class='botao'>Definir nova senha</a>
+                                </div>
+                                
+                                <p><small>Se você não solicitou este cadastro, por favor ignore este e-mail.</small></p>
+                            </div>
+                            <div class='footer'>
+                                <p>Este é um e-mail automático, por favor não responda.</p>
+                                <p>&copy; " . date('Y') . " Clínica Estrela. Todos os direitos reservados.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                    ";
+                    
+                    $headers = "MIME-Version: 1.0" . "\r\n";
+                    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                    $headers .= "From: naoresponda@clinicaestrela.com.br" . "\r\n";
+                    
+                    return @mail($email, $assunto, $mensagem, $headers);
+                    */
+                    
+                    // Para ambiente de desenvolvimento, retorna false (não envia e-mail)
+                    return false;
+                }
+                
                 // Inicializar variáveis
                 $nome = $email = $senha = $perfil = '';
                 $nome_error = $email_error = $senha_error = $perfil_error = '';
                 $success = false;
                 $form_submitted = false;
+                $email_enviado = false;
+                $senha_salva = ''; // Para mostrar na tela em caso de falha no email
+                
+                // Suprimir warnings de mail() em desenvolvimento
+                error_reporting(E_ALL & ~E_WARNING);
                 
                 // Verificar se o formulário foi enviado
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -89,8 +158,7 @@
                     
                     // Se não houver erros de validação, verificar no arquivo JSON
                     if (!$erro_geral) {
-                        // Caminho para o arquivo JSON - AJUSTE CONFORME SEU CAMINHO
-                        // Se estiver no WAMP, use o caminho absoluto:
+                        // Caminho para o arquivo JSON
                         $json_file = 'C:/wamp64/www/clinicaestrela/dashboard/dados/users.json';
                         
                         // Ler usuários existentes
@@ -129,9 +197,10 @@
                                 'id' => count($users) + 1,
                                 'nome' => $nome,
                                 'email' => $email,
-                                'senha' => $senha,
+                                'senha' => $senha, // Em produção, use password_hash($senha, PASSWORD_DEFAULT)
                                 'perfil' => $perfil,
                                 'ativo' => true,
+                                'senha_temporaria' => true, // Marca que a senha atual é temporária
                                 'criado_em' => date('Y-m-d H:i:s')
                             ];
                             
@@ -139,6 +208,12 @@
                             
                             // Salvar no arquivo JSON
                             file_put_contents($json_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                            
+                            // Tentar enviar e-mail de boas-vindas com a senha temporária
+                            $email_enviado = enviarEmailBoasVindas($email, $nome, $senha);
+                            
+                            // Guardar a senha para mostrar em caso de falha no email
+                            $senha_salva = $senha;
                             
                             // Limpar campos para novo cadastro
                             $nome = $email = $senha = $perfil = '';
@@ -185,7 +260,7 @@
                         <div class="form-fields">
                             <!-- Campo Senha -->
                             <div class="field-row">
-                                <label for="senha" class="field-label required">Senha:</label>
+                                <label for="senha" class="field-label required">Senha Temporária:</label>
                                 <div class="field-input-wrapper password-wrapper">
                                     <input type="password" id="senha" name="senha" class="field-input password-input" value="<?php echo htmlspecialchars($senha); ?>">
                                     <button type="button" class="toggle-password" onclick="togglePassword()">
@@ -231,7 +306,19 @@
                 <?php if ($success): ?>
                 <div class="feedback-section">
                     <div class="success-separator"></div>
-                    <div class="success-message">Usuário cadastrado com sucesso!</div>
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i> Usuário cadastrado com sucesso!
+                        <?php if ($email_enviado): ?>
+                            <br><small>Um e-mail com as instruções foi enviado para <?php echo htmlspecialchars($email); ?></small>
+                        <?php else: ?>
+                            <br><small style="color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
+                                <i class="fas fa-exclamation-triangle"></i> 
+                                <strong>Ambiente de Desenvolvimento:</strong> O envio de e-mail não está configurado.<br>
+                                <strong>Senha temporária:</strong> <?php echo htmlspecialchars($senha_salva); ?><br>
+                                <a href="definir_nova_senha.php?email=<?php echo urlencode($email); ?>&temp=1" style="color: #2A5C8F; text-decoration: underline;">Clique aqui para definir sua nova senha</a>
+                            </small>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <?php endif; ?>
             </div>

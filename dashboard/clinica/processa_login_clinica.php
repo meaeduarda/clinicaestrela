@@ -16,22 +16,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $usuarios = json_decode(file_get_contents($jsonPath), true);
     $usuarioEncontrado = null;
+    $usuarioIndex = null;
 
-    foreach ($usuarios as $user) {
+    foreach ($usuarios as $index => $user) {
         if ($user['email'] === $email) {
             $usuarioEncontrado = $user;
+            $usuarioIndex = $index;
             break;
         }
     }
 
     if ($usuarioEncontrado) {
-        // Valida senha hash e se o usuário está ativo
-        // Nota: Para testes rápidos, use password_verify ou comparação direta se o hash for texto puro
+        // Valida senha
         if (password_verify($senha, $usuarioEncontrado['senha']) || $senha === $usuarioEncontrado['senha']) {
             if ($usuarioEncontrado['ativo']) {
+                
+                // Verifica se a senha é temporária
+                if (isset($usuarioEncontrado['senha_temporaria']) && $usuarioEncontrado['senha_temporaria'] === true) {
+                    // Salva informações na sessão para a troca de senha
+                    $_SESSION['reset_email'] = $email;
+                    $_SESSION['reset_id'] = $usuarioEncontrado['id'];
+                    
+                    // Redireciona para página de definição de nova senha
+                    header("Location: definir_nova_senha.php?temp=1");
+                    exit;
+                }
+                
+                // Login normal (senha já foi alterada)
                 $_SESSION['usuario_id'] = $usuarioEncontrado['id'];
                 $_SESSION['usuario_nome'] = $usuarioEncontrado['nome'];
                 $_SESSION['usuario_perfil'] = $usuarioEncontrado['perfil'];
+                
+                // Remove a marcação de senha temporária se existir (por segurança)
+                if (isset($usuarioEncontrado['senha_temporaria'])) {
+                    unset($usuarios[$usuarioIndex]['senha_temporaria']);
+                    file_put_contents($jsonPath, json_encode($usuarios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                }
                 
                 // Redireciona para o painel administrativo
                 header("Location: painel_adm_pacientes.php");
@@ -48,3 +68,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     header("Location: login_clinica.php");
 }
+?>

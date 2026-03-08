@@ -79,5 +79,15 @@
         "perfil": "Psicopedagogia",
         "ativo": true,
         "criado_em": "2026-02-27 22:30:03"
+    },
+    {
+        "id": 10,
+        "nome": "Ricardo",
+        "email": "eduardaaraujodemoraes@gmail.com",
+        "senha": "clinicaestrela123",
+        "perfil": "Coordenador Clinico",
+        "ativo": true,
+        "senha_temporaria": true,
+        "criado_em": "2026-03-08 13:45:28"
     }
 ]
