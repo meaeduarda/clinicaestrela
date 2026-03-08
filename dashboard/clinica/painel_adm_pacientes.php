@@ -680,9 +680,6 @@ if (file_exists($arquivoVisitas)) {
                     <a href="painel_adm_preca.php" class="btn-add-patient" style="text-decoration:none;">
                         <i class="fas fa-plus"></i> Novo Paciente
                     </a>
-                    <button class="btn-export">
-                        <i class="fas fa-file-export"></i> Exportar
-                    </button>
                 </div>
             </div>
             
