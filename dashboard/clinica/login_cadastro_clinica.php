@@ -40,70 +40,150 @@
                 </div>
                 
                 <?php
-                // Função para enviar e-mail de boas-vindas (versão silenciosa para desenvolvimento)
-                function enviarEmailBoasVindas($email, $nome, $senha) {
-                    // Em ambiente de desenvolvimento, apenas retorna false simulando falha
-                    // e a senha será mostrada na tela
+                // Configuração de e-mail usando PHPMailer (versão sem Composer)
+                
+                // Criar pasta de logs automaticamente
+                $base_path = dirname(dirname(__DIR__)) . '/';
+                $log_dir = $base_path . 'logs/';
+                if (!file_exists($log_dir)) {
+                    mkdir($log_dir, 0777, true);
+                }
+                
+                // Caminho do PHPMailer
+                $phpmailer_path = $base_path . 'PHPMailer/src/';
+                
+                // Verificar se o PHPMailer está instalado
+                $phpmailer_instalado = file_exists($phpmailer_path . 'PHPMailer.php');
+                
+                // Se o PHPMailer estiver instalado, incluir as classes
+                if ($phpmailer_instalado) {
+                    require_once $phpmailer_path . 'Exception.php';
+                    require_once $phpmailer_path . 'PHPMailer.php';
+                    require_once $phpmailer_path . 'SMTP.php';
+                }
+                
+                // Configurações de email - GMAIL
+                $smtp_config = [
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    'secure' => 'tls',
+                    'user' => 'clinicaestrela2026@gmail.com',
+                    'pass' => 'rozsjxkdjulukyhh',
+                    'from' => 'clinicaestrela2026@gmail.com',
+                    'from_name' => 'Clínica Estrela'
+                ];
+                
+                // Função para enviar e-mail de boas-vindas usando SMTP do Gmail
+                function enviarEmailBoasVindas($email, $nome, $senha, $smtp_config, $phpmailer_instalado, $phpmailer_path) {
                     
-                    // Descomente as linhas abaixo quando estiver em produção com servidor de email configurado
-                    /*
-                    $assunto = "Clínica Estrela - Seu cadastro foi realizado";
+                    // Verificar se o PHPMailer está instalado
+                    if (!$phpmailer_instalado) {
+                        error_log("PHPMailer não encontrado em: " . $phpmailer_path);
+                        return false;
+                    }
                     
-                    $mensagem = "
-                    <html>
-                    <head>
-                        <title>Cadastro realizado</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; }
-                            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                            .header { background-color: #2A5C8F; color: white; padding: 20px; text-align: center; }
-                            .content { padding: 20px; background-color: #f9f9f9; }
-                            .info-box { background-color: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0; }
-                            .botao { background-color: #2A5C8F; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; }
-                            .footer { font-size: 12px; color: #666; text-align: center; padding: 20px; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <div class='header'>
-                                <h2>Clínica Estrela</h2>
-                            </div>
-                            <div class='content'>
-                                <h3>Olá, $nome!</h3>
-                                <p>Seu cadastro no sistema da Clínica Estrela foi realizado com sucesso.</p>
-                                
-                                <div class='info-box'>
-                                    <p><strong>Suas credenciais de acesso:</strong></p>
-                                    <p><strong>E-mail:</strong> $email</p>
-                                    <p><strong>Senha temporária:</strong> $senha</p>
+                    try {
+                        // Usar as classes do PHPMailer
+                        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+                        
+                        // Configurações do servidor SMTP do Gmail
+                        $mail->isSMTP();
+                        $mail->Host       = $smtp_config['host'];
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = $smtp_config['user'];
+                        $mail->Password   = $smtp_config['pass'];
+                        $mail->SMTPSecure = $smtp_config['secure'];
+                        $mail->Port       = $smtp_config['port'];
+                        
+                        // Configuração do charset para acentos
+                        $mail->CharSet = 'UTF-8';
+                        
+                        // Remetente e destinatário
+                        $mail->setFrom($smtp_config['from'], $smtp_config['from_name']);
+                        $mail->addAddress($email, $nome);
+                        $mail->addReplyTo($smtp_config['from'], $smtp_config['from_name']);
+                        
+                        // Conteúdo do e-mail
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Clínica Estrela - Seu cadastro foi realizado';
+                        
+                        // Corpo do e-mail em HTML
+                        $mail->Body = "
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>
+                                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                                .header { background: linear-gradient(135deg, #2A5C8F 0%, #1e3f61 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                                .header h1 { margin: 0; font-size: 28px; }
+                                .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+                                .info-box { background: #e3f2fd; border-left: 4px solid #2A5C8F; padding: 20px; margin: 20px 0; border-radius: 5px; }
+                                .info-box p { margin: 10px 0; }
+                                .info-box strong { color: #2A5C8F; }
+                                .button { display: inline-block; background: #2A5C8F; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }
+                                .button:hover { background: #1e3f61; }
+                                .footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }
+                                .warning { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px; border-radius: 5px; margin-top: 20px; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <div class='header'>
+                                    <h1>Clínica Estrela</h1>
+                                    <p>Bem-vindo à nossa equipe!</p>
                                 </div>
-                                
-                                <p>Por questões de segurança, você deve alterar sua senha no primeiro acesso.</p>
-                                
-                                <div style='text-align: center;'>
-                                    <a href='http://localhost/clinicaestrela/dashboard/clinica/definir_nova_senha.php?email=" . urlencode($email) . "&temp=1' class='botao'>Definir nova senha</a>
+                                <div class='content'>
+                                    <h2>Olá, $nome!</h2>
+                                    <p>Seu cadastro no sistema da Clínica Estrela foi realizado com sucesso.</p>
+                                    
+                                    <div class='info-box'>
+                                        <h3 style='margin-top: 0; color: #2A5C8F;'>Suas credenciais de acesso:</h3>
+                                        <p><strong>E-mail:</strong> $email</p>
+                                        <p><strong>Senha temporária:</strong> <span style='font-size: 18px; font-weight: bold; color: #2A5C8F;'>$senha</span></p>
+                                    </div>
+                                    
+                                    <p><strong>⚠️ Importante:</strong> Por questões de segurança, você deve alterar sua senha no primeiro acesso.</p>
+                                    
+                                    <div style='text-align: center;'>
+                                        <a href='http://localhost/clinicaestrela/dashboard/clinica/definir_nova_senha.php?email=" . urlencode($email) . "&temp=1' class='button'>Definir nova senha</a>
+                                    </div>
+                                    
+                                    <p>Se você não solicitou este cadastro, por favor ignore este e-mail.</p>
+                                    
+                                    <div class='warning'>
+                                        <strong>🔒 Segurança:</strong> Nunca compartilhe sua senha com ninguém.
+                                    </div>
                                 </div>
-                                
-                                <p><small>Se você não solicitou este cadastro, por favor ignore este e-mail.</small></p>
+                                <div class='footer'>
+                                    <p>Este é um e-mail automático, por favor não responda.</p>
+                                    <p>&copy; " . date('Y') . " Clínica Estrela. Todos os direitos reservados.</p>
+                                </div>
                             </div>
-                            <div class='footer'>
-                                <p>Este é um e-mail automático, por favor não responda.</p>
-                                <p>&copy; " . date('Y') . " Clínica Estrela. Todos os direitos reservados.</p>
-                            </div>
-                        </div>
-                    </body>
-                    </html>
-                    ";
-                    
-                    $headers = "MIME-Version: 1.0" . "\r\n";
-                    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-                    $headers .= "From: naoresponda@clinicaestrela.com.br" . "\r\n";
-                    
-                    return @mail($email, $assunto, $mensagem, $headers);
-                    */
-                    
-                    // Para ambiente de desenvolvimento, retorna false (não envia e-mail)
-                    return false;
+                        </body>
+                        </html>
+                        ";
+                        
+                        // Versão em texto plano (para clientes de e-mail que não suportam HTML)
+                        $mail->AltBody = "Olá $nome,\n\nSeu cadastro no sistema da Clínica Estrela foi realizado com sucesso.\n\nSuas credenciais de acesso:\nE-mail: $email\nSenha temporária: $senha\n\nPor questões de segurança, você deve alterar sua senha no primeiro acesso.\n\nAcesse: http://localhost/clinicaestrela/dashboard/clinica/definir_nova_senha.php?email=" . urlencode($email) . "&temp=1\n\nAtenciosamente,\nEquipe Clínica Estrela";
+                        
+                        $mail->send();
+                        
+                        // Registrar log de sucesso
+                        $log_file = $log_dir . 'email_success.log';
+                        $log_message = date('Y-m-d H:i:s') . " - E-mail enviado com sucesso. Verifique sua caixa de entrada. E-mail: $email\n";
+                        file_put_contents($log_file, $log_message, FILE_APPEND);
+                        
+                        return true;
+                        
+                    } catch (Exception $e) {
+                        // Registrar log de erro
+                        $log_file = $log_dir . 'email_errors.log';
+                        $log_message = date('Y-m-d H:i:s') . " - Erro ao enviar e-mail para $email: " . $e->getMessage() . "\n";
+                        file_put_contents($log_file, $log_message, FILE_APPEND);
+                        
+                        return false;
+                    }
                 }
                 
                 // Inicializar variáveis
@@ -112,9 +192,10 @@
                 $success = false;
                 $form_submitted = false;
                 $email_enviado = false;
+                $erro_email = '';
                 $senha_salva = ''; // Para mostrar na tela em caso de falha no email
                 
-                // Suprimir warnings de mail() em desenvolvimento
+                // Suprimir warnings
                 error_reporting(E_ALL & ~E_WARNING);
                 
                 // Verificar se o formulário foi enviado
@@ -197,10 +278,10 @@
                                 'id' => count($users) + 1,
                                 'nome' => $nome,
                                 'email' => $email,
-                                'senha' => $senha, // Em produção, use password_hash($senha, PASSWORD_DEFAULT)
+                                'senha' => $senha,
                                 'perfil' => $perfil,
                                 'ativo' => true,
-                                'senha_temporaria' => true, // Marca que a senha atual é temporária
+                                'senha_temporaria' => true,
                                 'criado_em' => date('Y-m-d H:i:s')
                             ];
                             
@@ -210,7 +291,7 @@
                             file_put_contents($json_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
                             
                             // Tentar enviar e-mail de boas-vindas com a senha temporária
-                            $email_enviado = enviarEmailBoasVindas($email, $nome, $senha);
+                            $email_enviado = enviarEmailBoasVindas($email, $nome, $senha, $smtp_config, $phpmailer_instalado, $phpmailer_path);
                             
                             // Guardar a senha para mostrar em caso de falha no email
                             $senha_salva = $senha;
@@ -309,14 +390,24 @@
                     <div class="success-message">
                         <i class="fas fa-check-circle"></i> Usuário cadastrado com sucesso!
                         <?php if ($email_enviado): ?>
-                            <br><small>Um e-mail com as instruções foi enviado para <?php echo htmlspecialchars($email); ?></small>
+                            <br><small style="color: #155724; background-color: #d4edda; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
+                                <i class="fas fa-envelope"></i> 
+                                <strong>E-mail enviado!</strong> As instruções foram enviadas para <?php echo htmlspecialchars($email); ?>
+                            </small>
                         <?php else: ?>
                             <br><small style="color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
                                 <i class="fas fa-exclamation-triangle"></i> 
-                                <strong>Ambiente de Desenvolvimento:</strong> O envio de e-mail não está configurado.<br>
+                                <strong>Não foi possível enviar o e-mail.</strong><br>
                                 <strong>Senha temporária:</strong> <?php echo htmlspecialchars($senha_salva); ?><br>
                                 <a href="definir_nova_senha.php?email=<?php echo urlencode($email); ?>&temp=1" style="color: #2A5C8F; text-decoration: underline;">Clique aqui para definir sua nova senha</a>
                             </small>
+                            
+                            <?php if (!$phpmailer_instalado): ?>
+                                <br><small style="color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; display: block; margin-top: 10px;">
+                                    <i class="fas fa-times-circle"></i> 
+                                    <strong>Erro:</strong> PHPMailer não encontrado. Verifique se a pasta está em: <strong><?php echo $phpmailer_path; ?></strong>
+                                </small>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>

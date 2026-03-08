@@ -105,78 +105,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../../css/dashboard/clinica/login_clinica.css">
     
     <style>
-        /* Estilos adicionais específicos para a página de definição de senha */
-        .password-requirements {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #666;
+        /* Ajustes específicos para definir_nova_senha.php */
+        .login-container {
+            max-height: 95vh;
+            overflow-y: auto;
+            padding: 1.5rem;
         }
         
-        .password-requirements i {
-            color: #2A5C8F;
-            margin-right: 8px;
-            width: 18px;
+        .login-header {
+            margin-bottom: 0.8rem;
         }
         
-        .password-requirements p {
-            margin: 5px 0;
+        .login-header h1 {
+            font-size: 1.2rem;
+            margin: 0.3rem 0;
         }
         
-        .success-container {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .success-container i {
-            font-size: 60px;
-            color: #28a745;
-            margin-bottom: 20px;
-        }
-        
-        .success-container h2 {
-            color: #28a745;
-            margin-bottom: 15px;
-        }
-        
-        .success-container p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        
-        .login-link {
-            display: inline-block;
-            background-color: #2A5C8F;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        
-        .login-link:hover {
-            background-color: #1e3f61;
+        .login-header p {
+            font-size: 0.8rem;
         }
         
         .info-box {
-            background-color: #e3f2fd;
-            border-left: 4px solid #2A5C8F;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
         }
         
         .info-box i {
-            color: #2A5C8F;
-            margin-right: 10px;
+            font-size: 0.9rem;
         }
         
-        .info-box span {
-            color: #333;
-            font-size: 14px;
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+        
+        .form-group label {
+            margin-bottom: 3px;
+            font-size: 0.8rem;
+        }
+        
+        .input-with-icon input {
+            padding: 8px 10px 8px 35px;
+            font-size: 0.8rem;
+        }
+        
+        .input-with-icon i {
+            font-size: 0.8rem;
+            left: 10px;
+        }
+        
+        .password-requirements {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.7rem;
+        }
+        
+        .password-requirements p {
+            margin: 2px 0;
+        }
+        
+        .password-requirements i {
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
+        
+        .btn-login {
+            padding: 8px;
+            font-size: 0.85rem;
+            margin-top: 0;
+        }
+        
+        .back-home {
+            margin-top: 0.8rem;
+        }
+        
+        .back-home a {
+            font-size: 0.75rem;
+        }
+        
+        /* Ajustes para mensagem de sucesso */
+        .success-container {
+            padding: 10px;
+        }
+        
+        .success-container i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .success-container h2 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .success-container p {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+        
+        /* Esconder scrollbar mas manter funcionalidade */
+        .login-container::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .login-container::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -195,10 +229,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <?php if (!$success): ?>
                 <h1>Definir Nova Senha</h1>
-                <p>Crie uma senha segura para seu acesso</p>
+                <p>Crie uma senha segura</p>
             <?php else: ?>
                 <h1>Senha Alterada!</h1>
-                <p>Sua senha foi atualizada com sucesso</p>
+                <p>Sua senha foi atualizada</p>
             <?php endif; ?>
         </div>
         
@@ -208,9 +242,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Mensagem de sucesso -->
                 <div class="success-container">
                     <i class="fas fa-check-circle"></i>
-                    <h2>Senha alterada com sucesso!</h2>
-                    <p>Você será redirecionado para a página de login em instantes.</p>
-                    <p>Se não for redirecionado automaticamente, <a href="login_clinica.php" style="color: #2A5C8F;">clique aqui</a>.</p>
+                    <h2>Senha alterada!</h2>
+                    <p>Redirecionando para o login...</p>
+                    <p><small><a href="login_clinica.php">Clique aqui</a> se não for redirecionado.</small></p>
                 </div>
                 
             <?php else: ?>
@@ -224,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Informação de conta -->
                 <div class="info-box">
                     <i class="fas fa-info-circle"></i>
-                    <span>Definindo nova senha para: <strong><?php echo htmlspecialchars($email); ?></strong></span>
+                    <span><strong><?php echo htmlspecialchars($email); ?></strong></span>
                 </div>
                 
                 <form action="" method="POST" id="formNovaSenha">
@@ -232,23 +266,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="nova_senha">Nova Senha</label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="nova_senha" name="nova_senha" placeholder="Digite sua nova senha" required minlength="4">
+                            <input type="password" id="nova_senha" name="nova_senha" placeholder="Nova senha" required minlength="4">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="confirmar_senha">Confirmar Nova Senha</label>
+                        <label for="confirmar_senha">Confirmar Senha</label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Digite novamente a senha" required minlength="4">
+                            <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme a senha" required minlength="4">
                         </div>
                     </div>
                     
                     <!-- Requisitos de senha -->
                     <div class="password-requirements">
-                        <p><i class="fas fa-check-circle"></i> Mínimo de 4 caracteres</p>
-                        <p><i class="fas fa-check-circle"></i> Recomendamos usar letras e números</p>
-                        <p><i class="fas fa-check-circle"></i> Evite usar informações pessoais</p>
+                        <p><i class="fas fa-check-circle"></i> Mínimo 4 caracteres</p>
+                        <p><i class="fas fa-check-circle"></i> Use letras e números</p>
+                        <p><i class="fas fa-check-circle"></i> Evite informações pessoais</p>
                     </div>
                     
                     <button type="submit" class="btn-login">
@@ -256,9 +290,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </form>
                 
-                <div class="back-home" style="margin-top: 15px;">
+                <div class="back-home">
                     <a href="login_clinica.php">
-                        <i class="fas fa-arrow-left"></i> Voltar para o login
+                        <i class="fas fa-arrow-left"></i> Voltar
                     </a>
                 </div>
                 

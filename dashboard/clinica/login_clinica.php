@@ -21,6 +21,59 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/dashboard/clinica/login_clinica.css">
+    
+    <style>
+        .forgot-password {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .forgot-password a {
+            text-decoration: none;
+            color: #2A5C8F;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .forgot-password a:hover {
+            color: #1e3f61;
+            transform: translateX(-5px);
+        }
+        
+        .forgot-password a i {
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password a:hover i {
+            transform: translateX(-3px);
+        }
+        
+        .back-home {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .back-home a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-home a:hover {
+            color: #2A5C8F;
+        }
+    </style>
 </head>
 <body>
     <!-- Background com imagem e overlay -->
@@ -42,6 +95,12 @@ session_start();
             <?php if (isset($_GET['error'])): ?>
                 <div class="error-message">
                     <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($_GET['error']); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (isset($_GET['success'])): ?>
+                <div class="success-message" style="background: rgba(40, 167, 69, 0.1); color: #28a745; padding: 12px 15px; border-radius: 10px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($_GET['success']); ?>
                 </div>
             <?php endif; ?>
             
@@ -67,9 +126,10 @@ session_start();
                 </button>
             </form>
             
-            <div class="back-home">
-                <a href="../../index.html">
-                    <i class="fas fa-arrow-left"></i> Voltar ao site principal
+            <!-- Link para esqueci minha senha -->
+            <div class="forgot-password">
+                <a href="esqueci_senha.php">
+                    <i class="fas fa-key"></i> Esqueceu sua senha?
                 </a>
             </div>
         </div>

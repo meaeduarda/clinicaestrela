@@ -84,10 +84,9 @@
         "id": 10,
         "nome": "Ricardo",
         "email": "eduardaaraujodemoraes@gmail.com",
-        "senha": "clinicaestrela123",
+        "senha": "$2y$10$JE.3\/gExsv6vxTgFxzc9reTJ4Kr8v0TX1t.aFDTaGEeiMRRyQkcIm",
         "perfil": "Coordenador Clinico",
         "ativo": true,
-        "senha_temporaria": true,
-        "criado_em": "2026-03-08 13:45:28"
+        "criado_em": "2026-03-08 13:53:22"
     }
 ]
