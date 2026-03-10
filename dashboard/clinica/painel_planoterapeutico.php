@@ -1002,12 +1002,6 @@ foreach ($todosPacientes as $paciente) {
             <div class="patients-table-container">
                 <div class="table-header">
                     <h3>Plano Terapêutico - PEI Mensal</h3>
-                    <div class="table-actions">
-                        <button class="btn-export" <?php echo empty($pacientesFiltrados) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
-                            <i class="fas fa-file-export"></i>
-                            Exportar
-                        </button>
-                    </div>
                 </div>
 
                 <div class="table-wrapper">
