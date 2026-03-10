@@ -555,7 +555,139 @@ if (file_exists($arquivoVisitas)) {
             color: inherit;
         }
 
-        
+        /* Estilos para os botões de pesquisa */
+        .patients-search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            width: 100%;
+            position: relative;
+        }
+
+        .patients-search-box i.fa-search {
+            position: absolute;
+            left: 15px;
+            color: #94a3b8;
+            z-index: 1;
+        }
+
+        .patients-search-box input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .patients-search-box input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-search, .btn-clear {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-search:active {
+            transform: translateY(0);
+        }
+
+        .btn-clear {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-clear:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear:active {
+            transform: translateY(0);
+        }
+
+        .btn-clear i {
+            color: #64748b;
+        }
+
+        .btn-clear:hover i {
+            color: #475569;
+        }
+
+        /* Responsividade para os botões */
+        @media (max-width: 768px) {
+            .patients-search-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .patients-search-box input {
+                min-width: 100%;
+            }
+            
+            .btn-search, .btn-clear {
+                justify-content: center;
+                padding: 12px;
+            }
+        }
+
+        /* Animação para quando a busca estiver ativa */
+        .patients-search-box.has-search input {
+            border-color: #3b82f6;
+            background-color: #f8fafc;
+        }
+
+        .patients-search-box.has-search i.fa-search {
+            color: #3b82f6;
+        }
+
+        /* Dica de teclado */
+        .search-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-left: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .search-hint kbd {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -669,9 +801,14 @@ if (file_exists($arquivoVisitas)) {
             </div>
 
             <div class="patients-search-container">
-                <div class="patients-search-box">
-                    <i class="fas fa-search"></i>
+                <div class="patients-search-box">                    
                     <input type="text" id="buscar-paciente" placeholder="Buscar paciente por nome, telefone ou idade...">
+                    <button type="button" id="btn-buscar" class="btn-search" title="Pesquisar">
+                        Pesquisar
+                    </button>
+                    <button type="button" id="btn-limpar" class="btn-clear" title="Limpar busca">
+                         Limpar
+                    </button>
                 </div>
                 <div class="patients-actions">
                     <a href="painel_adm_preca.php" class="btn-add-patient" style="text-decoration:none;">
@@ -967,10 +1104,22 @@ if (file_exists($arquivoVisitas)) {
 
         // Configurar campo de busca
         const campoBusca = document.getElementById('buscar-paciente');
+        const btnBuscar = document.getElementById('btn-buscar');
+        const btnLimpar = document.getElementById('btn-limpar');
+        const searchBox = document.querySelector('.patients-search-box');
+        
         if (campoBusca) {
             campoBusca.addEventListener('input', function() {
+                // Não fazer busca automática, apenas atualizar a variável
                 termoBusca = this.value.trim().toLowerCase();
-                buscarPacientes(termoBusca);
+            });
+            
+            // Adicionar suporte para tecla Enter
+            campoBusca.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    btnBuscar.click();
+                }
             });
             
             // Adicionar atalho de teclado (Ctrl+F para focar no campo de busca)
@@ -982,13 +1131,53 @@ if (file_exists($arquivoVisitas)) {
                 
                 // Esc para limpar busca
                 if (e.key === 'Escape' && campoBusca.value) {
-                    campoBusca.value = '';
-                    termoBusca = '';
-                    buscarPacientes('');
-                    campoBusca.focus();
+                    e.preventDefault();
+                    btnLimpar.click();
                 }
             });
         }
+
+        // Configurar botão de busca
+        if (btnBuscar) {
+            btnBuscar.addEventListener('click', function() {
+                const termo = campoBusca.value.trim().toLowerCase();
+                buscarPacientes(termo);
+                
+                // Adicionar classe visual para indicar busca ativa
+                if (termo) {
+                    searchBox.classList.add('has-search');
+                } else {
+                    searchBox.classList.remove('has-search');
+                }
+            });
+        }
+
+        // Configurar botão de limpar
+        if (btnLimpar) {
+            btnLimpar.addEventListener('click', function() {
+                // Limpar campo de busca
+                campoBusca.value = '';
+                termoBusca = '';
+                
+                // Mostrar todos os resultados
+                buscarPacientes('');
+                
+                // Remover classe visual de busca ativa
+                searchBox.classList.remove('has-search');
+                
+                // Focar no campo de busca
+                campoBusca.focus();
+                
+                // Mostrar notificação opcional
+                mostrarNotificacao('info', 'Mostrando todos os pacientes');
+            });
+        }
+
+        // Adicionar dica de teclado
+        const searchHint = document.createElement('span');
+        searchHint.className = 'search-hint';
+        searchHint.innerHTML = '<kbd>Ctrl+F</kbd> para buscar • <kbd>Esc</kbd> para limpar';
+        document.querySelector('.patients-search-box').appendChild(searchHint);
 
         function adjustMenuForMobile() {
             const menuItems = document.querySelectorAll('.menu li a span');
@@ -1019,6 +1208,8 @@ if (file_exists($arquivoVisitas)) {
         if (!termo) {
             linhasPacientes.forEach(linha => {
                 linha.style.display = '';
+                // Remover destaques anteriores
+                removerDestaques(linha);
             });
             
             // Mostrar/ocultar linha "sem pacientes" conforme necessário
@@ -1043,6 +1234,9 @@ if (file_exists($arquivoVisitas)) {
             const nome = linha.getAttribute('data-nome') || '';
             const telefone = linha.getAttribute('data-telefone') || '';
             const idade = linha.getAttribute('data-idade') || '';
+            
+            // Remover destaques anteriores
+            removerDestaques(linha);
             
             // Verificar se o termo está em algum dos campos
             const corresponde = 
@@ -1113,25 +1307,66 @@ if (file_exists($arquivoVisitas)) {
         }
     }
     
+    // Função para remover destaques anteriores
+    function removerDestaques(linha) {
+        const celulas = linha.querySelectorAll('td:not(:last-child)');
+        celulas.forEach(celula => {
+            // Substituir marks pelo texto sem destaque
+            celula.innerHTML = celula.innerHTML.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '$1');
+        });
+    }
+    
     // Função para destacar o termo encontrado nas células da linha
     function destacarTermo(linha, termo) {
         // Obter todas as células da linha (exceto a última que tem ações)
         const celulas = linha.querySelectorAll('td:not(:last-child)');
         
         celulas.forEach(celula => {
-            const textoOriginal = celula.textContent || celula.innerText;
-            const regex = new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            
-            // Verificar se o termo está no texto (ignorando case)
-            if (regex.test(textoOriginal)) {
-                // Restaurar o texto original primeiro
-                celula.innerHTML = textoOriginal;
+            // Pular células que contêm botões ou elementos complexos
+            if (celula.querySelector('button, a, .action-buttons, .patient-cell')) {
+                // Para células com estrutura complexa, processar apenas texto específico
+                const patientName = celula.querySelector('.patient-name strong');
+                if (patientName) {
+                    const textoOriginal = patientName.textContent;
+                    const regex = new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    
+                    if (regex.test(textoOriginal)) {
+                        patientName.innerHTML = textoOriginal.replace(
+                            regex, 
+                            '<mark style="background-color: #fef3c7; padding: 2px 4px; border-radius: 4px; font-weight: bold;">$1</mark>'
+                        );
+                    }
+                }
                 
-                // Aplicar o destaque
-                celula.innerHTML = celula.innerHTML.replace(
-                    regex, 
-                    '<mark style="background-color: #fef3c7; padding: 2px 4px; border-radius: 4px;">$1</mark>'
-                );
+                // Destacar telefone se aplicável
+                const telefoneCell = celula.querySelector('td:nth-child(4)');
+                if (telefoneCell && !celula.querySelector('.patient-cell')) {
+                    const textoOriginal = telefoneCell.textContent;
+                    const regex = new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    
+                    if (regex.test(textoOriginal)) {
+                        telefoneCell.innerHTML = textoOriginal.replace(
+                            regex, 
+                            '<mark style="background-color: #fef3c7; padding: 2px 4px; border-radius: 4px;">$1</mark>'
+                        );
+                    }
+                }
+            } else {
+                // Para células simples, processar todo o conteúdo
+                const textoOriginal = celula.textContent || celula.innerText;
+                const regex = new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                
+                // Verificar se o termo está no texto (ignorando case)
+                if (regex.test(textoOriginal)) {
+                    // Restaurar o texto original primeiro
+                    celula.innerHTML = textoOriginal;
+                    
+                    // Aplicar o destaque
+                    celula.innerHTML = celula.innerHTML.replace(
+                        regex, 
+                        '<mark style="background-color: #fef3c7; padding: 2px 4px; border-radius: 4px;">$1</mark>'
+                    );
+                }
             }
         });
     }
@@ -1190,6 +1425,8 @@ if (file_exists($arquivoVisitas)) {
                         const campoBusca = document.getElementById('buscar-paciente');
                         if (campoBusca && campoBusca.value) {
                             buscarPacientes(campoBusca.value.trim().toLowerCase());
+                        } else {
+                            buscarPacientes('');
                         }
                         
                         // Mostrar notificação de sucesso
