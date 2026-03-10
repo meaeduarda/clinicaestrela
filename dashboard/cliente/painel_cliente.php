@@ -1,5 +1,4 @@
 <?php
-// dashboard/cliente/painel_cliente.php
 session_start();
 
 // Verificação de Segurança
@@ -8,73 +7,240 @@ if (!isset($_SESSION['responsavel_id'])) {
     exit();
 }
 
-// Dados da sessão
-$nomeLogado = $_SESSION['responsavel_nome'] ?? 'Responsável';
-$pacienteNome = $_SESSION['paciente_nome'] ?? 'Paciente';
-$pacienteId = $_SESSION['paciente_id'] ?? 1;
+// Configurações de upload
+define('MAX_FILE_SIZE', 3 * 1024 * 1024); // 3MB
+define('UPLOAD_PATH', __DIR__ . '/../../uploads/');
+define('FOTOS_PATH', UPLOAD_PATH . 'fotos/');
+define('BACKGROUNDS_PATH', UPLOAD_PATH . 'backgrounds/');
 
-// Função para calcular idade
-function calcularIdade($dataNascimento) {
-    if (empty($dataNascimento)) {
-        return 'Idade n/d';
-    }
+// Criar pastas se não existirem
+if (!file_exists(FOTOS_PATH)) {
+    mkdir(FOTOS_PATH, 0777, true);
+}
+if (!file_exists(BACKGROUNDS_PATH)) {
+    mkdir(BACKGROUNDS_PATH, 0777, true);
+}
+
+// Função para processar upload de foto
+function processarUploadFoto() {
+    $response = ['success' => false, 'message' => '', 'foto' => ''];
     
     try {
-        // Tenta converter a data para objeto DateTime
-        $dataNasc = DateTime::createFromFormat('Y-m-d', $dataNascimento);
-        if (!$dataNasc) {
-            $dataNasc = DateTime::createFromFormat('d/m/Y', $dataNascimento);
-        }
-        if (!$dataNasc) {
-            $dataNasc = new DateTime($dataNascimento);
+        if (!isset($_FILES['foto'])) {
+            throw new Exception('Nenhum arquivo enviado.');
         }
         
-        $hoje = new DateTime();
-        $diferenca = $hoje->diff($dataNasc);
+        $file = $_FILES['foto'];
         
-        return $diferenca->y . ' anos';
+        // Validar arquivo
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => 'O arquivo excede o tamanho máximo permitido.',
+                UPLOAD_ERR_FORM_SIZE => 'O arquivo excede o tamanho máximo permitido.',
+                UPLOAD_ERR_PARTIAL => 'O upload foi apenas parcialmente concluído.',
+                UPLOAD_ERR_NO_FILE => 'Nenhum arquivo foi enviado.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Pasta temporária ausente.',
+                UPLOAD_ERR_CANT_WRITE => 'Falha ao escrever o arquivo em disco.',
+                UPLOAD_ERR_EXTENSION => 'Uma extensão PHP interrompeu o upload.'
+            ];
+            $errorMessage = isset($errorMessages[$file['error']]) ? $errorMessages[$file['error']] : 'Erro desconhecido no upload.';
+            throw new Exception($errorMessage);
+        }
+        
+        // Validar tamanho
+        if ($file['size'] > MAX_FILE_SIZE) {
+            throw new Exception('Arquivo muito grande. Máximo 3MB.');
+        }
+        
+        // Validar tipo
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $imageInfo = getimagesize($file['tmp_name']);
+        if (!$imageInfo) {
+            throw new Exception('Arquivo não é uma imagem válida.');
+        }
+        
+        $mimeType = $imageInfo['mime'];
+        if (!in_array($mimeType, $allowedTypes)) {
+            throw new Exception('Tipo de arquivo não permitido. Use JPG, PNG, WEBP ou GIF.');
+        }
+        
+        // Validar extensão
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new Exception('Extensão de arquivo não permitida.');
+        }
+        
+        // Gerar nome único
+        $pacienteId = isset($_SESSION['paciente_id']) ? $_SESSION['paciente_id'] : 'temp';
+        $filename = 'foto_' . $pacienteId . '_' . uniqid() . '.' . $extension;
+        $filepath = FOTOS_PATH . $filename;
+        
+        // Mover arquivo
+        if (move_uploaded_file($file['tmp_name'], $filepath)) {
+            $_SESSION['paciente_foto'] = '/clinicaestrela/uploads/fotos/' . $filename;
+            
+            $response['success'] = true;
+            $response['message'] = 'Foto atualizada com sucesso!';
+            $response['foto'] = $_SESSION['paciente_foto'];
+        } else {
+            throw new Exception('Erro ao salvar o arquivo. Verifique permissões de pasta.');
+        }
+        
     } catch (Exception $e) {
-        return 'Idade n/d';
+        $response['message'] = $e->getMessage();
+    }
+    
+    return $response;
+}
+
+// Função para processar upload de background
+function processarUploadBackground() {
+    $response = ['success' => false, 'message' => '', 'background' => ''];
+    
+    try {
+        if (!isset($_FILES['background'])) {
+            throw new Exception('Nenhum arquivo enviado.');
+        }
+        
+        $file = $_FILES['background'];
+        
+        // Validar arquivo
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => 'O arquivo excede o tamanho máximo permitido.',
+                UPLOAD_ERR_FORM_SIZE => 'O arquivo excede o tamanho máximo permitido.',
+                UPLOAD_ERR_PARTIAL => 'O upload foi apenas parcialmente concluído.',
+                UPLOAD_ERR_NO_FILE => 'Nenhum arquivo foi enviado.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Pasta temporária ausente.',
+                UPLOAD_ERR_CANT_WRITE => 'Falha ao escrever o arquivo em disco.',
+                UPLOAD_ERR_EXTENSION => 'Uma extensão PHP interrompeu o upload.'
+            ];
+            $errorMessage = isset($errorMessages[$file['error']]) ? $errorMessages[$file['error']] : 'Erro desconhecido no upload.';
+            throw new Exception($errorMessage);
+        }
+        
+        // Validar tamanho
+        if ($file['size'] > MAX_FILE_SIZE) {
+            throw new Exception('Arquivo muito grande. Máximo 3MB.');
+        }
+        
+        // Validar tipo
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        $imageInfo = getimagesize($file['tmp_name']);
+        if (!$imageInfo) {
+            throw new Exception('Arquivo não é uma imagem válida.');
+        }
+        
+        $mimeType = $imageInfo['mime'];
+        if (!in_array($mimeType, $allowedTypes)) {
+            throw new Exception('Tipo de arquivo não permitido. Use JPG, PNG ou WEBP.');
+        }
+        
+        // Validar extensão
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new Exception('Extensão de arquivo não permitida.');
+        }
+        
+        // Gerar nome único
+        $responsavelId = isset($_SESSION['responsavel_id']) ? $_SESSION['responsavel_id'] : 'temp';
+        $filename = 'bg_' . $responsavelId . '_' . uniqid() . '.' . $extension;
+        $filepath = BACKGROUNDS_PATH . $filename;
+        
+        // Mover arquivo
+        if (move_uploaded_file($file['tmp_name'], $filepath)) {
+            $_SESSION['background_foto'] = '/clinicaestrela/uploads/backgrounds/' . $filename;
+            
+            $response['success'] = true;
+            $response['message'] = 'Background alterado com sucesso!';
+            $response['background'] = $_SESSION['background_foto'];
+        } else {
+            throw new Exception('Erro ao salvar o arquivo. Verifique permissões de pasta.');
+        }
+        
+    } catch (Exception $e) {
+        $response['message'] = $e->getMessage();
+    }
+    
+    return $response;
+}
+
+// Processar requisições AJAX
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+    
+    if (isset($_FILES['foto'])) {
+        $response = processarUploadFoto();
+        echo json_encode($response);
+        exit();
+    }
+    
+    if (isset($_FILES['background'])) {
+        $response = processarUploadBackground();
+        echo json_encode($response);
+        exit();
+    }
+    
+    echo json_encode(['success' => false, 'message' => 'Tipo de upload não reconhecido.']);
+    exit();
+}
+
+// Carregar dados do JSON
+$jsonFile = __DIR__ . '/../dados/ativo-cad.json';
+$pacientesData = [];
+$pacienteAtivo = null;
+
+if (file_exists($jsonFile)) {
+    $jsonContent = file_get_contents($jsonFile);
+    $pacientesData = json_decode($jsonContent, true);
+    
+    if (!empty($pacientesData)) {
+        foreach ($pacientesData as $paciente) {
+            if (isset($paciente['status']) && $paciente['status'] === 'Ativo') {
+                $pacienteAtivo = $paciente;
+                break;
+            }
+        }
     }
 }
 
-// Dados do paciente (vindos da SESSÃO - NÃO SOBRESCREVER)
+// Dados do paciente
 $paciente = [
-    'id' => $pacienteId,
-    'nome_completo' => $_SESSION['paciente_nome'] ?? 'Renato Oliveira Jr.',
-    'nome_mae' => $_SESSION['paciente_nome_mae'] ?? 'Ana Paula Oliveira',
-    'nome_pai' => $_SESSION['paciente_nome_pai'] ?? 'Renato Oliveira',
-    'data_nascimento' => $_SESSION['paciente_data_nascimento'] ?? '2019-02-14',
-    'convenio' => $_SESSION['paciente_convenio'] ?? 'Unimed',
-    'foto' => $_SESSION['paciente_foto'] ?? '../../imagens/pacientes/paciente_default.jpg',
-    'telefone' => $_SESSION['paciente_telefone'] ?? '(11) 99999-9999',
-    'email' => $_SESSION['paciente_email'] ?? $_SESSION['responsavel_email'] ?? 'contato@email.com'
+    'id' => $_SESSION['paciente_id'] ?? 1,
+    'nome_completo' => 'Igor Souza',
+    'nome_mae' => 'Marta Souza',
+    'telefone' => '(81) 99325-1967',
+    'convenio' => 'Unimed'
 ];
 
-// Calcular idade
-$idade = calcularIdade($paciente['data_nascimento']);
+if ($pacienteAtivo) {
+    $telefone = isset($pacienteAtivo['telefone']) ? $pacienteAtivo['telefone'] : '';
+    if (!empty($telefone) && strlen($telefone) === 11) {
+        $telefone = '(' . substr($telefone, 0, 2) . ') ' . substr($telefone, 2, 5) . '-' . substr($telefone, 7);
+    }
+    
+    $paciente['nome_completo'] = $pacienteAtivo['nome_completo'] ?? 'Igor Souza';
+    $paciente['nome_mae'] = $pacienteAtivo['nome_mae'] ?? 'Marta Souza';
+    $paciente['telefone'] = $telefone ?: '(81) 99325-1967';
+    $paciente['convenio'] = $pacienteAtivo['convenio'] ?? 'Unimed';
+}
 
-// Seção ativa (dados pessoais é a padrão)
-$secaoAtiva = 'dados-pessoais';
+// Foto de perfil
+$fotoPerfil = $_SESSION['paciente_foto'] ?? '../../imagens/avatar-default.png';
+$backgroundAtual = $_SESSION['background_foto'] ?? '';
+$nomeLogado = $_SESSION['responsavel_nome'] ?? 'Maria Eduarda';
+$secaoAtiva = $_GET['secao'] ?? 'painel';
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#3b82f6">
-    <title>Painel do Responsável - Clínica Estrela</title>
-
-    <link rel="icon" type="image/png" href="/clinicaestrela/favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/clinicaestrela/favicon/favicon.svg">
-    <link rel="shortcut icon" href="/clinicaestrela/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/clinicaestrela/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/clinicaestrela/favicon/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Cliente - PuzzleCare</title>
     
-    <!-- CSS -->
     <link rel="stylesheet" href="../../css/dashboard/clinica/painel_adm_preca.css">
     <link rel="stylesheet" href="../../css/dashboard/cliente/painel_cliente.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -85,16 +251,18 @@ $secaoAtiva = 'dados-pessoais';
         <i class="fas fa-bars"></i>
     </div>
     
-    <div class="mobile-header">
-    </div>
-    
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
+                    <img src="../../imagens/logo_saas.png" alt="Logo PuzzleCare" class="logo-img">
                 </div>
-                <h1>Clínica Estrela</h1>
+                <div class="logo-text-container">
+                    <h1>
+                        <span class="puzzle-azul">Puzzle</span><span class="care-verde">Care</span>
+                    </h1>
+                    <span class="logo-subtitle">by Cronos Solutions Tech</span>
+                </div>
                 <div class="mobile-close">
                     <i class="fas fa-times"></i>
                 </div>
@@ -102,241 +270,111 @@ $secaoAtiva = 'dados-pessoais';
 
             <nav class="menu cliente-menu">
                 <ul>
-                    <li class="<?php echo $secaoAtiva === 'dados-pessoais' ? 'active' : ''; ?>">
-                        <a href="?secao=dados-pessoais">
-                            <i class="fas fa-user-circle"></i> 
-                            <span>Dados Pessoais</span>
+                    <li class="<?php echo $secaoAtiva === 'painel' ? 'active' : ''; ?>">
+                        <a href="?secao=painel">
+                            <i class="fas fa-home"></i>
+                            <span>Dados Cadastrais</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="?secao=grade-sessao">
-                            <i class="fas fa-calendar-alt"></i> 
-                            <span>Grade de Sessão</span>
+                    <li class="<?php echo $secaoAtiva === 'agenda' ? 'active' : ''; ?>">
+                        <a href="?secao=agenda">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Agenda da Criança</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="?secao=galeria">
-                            <i class="fas fa-images"></i> 
-                            <span>Galeria de Fotos</span>
+                    <li class="<?php echo $secaoAtiva === 'plano-terapeutico' ? 'active' : ''; ?>">
+                        <a href="?secao=plano-terapeutico">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Plano Terapêutico</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="?secao=pei">
-                            <i class="fas fa-file-signature"></i> 
-                            <span>Plano de Ensino (PEI)</span>
+                    <li class="<?php echo $secaoAtiva === 'documentos' ? 'active' : ''; ?>">
+                        <a href="?secao=documentos">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Documentos</span>
                         </a>
-                    </li>
+                    </li>        
                 </ul>
             </nav>
 
             <div class="user-info">
                 <div class="user-avatar">
-                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($nomeLogado); ?>&background=random" alt="<?php echo htmlspecialchars($nomeLogado); ?>">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($nomeLogado); ?>&background=3b82f6&color=fff&size=128" alt="<?php echo htmlspecialchars($nomeLogado); ?>">
                 </div>
                 <div class="user-details">
                     <h3><?php echo htmlspecialchars($nomeLogado); ?></h3>
                     <p>Responsável</p>
                 </div>
-                <a href="login_cliente.php" title="Sair" style="color: #ef4444; margin-left: 10px; text-decoration: none;">
-                    <i class="fas fa-power-off"></i>
+                <a href="login_cliente.php" title="Sair" style="color: #ef4444; margin-left: 10px;">
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
         </aside>
 
-        <main class="main-content cliente-main" id="mainContent">
-            <!-- Cabeçalho da Página -->
+        <main class="main-content cliente-main">
             <div class="page-header">
-                <h2><i class="fas fa-user-circle"></i> Dados Pessoais</h2>
-                <button class="btn-change-bg" id="changeBgBtn" title="Alterar plano de fundo">
+                <h1>
+                    Dados Cadastrais
+                </h1>
+                <button class="btn-change-bg" id="btnChangeBg">
                     <i class="fas fa-palette"></i>
-                    <span>Alterar Fundo</span>
+                    Alterar plano de fundo
                 </button>
             </div>
 
-            <!-- Conteúdo Principal -->
-            <div class="cliente-content">
-                <!-- Card do Paciente -->
-                <div class="patient-profile-card">
-                    <div class="patient-photo-container">
-                        <img src="<?php echo $paciente['foto']; ?>" 
-                             alt="<?php echo $paciente['nome_completo']; ?>" 
-                             class="patient-photo" 
-                             id="patientPhoto">
-                        <button class="btn-change-photo" id="changePhotoBtn" title="Alterar foto">
-                            <i class="fas fa-camera"></i>
-                        </button>
-                    </div>
-                    <div class="patient-name-header">
-                        <h3><?php echo $paciente['nome_completo']; ?></h3>
-                        <span class="patient-age-badge"><?php echo $idade; ?></span>
-                    </div>
-                </div>
-
-                <!-- Grid de Informações -->
-                <div class="info-grid">
-                    <!-- Nome da Mãe -->
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-female"></i>
+            <div class="content-area" id="contentArea" <?php echo !empty($backgroundAtual) ? 'style="background-image: url(\'' . $backgroundAtual . '\');"' : ''; ?>>
+                
+                <div class="patient-card">
+                    <div class="patient-photo-wrapper">
+                        <div class="photo-container">
+                            <img src="<?php echo $fotoPerfil; ?>" alt="<?php echo htmlspecialchars($paciente['nome_completo']); ?>" class="patient-photo" id="patientPhoto">
+                            <button class="btn-edit-photo" id="btnEditPhoto" title="Alterar foto">
+                                <i class="fas fa-camera"></i>
+                            </button>
                         </div>
-                        <div class="info-content">
-                            <span class="info-label">Nome da Mãe</span>
-                            <span class="info-value"><?php echo $paciente['nome_mae']; ?></span>
+                        <div class="patient-info-header">
+                            <h2><?php echo htmlspecialchars($paciente['nome_completo']); ?></h2>
+                            <p class="patient-role">Paciente</p>
                         </div>
                     </div>
 
-                    <!-- Nome do Pai -->
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-male"></i>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <span class="label">Responsável:</span>
+                            <span class="value"><?php echo htmlspecialchars($paciente['nome_mae']); ?></span>
                         </div>
-                        <div class="info-content">
-                            <span class="info-label">Nome do Pai</span>
-                            <span class="info-value"><?php echo $paciente['nome_pai']; ?></span>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span class="value"><?php echo htmlspecialchars($paciente['telefone']); ?></span>
                         </div>
-                    </div>
-
-                    <!-- Data de Nascimento -->
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-birthday-cake"></i>
-                        </div>
-                        <div class="info-content">
-                            <span class="info-label">Data de Nascimento</span>
-                            <span class="info-value">
-                                <?php 
-                                    // Formatar data para exibição
-                                    $dataExibicao = $paciente['data_nascimento'];
-                                    try {
-                                        $dataObj = new DateTime($paciente['data_nascimento']);
-                                        $dataExibicao = $dataObj->format('d/m/Y');
-                                    } catch (Exception $e) {
-                                        // Mantém o valor original se não conseguir formatar
-                                    }
-                                    echo $dataExibicao;
-                                ?>
-                                <small>(<?php echo $idade; ?>)</small>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Convênio -->
-                    <div class="info-card">
-                        <div class="info-icon">
+                        
+                        <div class="info-item">
                             <i class="fas fa-notes-medical"></i>
-                        </div>
-                        <div class="info-content">
-                            <span class="info-label">Convênio</span>
-                            <span class="info-value"><?php echo $paciente['convenio']; ?></span>
-                        </div>
-                    </div>
-
-                    <!-- Telefone -->
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div class="info-content">
-                            <span class="info-label">Telefone</span>
-                            <span class="info-value"><?php echo $paciente['telefone']; ?></span>
-                        </div>
-                    </div>
-
-                    <!-- E-mail -->
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="info-content">
-                            <span class="info-label">E-mail</span>
-                            <span class="info-value"><?php echo $paciente['email']; ?></span>
+                            <span class="label">Convênio:</span>
+                            <span class="value"><?php echo htmlspecialchars($paciente['convenio']); ?></span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Seção de Resumo (inspirado na imagem) -->
-                <div class="resumo-section">
-                    <h4><i class="fas fa-file-alt"></i> Resumo de Evolução</h4>
-                    <div class="resumo-content">
-                        <p>Resumo de evolução do paciente (visual, não técnico) - Em breve disponível.</p>
-                    </div>
-                </div>
-
-                <!-- Documentos (inspirado na imagem) -->
-                <div class="documentos-section">
-                    <h4><i class="fas fa-folder-open"></i> Documentos</h4>
-                    <div class="documentos-list">
-                        <div class="documento-item">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Relatório de Evolução - Fev/2026</span>
-                        </div>
-                        <div class="documento-item">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Plano Terapêutico - 2026</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="clinic-footer">
+                <i class="fas fa-star"></i> CLÍNICA ESTRELA <i class="fas fa-star"></i>
             </div>
         </main>
     </div>
 
-    <!-- Modal para selecionar cor de fundo -->
-    <div class="modal" id="bgColorModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-palette"></i> Escolha uma cor de fundo</h3>
-                <button class="modal-close" id="closeModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="color-options">
-                    <div class="color-option" data-color="#f0f9ff" style="background: #f0f9ff;">Azul Claro</div>
-                    <div class="color-option" data-color="#f0fdf4" style="background: #f0fdf4;">Verde Claro</div>
-                    <div class="color-option" data-color="#fef2f2" style="background: #fef2f2;">Vermelho Claro</div>
-                    <div class="color-option" data-color="#fffbeb" style="background: #fffbeb;">Amarelo Claro</div>
-                    <div class="color-option" data-color="#faf5ff" style="background: #faf5ff;">Roxo Claro</div>
-                    <div class="color-option" data-color="#fff1f2" style="background: #fff1f2;">Rosa Claro</div>
-                    <div class="color-option" data-color="#f4f4f5" style="background: #f4f4f5;">Cinza Claro</div>
-                    <div class="color-option" data-color="#ffffff" style="background: #ffffff; border: 1px solid #e2e8f0;">Branco</div>
-                </div>
-                <div class="custom-color">
-                    <label for="customBgColor">Ou escolha uma cor personalizada:</label>
-                    <input type="color" id="customBgColor" value="#f0f9ff">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="cancelColor">Cancelar</button>
-                <button class="btn-confirm" id="applyColor">Aplicar</button>
-            </div>
-        </div>
+    <div class="modal" id="modalFoto">
     </div>
 
-    <!-- Modal para upload de foto -->
-    <div class="modal" id="photoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-camera"></i> Alterar Foto do Paciente</h3>
-                <button class="modal-close" id="closePhotoModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="photo-upload-area" id="photoUploadArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Clique para selecionar ou arraste uma imagem</p>
-                    <span>Formatos aceitos: JPG, PNG, GIF (max. 5MB)</span>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
-                </div>
-                <div class="photo-preview" id="photoPreview" style="display: none;">
-                    <img src="" alt="Preview" id="previewImage">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="cancelPhoto">Cancelar</button>
-                <button class="btn-confirm" id="savePhoto" disabled>Salvar</button>
-            </div>
-        </div>
+    <div class="modal" id="modalBackground">
     </div>
 
-    <!-- Notificações -->
-    <div class="notification" id="notification"></div>
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationMessage"></span>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -357,200 +395,329 @@ $secaoAtiva = 'dados-pessoais';
                 });
             }
 
-            // ===== FUNCIONALIDADE DE ALTERAR FUNDO =====
-            const changeBgBtn = document.getElementById('changeBgBtn');
-            const bgModal = document.getElementById('bgColorModal');
-            const closeModal = document.getElementById('closeModal');
-            const cancelColor = document.getElementById('cancelColor');
-            const applyColor = document.getElementById('applyColor');
-            const colorOptions = document.querySelectorAll('.color-option');
-            const customBgColor = document.getElementById('customBgColor');
-            const mainContent = document.getElementById('mainContent');
-            
-            let selectedColor = mainContent.style.backgroundColor || '#f8fafc';
-
-            changeBgBtn.addEventListener('click', function() {
-                bgModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            function closeBgModal() {
-                bgModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            closeModal.addEventListener('click', closeBgModal);
-            cancelColor.addEventListener('click', closeBgModal);
-
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    colorOptions.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedColor = this.getAttribute('data-color');
-                });
-            });
-
-            applyColor.addEventListener('click', function() {
-                if (selectedColor) {
-                    mainContent.style.backgroundColor = selectedColor;
-                    // Salvar preferência no localStorage
-                    localStorage.setItem('clienteBgColor', selectedColor);
-                    closeBgModal();
-                    mostrarNotificacao('Fundo alterado com sucesso!', 'sucesso');
+            // Função de notificação
+            function mostrarNotificacao(mensagem, tipo = 'success') {
+                const notification = document.getElementById('notification');
+                const messageSpan = document.getElementById('notificationMessage');
+                const icon = notification.querySelector('i');
+                
+                notification.className = 'notification show';
+                if (tipo === 'success') {
+                    notification.classList.add('success');
+                    icon.className = 'fas fa-check-circle';
+                } else {
+                    notification.classList.add('error');
+                    icon.className = 'fas fa-exclamation-circle';
                 }
-            });
-
-            // Carregar cor salva
-            const savedColor = localStorage.getItem('clienteBgColor');
-            if (savedColor) {
-                mainContent.style.backgroundColor = savedColor;
+                
+                messageSpan.textContent = mensagem;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
             }
 
-            // ===== FUNCIONALIDADE DE ALTERAR FOTO =====
-            const changePhotoBtn = document.getElementById('changePhotoBtn');
-            const photoModal = document.getElementById('photoModal');
-            const closePhotoModal = document.getElementById('closePhotoModal');
-            const cancelPhoto = document.getElementById('cancelPhoto');
-            const photoUploadArea = document.getElementById('photoUploadArea');
-            const photoInput = document.getElementById('photoInput');
-            const photoPreview = document.getElementById('photoPreview');
-            const previewImage = document.getElementById('previewImage');
-            const savePhotoBtn = document.getElementById('savePhoto');
+            // Upload de foto
+            const btnEditPhoto = document.getElementById('btnEditPhoto');
+            const modalFoto = document.getElementById('modalFoto');
+            const closeModalFoto = document.getElementById('closeModalFoto');
+            const cancelFoto = document.getElementById('cancelFoto');
+            const uploadAreaFoto = document.getElementById('uploadAreaFoto');
+            const fileInputFoto = document.getElementById('fileInputFoto');
+            const previewContainerFoto = document.getElementById('previewContainerFoto');
+            const previewImageFoto = document.getElementById('previewImageFoto');
+            const saveFotoBtn = document.getElementById('saveFoto');
             const patientPhoto = document.getElementById('patientPhoto');
 
-            changePhotoBtn.addEventListener('click', function() {
-                photoModal.classList.add('active');
+            let selectedFotoFile = null;
+
+            btnEditPhoto.addEventListener('click', function() {
+                modalFoto.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
 
-            function closePhotoModalFunc() {
-                photoModal.classList.remove('active');
+            function closeFotoModal() {
+                modalFoto.classList.remove('active');
                 document.body.style.overflow = '';
-                // Reset
-                photoUploadArea.style.display = 'block';
-                photoPreview.style.display = 'none';
-                savePhotoBtn.disabled = true;
-                photoInput.value = '';
+                resetFotoUpload();
             }
 
-            closePhotoModal.addEventListener('click', closePhotoModalFunc);
-            cancelPhoto.addEventListener('click', closePhotoModalFunc);
+            closeModalFoto.addEventListener('click', closeFotoModal);
+            cancelFoto.addEventListener('click', closeFotoModal);
 
-            photoUploadArea.addEventListener('click', function() {
-                photoInput.click();
+            function resetFotoUpload() {
+                uploadAreaFoto.style.display = 'block';
+                previewContainerFoto.style.display = 'none';
+                previewImageFoto.src = '';
+                saveFotoBtn.disabled = true;
+                fileInputFoto.value = '';
+                selectedFotoFile = null;
+            }
+
+            uploadAreaFoto.addEventListener('click', function() {
+                fileInputFoto.click();
             });
 
-            photoUploadArea.addEventListener('dragover', function(e) {
+            uploadAreaFoto.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 this.style.borderColor = '#3b82f6';
-                this.style.backgroundColor = '#eff6ff';
+                this.style.backgroundColor = '#eef2ff';
             });
 
-            photoUploadArea.addEventListener('dragleave', function(e) {
+            uploadAreaFoto.addEventListener('dragleave', function(e) {
                 e.preventDefault();
-                this.style.borderColor = '#cbd5e1';
-                this.style.backgroundColor = '';
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = '#f8fafc';
             });
 
-            photoUploadArea.addEventListener('drop', function(e) {
+            uploadAreaFoto.addEventListener('drop', function(e) {
                 e.preventDefault();
-                this.style.borderColor = '#cbd5e1';
-                this.style.backgroundColor = '';
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = '#f8fafc';
                 
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
-                    handlePhotoFile(files[0]);
+                    handleFotoFile(files[0]);
                 }
             });
 
-            photoInput.addEventListener('change', function() {
+            fileInputFoto.addEventListener('change', function() {
                 if (this.files.length > 0) {
-                    handlePhotoFile(this.files[0]);
+                    handleFotoFile(this.files[0]);
                 }
             });
 
-            function handlePhotoFile(file) {
-                // Verificar tipo
+            function handleFotoFile(file) {
                 if (!file.type.match('image.*')) {
-                    mostrarNotificacao('Por favor, selecione uma imagem válida.', 'erro');
+                    mostrarNotificacao('Por favor, selecione uma imagem válida.', 'error');
                     return;
                 }
                 
-                // Verificar tamanho (5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    mostrarNotificacao('A imagem deve ter no máximo 5MB.', 'erro');
+                if (file.size > 3 * 1024 * 1024) {
+                    mostrarNotificacao('A imagem deve ter no máximo 3MB.', 'error');
                     return;
                 }
 
+                selectedFotoFile = file;
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    photoUploadArea.style.display = 'none';
-                    photoPreview.style.display = 'block';
-                    savePhotoBtn.disabled = false;
+                    previewImageFoto.src = e.target.result;
+                    uploadAreaFoto.style.display = 'none';
+                    previewContainerFoto.style.display = 'block';
+                    saveFotoBtn.disabled = false;
                 };
                 reader.readAsDataURL(file);
             }
 
-            savePhotoBtn.addEventListener('click', function() {
-                // Simular upload (em produção, enviaria para o servidor)
-                patientPhoto.src = previewImage.src;
-                mostrarNotificacao('Foto atualizada com sucesso!', 'sucesso');
-                closePhotoModalFunc();
-                
-                // Salvar no localStorage como exemplo (em produção, salvaria no servidor)
-                localStorage.setItem('patientPhoto', previewImage.src);
+            saveFotoBtn.addEventListener('click', function() {
+                if (!selectedFotoFile) return;
+
+                saveFotoBtn.disabled = true;
+                saveFotoBtn.textContent = 'Enviando...';
+
+                const formData = new FormData();
+                formData.append('foto', selectedFotoFile);
+
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        patientPhoto.src = data.foto + '?t=' + new Date().getTime();
+                        mostrarNotificacao(data.message, 'success');
+                        closeFotoModal();
+                    } else {
+                        mostrarNotificacao(data.message, 'error');
+                        saveFotoBtn.disabled = false;
+                        saveFotoBtn.textContent = 'Salvar foto';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    mostrarNotificacao('Erro ao enviar a imagem. Tente novamente.', 'error');
+                    saveFotoBtn.disabled = false;
+                    saveFotoBtn.textContent = 'Salvar foto';
+                });
             });
 
-            // Carregar foto salva
-            const savedPhoto = localStorage.getItem('patientPhoto');
-            if (savedPhoto) {
-                patientPhoto.src = savedPhoto;
+            // Upload de background
+            const btnChangeBg = document.getElementById('btnChangeBg');
+            const modalBg = document.getElementById('modalBackground');
+            const closeModalBg = document.getElementById('closeModalBg');
+            const cancelBg = document.getElementById('cancelBg');
+            const uploadAreaBg = document.getElementById('uploadAreaBg');
+            const fileInputBg = document.getElementById('fileInputBg');
+            const previewContainerBg = document.getElementById('previewContainerBg');
+            const previewImageBg = document.getElementById('previewImageBg');
+            const saveBgBtn = document.getElementById('saveBg');
+            const bgOptions = document.querySelectorAll('.bg-option');
+            const contentArea = document.getElementById('contentArea');
+
+            let selectedBgFile = null;
+            let selectedBgType = 'default';
+            let selectedGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+
+            btnChangeBg.addEventListener('click', function() {
+                modalBg.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            function closeBgModal() {
+                modalBg.classList.remove('active');
+                document.body.style.overflow = '';
+                resetBgUpload();
             }
 
-            // Fechar modais ao clicar fora
-            window.addEventListener('click', function(e) {
-                if (e.target === bgModal) {
+            closeModalBg.addEventListener('click', closeBgModal);
+            cancelBg.addEventListener('click', closeBgModal);
+
+            function resetBgUpload() {
+                uploadAreaBg.style.display = 'block';
+                previewContainerBg.style.display = 'none';
+                previewImageBg.src = '';
+                saveBgBtn.disabled = true;
+                fileInputBg.value = '';
+                selectedBgFile = null;
+                
+                bgOptions.forEach(opt => opt.classList.remove('selected'));
+            }
+
+            bgOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    bgOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedBgType = this.getAttribute('data-bg');
+                    selectedGradient = this.getAttribute('data-gradient');
+                    
+                    contentArea.style.background = selectedGradient;
+                    contentArea.style.backgroundSize = 'cover';
+                    contentArea.style.backgroundPosition = 'center';
+                    
+                    localStorage.setItem('clienteBgType', selectedBgType);
+                    localStorage.setItem('clienteBgGradient', selectedGradient);
+                    
+                    selectedBgFile = null;
+                    saveBgBtn.disabled = false;
+                });
+            });
+
+            uploadAreaBg.addEventListener('click', function() {
+                fileInputBg.click();
+            });
+
+            uploadAreaBg.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#3b82f6';
+                this.style.backgroundColor = '#eef2ff';
+            });
+
+            uploadAreaBg.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = '#f8fafc';
+            });
+
+            uploadAreaBg.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleBgFile(files[0]);
+                }
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = '#f8fafc';
+            });
+
+            fileInputBg.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleBgFile(this.files[0]);
+                }
+            });
+
+            function handleBgFile(file) {
+                if (!file.type.match('image.*')) {
+                    mostrarNotificacao('Por favor, selecione uma imagem válida.', 'error');
+                    return;
+                }
+                
+                if (file.size > 3 * 1024 * 1024) {
+                    mostrarNotificacao('A imagem deve ter no máximo 3MB.', 'error');
+                    return;
+                }
+
+                selectedBgFile = file;
+                selectedBgType = 'custom';
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImageBg.src = e.target.result;
+                    uploadAreaBg.style.display = 'none';
+                    previewContainerBg.style.display = 'block';
+                    saveBgBtn.disabled = false;
+                    
+                    bgOptions.forEach(opt => opt.classList.remove('selected'));
+                };
+                reader.readAsDataURL(file);
+            }
+
+            saveBgBtn.addEventListener('click', function() {
+                if (selectedBgType === 'custom' && selectedBgFile) {
+                    saveBgBtn.disabled = true;
+                    saveBgBtn.textContent = 'Enviando...';
+
+                    const formData = new FormData();
+                    formData.append('background', selectedBgFile);
+
+                    fetch(window.location.href, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            contentArea.style.backgroundImage = `url('${data.background}?t=${new Date().getTime()}')`;
+                            contentArea.style.backgroundSize = 'cover';
+                            contentArea.style.backgroundPosition = 'center';
+                            
+                            localStorage.removeItem('clienteBgGradient');
+                            
+                            mostrarNotificacao(data.message, 'success');
+                            closeBgModal();
+                        } else {
+                            mostrarNotificacao(data.message, 'error');
+                            saveBgBtn.disabled = false;
+                            saveBgBtn.textContent = 'Salvar fundo';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        mostrarNotificacao('Erro ao enviar a imagem. Tente novamente.', 'error');
+                        saveBgBtn.disabled = false;
+                        saveBgBtn.textContent = 'Salvar fundo';
+                    });
+                } else {
                     closeBgModal();
                 }
-                if (e.target === photoModal) {
-                    closePhotoModalFunc();
-                }
             });
 
-            // Função de notificação
-            function mostrarNotificacao(mensagem, tipo = 'info') {
-                const notification = document.getElementById('notification');
-                let classeTipo = 'notification-info';
-                let icone = 'fa-info-circle';
-                
-                if (tipo === 'sucesso') { 
-                    classeTipo = 'notification-success'; 
-                    icone = 'fa-check-circle'; 
-                } else if (tipo === 'erro') { 
-                    classeTipo = 'notification-error'; 
-                    icone = 'fa-exclamation-circle'; 
-                }
-                
-                notification.className = `notification show ${classeTipo}`;
-                notification.innerHTML = `<i class="fas ${icone}"></i><span>${mensagem}</span>`;
-                
-                setTimeout(() => { 
-                    notification.classList.remove('show'); 
-                }, 3000);
+            const savedBgGradient = localStorage.getItem('clienteBgGradient');
+            if (savedBgGradient) {
+                contentArea.style.background = savedBgGradient;
+                contentArea.style.backgroundSize = 'cover';
+                contentArea.style.backgroundPosition = 'center';
             }
 
-            // Ajustes para mobile
-            function adjustForMobile() {
-                if (window.innerWidth <= 768) {
-                    document.querySelectorAll('.menu.cliente-menu li a span').forEach(span => {
-                        span.style.fontSize = '11px';
-                    });
+            window.addEventListener('click', function(e) {
+                if (e.target === modalFoto) {
+                    closeFotoModal();
                 }
-            }
-
-            adjustForMobile();
-            window.addEventListener('resize', adjustForMobile);
+                if (e.target === modalBg) {
+                    closeBgModal();
+                }
+            });
         });
     </script>
 </body>

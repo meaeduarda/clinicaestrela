@@ -20,3 +20,8 @@
 [2026-03-06 14:23:38] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
 [2026-03-06 14:23:43] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
 [2026-03-06 14:23:49] Tentativa de login - Session ID: k7f0ne2kuk7lghn0kg19o17sfp
+[2026-03-10 21:10:02] Tentativa de login - Session ID: 27j7d2071sdom33d6kmgu0f5js
+[2026-03-10 21:10:02] ERRO: E-mail não encontrado: eduarda@sistema.com
+[2026-03-10 21:10:18] Tentativa de login - Session ID: 27j7d2071sdom33d6kmgu0f5js
+[2026-03-10 21:10:18] ERRO: Senha incorreta para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-10 21:22:17] Tentativa de login - Session ID: 27j7d2071sdom33d6kmgu0f5js

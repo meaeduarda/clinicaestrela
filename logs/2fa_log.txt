@@ -29,3 +29,5 @@
 [2026-03-06 14:23:49] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
 [2026-03-06 14:23:49] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 94, 56, 36 - Site: 36
 [2026-03-06 14:23:54] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com
+[2026-03-10 21:22:17] Tentando enviar 2FA para: mariaeduardaaraujodemoraes@gmail.com - Números: 44, 67, 58 - Site: 44
+[2026-03-10 21:22:28] ✅ 2FA enviado com sucesso para: mariaeduardaaraujodemoraes@gmail.com

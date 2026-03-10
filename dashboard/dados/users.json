@@ -93,10 +93,9 @@
         "id": 11,
         "nome": "Amanda",
         "email": "cronossoluionsdev@gmail.com",
-        "senha": "clinicaestrela123",
+        "senha": "$2y$10$ZJZft.EewxeiI4lsuFdu4.ennh7Y3uahqFKqOhxFo8c2HrFoODw1W",
         "perfil": "Nutricionista",
         "ativo": true,
-        "senha_temporaria": true,
         "criado_em": "2026-03-08 15:01:11"
     },
     {
