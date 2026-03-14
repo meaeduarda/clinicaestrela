@@ -52,15 +52,6 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                 </div>
             </div>
 
-            <!-- Barra de Ações -->
-            <div class="action-bar">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar paciente.">
-                </div>
-                <button class="btn-therapy">Grade Terapêutica</button>
-            </div>
-
             <!-- Cards de Indicadores -->
             <div class="kpi-cards">
                 <div class="kpi-card blue">
