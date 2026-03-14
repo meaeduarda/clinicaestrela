@@ -117,6 +117,7 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                     <option value="nutri">Nutri</option>
                                     <option value="funcion">Funcion</option>
                                     <option value="fisio">Fisio</option>
+                                    <option value="psicope">Psicope</option>
                                 </select>
                             </div>
                             <button class="btn-edit">Editar Grade</button>
