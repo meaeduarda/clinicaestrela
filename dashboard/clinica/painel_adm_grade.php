@@ -1200,5 +1200,6 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
         }
     });
     </script>
+    <script src="/clinicaestrela/dashboard/js/painel_adm_gradeedit.js" defer></script>
 </body>
 </html>
