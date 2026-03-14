@@ -135,12 +135,12 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <th>FONO 2</th>
                                         <th>FONO 3</th>
                                         <th>FONO 4</th>
-                                        <th>FONO 5</th>
                                         <th>ABA 1</th>
                                         <th>ABA 2</th>
-                                        <th>PSICOTERAPIA</th>
+                                        <th>ABA 3</th>
+                                        <th>ABA 4</th>
                                         <th>MUSICOTERAPIA</th>
-                                        <th>PSICOLOGIA</th>
+                                        <th>PSICOTE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -264,16 +264,16 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                 <thead>
                                     <tr>
                                         <th class="time-col">Horário</th>
-                                        <th>FISIOTERAPIA</th>
-                                        <th>CASA HABILIDADES</th>
-                                        <th>SALA KIDS</th>
-                                        <th>TERAPIA OCUP</th>
-                                        <th>FONO 6</th>
-                                        <th>FONO 7</th>
-                                        <th>ABA 3</th>
-                                        <th>PSICOPEDAGOGIA</th>
-                                        <th>ARTETERAPIA</th>
-                                        <th>EQUOTERAPIA</th>
+                                        <th>FISIO 1</th>
+                                        <th>FISIO 2</th>
+                                        <th>FISIO 3</th>
+                                        <th>TO 1</th>
+                                        <th>TO 2</th>
+                                        <th>ABA 5</th>
+                                        <th>ABA 6</th>
+                                        <th>PSICOPE</th>
+                                        <th>FUNCIONAL</th>
+                                        <th>NUTRI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
