@@ -53,17 +53,7 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
             </div>
 
             <!-- Cards de Indicadores -->
-            <div class="kpi-cards">
-                <div class="kpi-card blue">
-                    <div class="kpi-icon">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h3>254</h3>
-                        <p>Pacientes Ativos</p>
-                    </div>
-                </div>
-                
+            <div class="kpi-cards">            
                 <div class="kpi-card green">
                     <div class="kpi-icon">
                         <i class="fas fa-calendar-day"></i>
@@ -71,26 +61,6 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                     <div class="kpi-content">
                         <h3>12</h3>
                         <p>Sessões Hoje</p>
-                    </div>
-                </div>
-                
-                <div class="kpi-card yellow">
-                    <div class="kpi-icon">
-                        <i class="fas fa-user-clock"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h3>5</h3>
-                        <p>Pacientes Pendentes</p>
-                    </div>
-                </div>
-                
-                <div class="kpi-card pink">
-                    <div class="kpi-icon">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h3>3</h3>
-                        <p>Lembretes</p>
                     </div>
                 </div>
             </div>
