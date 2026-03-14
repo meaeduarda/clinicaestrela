@@ -4,36 +4,11 @@ const editBtn = document.querySelector('.btn-edit');
 
 // Dados mockados para seleção (em produção, viriam do banco de dados)
 const pacientes = [
-    'João Pedro', 'Ana Clara', 'Mariana Souza', 'Gabriel Lima', 'Rafaela Costa',
-    'Enzo Gabriel', 'Sofia Costa', 'Lucas Mendes', 'Beatriz Lima', 'Maria Eduarda',
-    'Arthur Silva', 'Isabela Santos', 'Davi Lucca', 'Helena Alves', 'Valentina Rocha',
-    'Theo Mendes', 'Cecília Dias', 'Heitor Cardoso', 'Lara Oliveira', 'Bernardo Costa',
-    'Manuela Rios', 'Nicolas Ferreira', 'Lívia Castro', 'Gael Souza', 'Alice Gomes',
-    'Miguel Araújo', 'Laura Martins', 'Heloísa Ribeiro', 'Samuel Correia', 'Sophia Nunes',
-    'Matheus Pinto', 'Giovanna Melo', 'João Vitor', 'Clara Fernandes', 'Rafael Costa',
-    'Bianca Rocha', 'Yuri Alves', 'Tânia Lima', 'Isabela Cristina', 'Otávio Mendes',
-    'Larissa Farias', 'Carlos Eduardo', 'Amanda Nunes', 'Vinicius Oliveira', 'Marina Silva',
-    'Fernanda Lima', 'João Miguel', 'Ana Luísa', 'Eduarda Castro', 'Felipe Santos',
-    'Lívia Andrade', 'Roberta Martins', 'Thiago Rodrigues', 'Camila Ferreira', 'Raquel Pires',
-    'Breno Lopes', 'Clarice Almeida', 'Danilo Ribeiro', 'Natália Correia', 'Igor Teixeira',
-    'Simone Araújo', 'Júlio César', 'Tatiana Neves', 'André Luiz', 'Carolina Dias',
-    'Marcos Vinícius', 'Patrícia Gomes', 'Ricardo Lemos', 'Vera Lúcia'
+    'João Pedro', 'Ana Clara', 'Mariana Souza', 'Gabriel Lima', 'Rafaela Costa'
 ];
 
 const terapeutas = [
-    'Dra. Maria', 'Dr. Carlos', 'Dra. Sofia', 'Dr. João', 'Dra. Ana',
-    'Dr. Pedro', 'Dra. Carla', 'Dr. Marcos', 'Dra. Juliana', 'Dra. Patricia',
-    'Dr. Roberto', 'Dra. Camila', 'Dr. Ricardo', 'Dra. Renata', 'Dra. Fernanda',
-    'Dr. Gustavo', 'Dra. Beatriz', 'Dr. André', 'Dra. Mariana', 'Dr. Fábio',
-    'Dra. Paula', 'Dr. Lucas', 'Dra. Talita', 'Dr. Marcelo', 'Dra. Luciana',
-    'Dra. Vanessa', 'Dr. Eduardo', 'Dra. Daniela', 'Dra. Adriana', 'Dr. Bruno',
-    'Dra. Patrícia', 'Dr. Alexandre', 'Dra. Roberta', 'Dr. André', 'Dra. Sandra',
-    'Dr. Ricardo', 'Dra. Renata', 'Dr. Sérgio', 'Dra. Márcia', 'Dra. Tânia',
-    'Dr. Gustavo', 'Dra. Cíntia', 'Dra. Vanessa', 'Dr. Márcio', 'Dra. Sabrina',
-    'Dr. Jorge', 'Dra. Kátia', 'Dra. Lúcia', 'Dr. Marcelo', 'Dra. Eliane',
-    'Dr. César', 'Dra. Denise', 'Dr. Antônio', 'Dra. Olga', 'Dr. Sérgio',
-    'Dra. Rita', 'Dra. Mônica', 'Dr. Rogério', 'Dra. Gláucia', 'Dr. Hélio',
-    'Dra. Silvia', 'Dr. Eduardo', 'Dra. Regina', 'Dr. Wagner', 'Dra. Elisa'
+    'Dra. Maria', 'Dr. Carlos', 'Dra. Sofia', 'Dr. João', 'Dra. Ana'
 ];
 
 // Função para criar o modal de edição
