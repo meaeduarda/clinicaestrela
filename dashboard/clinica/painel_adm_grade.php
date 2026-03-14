@@ -109,14 +109,14 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                 </select>
                                 <select id="terapiaFilter">
                                     <option value="todas">Todas as terapias</option>
-                                    <option value="aba">ABA</option>
+                                    <option value="aba">Aba</option>
                                     <option value="to">TO</option>
-                                    <option value="fono">Fonoaudiologia</option>
-                                    <option value="psicologia">Psicologia</option>
-                                    <option value="musica">Musicoterapia</option>
-                                    <option value="nutricao">Nutrição</option>
-                                    <option value="aquatica">Estimulação Aquática</option>
-                                    <option value="fisioterapia">Fisioterapia</option>
+                                    <option value="fono">Fono</option>
+                                    <option value="psicote">Psicote</option>
+                                    <option value="musicote">Musicote</option>
+                                    <option value="nutri">Nutri</option>
+                                    <option value="funcion">Funcion</option>
+                                    <option value="fisio">Fisio</option>
                                 </select>
                             </div>
                             <button class="btn-edit">Editar Grade</button>
