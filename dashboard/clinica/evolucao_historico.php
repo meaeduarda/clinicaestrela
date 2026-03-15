@@ -651,9 +651,6 @@ function contarAnexos($evolucao) {
                                 <a href="#" class="btn-evolucao btn-evolucao-view" onclick="visualizarEvolucao('<?php echo $evolucao['id']; ?>'); return false;">
                                     <i class="fas fa-eye"></i> Visualizar
                                 </a>
-                                <a href="/clinicaestrela/dashboard/<?php echo $evolucao['anexos'][0]['caminho'] ?? '#'; ?>" target="_blank" class="btn-evolucao btn-evolucao-pdf">
-                                <i class="fas fa-file-pdf"></i> PDF
-                                </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
