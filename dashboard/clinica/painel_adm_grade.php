@@ -556,7 +556,6 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
         
         // ===== PRIMEIRA TABELA (SALAS 1-10) =====
         const titulo1 = document.createElement('h3');
-        titulo1.textContent = 'SALAS 1 A 10';
         titulo1.style.margin = '2px 0 2px 0';
         titulo1.style.color = '#2563eb';
         titulo1.style.fontSize = '14px';
@@ -711,7 +710,6 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
         
         // ===== SEGUNDA TABELA (SALAS 11-20) =====
         const titulo2 = document.createElement('h3');
-        titulo2.textContent = 'SALAS 11 A 20';
         titulo2.style.margin = '2px 0 2px 0';
         titulo2.style.color = '#2563eb';
         titulo2.style.fontSize = '14px';
