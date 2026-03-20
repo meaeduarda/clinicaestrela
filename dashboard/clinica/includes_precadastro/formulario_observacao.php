@@ -74,10 +74,6 @@
     <!-- Botões de ação -->
     <div class="action-buttons observacao-buttons">
         <div class="button-group">
-            <button type="button" class="btn btn-convert" onclick="salvarComoPacienteAtivo()">
-                <i class="fas fa-user-check"></i>
-                <span>Salvar Como Paciente Ativo</span>
-            </button>
             <button type="button" class="btn btn-archive" onclick="salvarComoPacientePendente()">
                 <i class="fas fa-user-clock"></i>
                 <span>Salvar Como Paciente Pendente</span>

@@ -444,9 +444,14 @@ function contarAnexos($evolucao) {
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="../../imagens/logo_clinica_estrela.png" alt="Logo Clínica Estrela" class="logo-img">
+                    <img src="../../imagens/logo_saas.png" alt="Logo PuzzleCare" class="logo-img">
                 </div>
-                <h1>Clinica Estrela</h1>
+                <div class="logo-text-container">
+                    <h1>
+                        <span class="puzzle-azul">Puzzle</span><span class="care-verde">Care</span>
+                    </h1>
+                    <span class="logo-subtitle">by Cronos Solutions Tech</span>
+                </div>
                 <div class="mobile-close">
                     <i class="fas fa-times"></i>
                 </div>
@@ -461,7 +466,7 @@ function contarAnexos($evolucao) {
                         <li><a href="painel_adm_preca.php"><i class="fas fa-file-medical"></i> <span>Pré-cadastro</span></a></li>
                         <li><a href="painel_planoterapeutico.php"><i class="fas fa-calendar-check"></i> <span>Plano Terapêutico</span></a></li>
                         <li><a href="painel_adm_grade.php"><i class="fas fa-table"></i> <span>Grade Terapêutica</span></a></li>
-                        <li class="active"><a href="painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
+                        <li><a href="painel_evolucoes.php"><i class="fas fa-chart-line"></i> <span>Evoluções</span></a></li>
                     <?php endif; ?>
                     
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Agenda</span></a></li>
@@ -701,6 +706,10 @@ function contarAnexos($evolucao) {
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
+            
+            <footer class="main-footer">
+                <div class="footer-logo"><i class="fas fa-star"></i> <span>CLÍNICA ESTRELA</span></div>
+            </footer>
         </main>
     </div>
 

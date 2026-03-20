@@ -547,45 +547,53 @@
 
 /* Paginação */
 .pagination-historico {
+    margin-top: 25px;
+    padding: 12px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
-    padding-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
     border-top: 1px solid #e2e8f0;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
 }
 
 .pagination-info {
     color: #64748b;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 0.75rem;
+    background: #f8fafc;
+    padding: 4px 10px;
+    border-radius: 20px;
 }
 
 .pagination-controls {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     flex-wrap: wrap;
 }
 
 .pagination-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    padding: 4px 8px;
+    min-width: 28px;
+    height: 28px;
     border: 1px solid #e2e8f0;
     background: white;
     color: #475569;
+    border-radius: 5px;
     cursor: pointer;
-    display: flex;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    transition: all 0.2s;
+    gap: 3px;
+    font-size: 0.75rem;
     font-weight: 500;
-    font-size: 14px;
 }
+
+.pagination-btn i {
+    font-size: 0.65rem;
+}
+
 
 .pagination-btn:hover:not(.disabled) {
     background: #3b82f6;
@@ -597,16 +605,50 @@
 
 .pagination-btn.active {
     background: #3b82f6;
-    color: white;
     border-color: #3b82f6;
+    color: white;
     font-weight: 600;
+    transform: scale(1.02);
 }
 
 .pagination-btn.disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
-    background: #f8fafc;
+}
+
+/* Para telas muito pequenas (mobile) */
+@media (max-width: 640px) {
+    .pagination-historico {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .pagination-info {
+        font-size: 0.7rem;
+        text-align: center;
+    }
+    
+    .pagination-btn {
+        padding: 3px 6px;
+        min-width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+    }
+    
+    .pagination-btn i {
+        font-size: 0.6rem;
+    }
+}
+
+/* Para telas muito grandes, manter compacto */
+@media (min-width: 1200px) {
+    .pagination-btn {
+        padding: 4px 8px;
+        min-width: 28px;
+        height: 28px;
+    }
 }
 
 /* Loading spinner */

@@ -16,9 +16,14 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'Admin';
 $pagina_atual = basename($_SERVER['PHP_SELF']);
 
 // ===== FILTROS =====
-$pacienteFiltro = isset($_GET['paciente']) ? $_GET['paciente'] : '';
+$pacienteFiltro = isset($_GET['paciente']) ? trim($_GET['paciente']) : '';
 $terapiaFiltro = isset($_GET['terapia']) ? $_GET['terapia'] : '';
 $turnoFiltro = isset($_GET['turno']) ? $_GET['turno'] : '';
+
+// ===== PAGINAÇÃO =====
+$pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$itens_por_pagina = 10; // 10 pacientes por página
+$offset = ($pagina - 1) * $itens_por_pagina;
 
 // ===== CARREGAR PACIENTES DO JSON =====
 $caminhoPacientes = __DIR__ . '/../../dashboard/dados/ativo-cad.json';
@@ -78,8 +83,19 @@ if (!empty($pacienteFiltro)) {
     });
 }
 
-// Reindexar array
+// Reindexar array após filtro
 $pacientesFiltrados = array_values($pacientesFiltrados);
+$total_pacientes_filtrados = count($pacientesFiltrados);
+
+// Ajustar página atual se for maior que o total de páginas
+$total_paginas = ceil($total_pacientes_filtrados / $itens_por_pagina);
+if ($pagina > $total_paginas && $total_paginas > 0) {
+    $pagina = $total_paginas;
+    $offset = ($pagina - 1) * $itens_por_pagina;
+}
+
+// ===== APLICAR PAGINAÇÃO =====
+$pacientes_paginados = array_slice($pacientesFiltrados, $offset, $itens_por_pagina);
 
 // ===== DADOS PARA O FORMULÁRIO (quando um paciente é selecionado) =====
 $modo_formulario = isset($_GET['paciente_id']) && !empty($_GET['paciente_id']);
@@ -150,6 +166,16 @@ if (file_exists($caminhoEvolucoes)) {
             $totalEvolucoesHoje++;
         }
     }
+}
+
+// Função para construir URL mantendo os parâmetros
+function buildPaginationUrl($pagina_num, $pacienteFiltro) {
+    $params = [];
+    if (!empty($pacienteFiltro)) {
+        $params['paciente'] = $pacienteFiltro;
+    }
+    $params['pagina'] = $pagina_num;
+    return 'painel_evolucoes.php?' . http_build_query($params);
 }
 ?>
 
@@ -343,6 +369,95 @@ if (file_exists($caminhoEvolucoes)) {
             font-size: 2rem;
             margin-bottom: 10px;
         }
+
+        /* Estilos para paginação */
+        .pagination-container {
+            margin-top: 30px;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .pagination-info {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            padding: 6px 10px;
+            min-width: 32px;
+            height: 32px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #475569;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .pagination-btn i {
+            font-size: 0.75rem;
+        }
+
+        .pagination-btn:hover:not(.disabled):not(.active) {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+    @media (max-width: 768px) {
+        .pagination-container {
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pagination-info {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        .pagination-btn {
+            padding: 5px 8px;
+            min-width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+        }
+        
+        .pagination-btn i {
+            font-size: 0.7rem;
+        }
+    }
     </style>
 </head>
 <body>
@@ -495,7 +610,7 @@ if (file_exists($caminhoEvolucoes)) {
                                     <i class="fas fa-user"></i>
                                     <span>Paciente:</span>
                                 </div>
-                                <form method="GET" style="display: flex; gap: 8px; width: 100%;">
+                                <form method="GET" action="painel_evolucoes.php" style="display: flex; gap: 8px; width: 100%;">
                                     <input type="text" 
                                            name="paciente" 
                                            value="<?php echo htmlspecialchars($pacienteFiltro); ?>" 
@@ -516,14 +631,14 @@ if (file_exists($caminhoEvolucoes)) {
 
                     <!-- Cards de Pacientes -->
                     <div class="patients-grid">
-                        <?php if (empty($pacientesFiltrados)): ?>
+                        <?php if (empty($pacientes_paginados)): ?>
                             <div class="empty-state" style="grid-column: 1 / -1;">
                                 <i class="fas fa-users"></i>
                                 <h4>Nenhum paciente ativo encontrado</h4>
                                 <p>Não há pacientes ativos cadastrados no momento.</p>
                             </div>
                         <?php else: ?>
-                            <?php foreach ($pacientesFiltrados as $paciente): ?>
+                            <?php foreach ($pacientes_paginados as $paciente): ?>
                                 <div class="patient-card">
                                     <div class="patient-card-header">
                                         <div class="patient-avatar">
@@ -562,7 +677,7 @@ if (file_exists($caminhoEvolucoes)) {
                                         <a href="?paciente_id=<?php echo $paciente['id']; ?>" class="btn-card-action primary">
                                             <i class="fas fa-plus"></i> Nova Evolução
                                         </a>
-                                        <button class="btn-card-action secondary" onclick="verHistoricoPaciente('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars($paciente['nome'], ENT_QUOTES); ?>')">
+                                        <button class="btn-card-action secondary" onclick="verHistoricoPaciente('<?php echo $paciente['id']; ?>', '<?php echo htmlspecialchars($paciente['nome'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($paciente['responsavel'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($paciente['telefone'], ENT_QUOTES); ?>')">
                                         <i class="fas fa-history"></i> Histórico
                                         </button>
                                     </div>
@@ -570,6 +685,59 @@ if (file_exists($caminhoEvolucoes)) {
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
+
+                    <!-- Paginação -->
+                    <?php if ($total_paginas > 1): ?>
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                <i class="fas fa-chart-line"></i>
+                                Mostrando <?php echo $offset + 1; ?> - <?php echo min($offset + $itens_por_pagina, $total_pacientes_filtrados); ?> de <?php echo $total_pacientes_filtrados; ?> pacientes
+                            </div>
+                            <div class="pagination-controls">
+                                <?php
+                                // Construir URL base mantendo os filtros
+                                $base_params = [];
+                                if (!empty($pacienteFiltro)) {
+                                    $base_params['paciente'] = $pacienteFiltro;
+                                }
+                                $query_string = http_build_query($base_params);
+                                $url_base = 'painel_evolucoes.php' . ($query_string ? '?' . $query_string . '&' : '?');
+                                ?>
+                                
+                                <!-- Primeira página -->
+                                <a href="<?php echo $url_base; ?>pagina=1" class="pagination-btn <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                                
+                                <!-- Página anterior -->
+                                <a href="<?php echo $url_base; ?>pagina=<?php echo $pagina - 1; ?>" class="pagination-btn <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                                
+                                <!-- Números das páginas -->
+                                <?php
+                                $start_page = max(1, $pagina - 2);
+                                $end_page = min($total_paginas, $pagina + 2);
+                                
+                                for ($i = $start_page; $i <= $end_page; $i++):
+                                ?>
+                                    <a href="<?php echo $url_base; ?>pagina=<?php echo $i; ?>" class="pagination-btn <?php echo $i == $pagina ? 'active' : ''; ?>">
+                                        <?php echo $i; ?>
+                                    </a>
+                                <?php endfor; ?>
+                                
+                                <!-- Próxima página -->
+                                <a href="<?php echo $url_base; ?>pagina=<?php echo $pagina + 1; ?>" class="pagination-btn <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                                
+                                <!-- Última página -->
+                                <a href="<?php echo $url_base; ?>pagina=<?php echo $total_paginas; ?>" class="pagination-btn <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
             <?php else: ?>
@@ -753,7 +921,6 @@ if (file_exists($caminhoEvolucoes)) {
 
                     <!-- Rodapé do Formulário -->
                     <div class="form-footer">
-                        <span class="clinic-label">CLÍNICA ESTRELA</span>
                         <div class="action-buttons">
                             <button type="submit" class="btn-save">
                                 <i class="fas fa-save"></i> Salvar Evolução
@@ -775,11 +942,11 @@ if (file_exists($caminhoEvolucoes)) {
     <script src="/clinicaestrela/dashboard/js/evolucao_upload.js"></script>
     
     <script>
-    function verHistoricoPaciente(pacienteId, pacienteNome) {
+    function verHistoricoPaciente(pacienteId, pacienteNome, responsavel, telefone) {
         var url = 'evolucao_historico.php?paciente_id=' + encodeURIComponent(pacienteId) + 
                   '&paciente_nome=' + encodeURIComponent(pacienteNome) +
-                  '&responsavel=' + encodeURIComponent('<?php echo addslashes($paciente["responsavel"] ?? ""); ?>') +
-                  '&telefone=' + encodeURIComponent('<?php echo addslashes($paciente["telefone"] ?? ""); ?>');
+                  '&responsavel=' + encodeURIComponent(responsavel) +
+                  '&telefone=' + encodeURIComponent(telefone);
         window.location.href = url;
     }
     </script>
