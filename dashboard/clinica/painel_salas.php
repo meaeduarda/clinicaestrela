@@ -89,10 +89,10 @@ function getCorPorTipo($tipo) {
     $cores = [
         'ABA' => '#8b5cf6', // Roxo
         'Fono' => '#ec4899', // Rosa
-        'TO' => '#f59e0b', // Amarelo
-        'Funcional' => '#ef4444', // Vermelho
+        'TO' => '#f5e50b', // Amarelo
+        'Funcional' => '#0ceeaa', // Ciano
         'Psicomotricidade' => '#3b82f6', // Azul
-        'Nutrição' => '#10b981', // Verde
+        'Nutrição' => '#00c73c', // Verde
         'Fisioterapia' => '#ef4444', // Vermelho
         'Fonoterapia' => '#ec4899', // Rosa
         'Psicoterapia' => '#f97316', // Laranja

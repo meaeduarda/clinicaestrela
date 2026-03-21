@@ -118,113 +118,139 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                     <!-- Horário 07:50 - 08:20 -->
                                     <tr>
                                         <td class="time-col">07:50 - 08:20</td>
-                                        <td><div class="session fono"><span class="name">João Pedro</span><span class="professional">Dra. Maria</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">João Pedro</span><span class="professional-name">Dra. Maria</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Ana Clara</span><span class="professional">Dr. Carlos</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Ana Clara</span><span class="professional-name">Dr. Carlos</span></div></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Pedro Lucas</span><span class="professional">Dra. Sofia</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Pedro Lucas</span><span class="professional-name">Dra. Sofia</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session musica"><span class="name">Laura Beatriz</span><span class="professional">Dr. João</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Laura Beatriz</span><span class="professional-name">Dr. João</span></div></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 08:20 - 08:50 -->
                                     <tr>
                                         <td class="time-col">08:20 - 08:50</td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Mariana Souza</span><span class="professional">Dra. Ana</span></div></td>
-                                        <td><div class="session fono"><span class="name">Gabriel Lima</span><span class="professional">Dr. Pedro</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Mariana Souza</span><span class="professional-name">Dra. Ana</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Gabriel Lima</span><span class="professional-name">Dr. Pedro</span></div></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Rafaela Costa</span><span class="professional">Dra. Carla</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Rafaela Costa</span><span class="professional-name">Dra. Carla</span></div></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Enzo Gabriel</span><span class="professional">Dr. Marcos</span></div></td>
-                                        <td><div class="session psicologia"><span class="name">Sofia Costa</span><span class="professional">Dra. Juliana</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Enzo Gabriel</span><span class="professional-name">Dr. Marcos</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Sofia Costa</span><span class="professional-name">Dra. Juliana</span></div></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 08:50 - 09:20 -->
                                     <tr>
                                         <td class="time-col">08:50 - 09:20</td>
-                                        <td><div class="session fono"><span class="name">Lucas Mendes</span><span class="professional">Dra. Patricia</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Lucas Mendes</span><span class="professional-name">Dra. Patricia</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Beatriz Lima</span><span class="professional">Dr. Roberto</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Beatriz Lima</span><span class="professional-name">Dr. Roberto</span></div></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Maria Eduarda</span><span class="professional">Dra. Camila</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Maria Eduarda</span><span class="professional-name">Dra. Camila</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session musica"><span class="name">Arthur Silva</span><span class="professional">Dr. Ricardo</span></div></td>
-                                        <td><div class="session psicologia"><span class="name">Isabela Santos</span><span class="professional">Dra. Renata</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Arthur Silva</span><span class="professional-name">Dr. Ricardo</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Isabela Santos</span><span class="professional-name">Dra. Renata</span></div></td>
                                     </tr>
                                     <!-- Horário 09:20 - 09:50 -->
                                     <tr>
                                         <td class="time-col">09:20 - 09:50</td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Davi Lucca</span><span class="professional">Dra. Fernanda</span></div></td>
-                                        <td><div class="session fono"><span class="name">Helena Alves</span><span class="professional">Dr. Gustavo</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Davi Lucca</span><span class="professional-name">Dra. Fernanda</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Helena Alves</span><span class="professional-name">Dr. Gustavo</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Valentina Rocha</span><span class="professional">Dra. Beatriz</span></div></td>
-                                        <td><div class="session psicologia"><span class="name">Theo Mendes</span><span class="professional">Dr. André</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Valentina Rocha</span><span class="professional-name">Dra. Beatriz</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Theo Mendes</span><span class="professional-name">Dr. André</span></div></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <!-- Horário 09:50 - 10:20 -->
+                                    <!-- Horário 09:50 - 10:20 - LANCHES -->
+                            
                                     <tr>
                                         <td class="time-col">09:50 - 10:20</td>
-                                        <td><div class="session fono"><span class="name">Cecília Dias</span><span class="professional">Dra. Mariana</span></div></td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Cecília Dias</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Heitor Cardoso</span><span class="professional">Dr. Fábio</span></div></td>
-                                        <td><div class="session fono"><span class="name">Lara Oliveira</span><span class="professional">Dra. Paula</span></div></td>
-                                        <td><div class="session aba"><span class="name">Bernardo Costa</span><span class="professional">Dr. Lucas</span></div></td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Heitor Cardoso</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Lara Oliveira</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Bernardo Costa</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Manuela Rios</span><span class="professional">Dra. Carla</span></div></td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Manuela Rios</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <!-- Horário 10:20 - 10:50 -->
                                     <tr>
                                         <td class="time-col">10:20 - 10:50</td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Nicolas Ferreira</span><span class="professional">Dr. Rafael</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Nicolas Ferreira</span><span class="professional-name">Dr. Rafael</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Lívia Castro</span><span class="professional">Dra. Talita</span></div></td>
-                                        <td><div class="session psicologia"><span class="name">Gael Souza</span><span class="professional">Dr. Marcelo</span></div></td>
-                                        <td><div class="session musica"><span class="name">Alice Gomes</span><span class="professional">Dra. Luciana</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Lívia Castro</span><span class="professional-name">Dra. Talita</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Gael Souza</span><span class="professional-name">Dr. Marcelo</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Alice Gomes</span><span class="professional-name">Dra. Luciana</span></div></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 10:50 - 11:20 -->
                                     <tr>
                                         <td class="time-col">10:50 - 11:20</td>
-                                        <td><div class="session fono"><span class="name">Miguel Araújo</span><span class="professional">Dra. Vanessa</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Miguel Araújo</span><span class="professional-name">Dra. Vanessa</span></div></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Laura Martins</span><span class="professional">Dr. Eduardo</span></div></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td><div class="session aba"><span class="name">Heloísa Ribeiro</span><span class="professional">Dra. Daniela</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Laura Martins</span><span class="professional-name">Dr. Eduardo</span></div></td>
                                         <td></td>
                                         <td></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Heloísa Ribeiro</span><span class="professional-name">Dra. Daniela</span></div></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Samuel Correia</span><span class="professional">Dr. Ricardo</span></div></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Samuel Correia</span><span class="professional-name">Dr. Ricardo</span></div></td>
                                     </tr>
                                     <!-- Horário 11:20 - 11:50 -->
                                     <tr>
                                         <td class="time-col">11:20 - 11:50</td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Sophia Nunes</span><span class="professional">Dra. Adriana</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Sophia Nunes</span><span class="professional-name">Dra. Adriana</span></div></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Matheus Pinto</span><span class="professional">Dr. Bruno</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Matheus Pinto</span><span class="professional-name">Dr. Bruno</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Giovanna Melo</span><span class="professional">Dra. Patrícia</span></div></td>
-                                        <td><div class="session psicologia"><span class="name">João Vitor</span><span class="professional">Dr. Alexandre</span></div></td>
-                                        <td><div class="session musica"><span class="name">Clara Fernandes</span><span class="professional">Dra. Roberta</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Giovanna Melo</span><span class="professional-name">Dra. Patrícia</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">João Vitor</span><span class="professional-name">Dr. Alexandre</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Clara Fernandes</span><span class="professional-name">Dra. Roberta</span></div></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -251,13 +277,13 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                     <!-- Horário 07:50 - 08:20 -->
                                     <tr>
                                         <td class="time-col">07:50 - 08:20</td>
-                                        <td><div class="session fisioterapia"><span class="name">Rafael Costa</span><span class="professional">Dr. André</span></div></td>
-                                        <td><div class="session casa_habilidades"><span class="name">Bianca Rocha</span><span class="professional">Dra. Paula</span></div></td>
+                                        <td><div class="session session-fisioterapia"><span class="patient-name">Rafael Costa</span><span class="professional-name">Dr. André</span></div></td>
+                                        <td><div class="session session-casa_habilidades"><span class="patient-name">Bianca Rocha</span><span class="professional-name">Dra. Paula</span></div></td>
                                         <td></td>
-                                        <td><div class="session to"><span class="name">Yuri Alves</span><span class="professional">Dra. Sandra</span></div></td>
+                                        <td><div class="session session-to"><span class="patient-name">Yuri Alves</span><span class="professional-name">Dra. Sandra</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session aba"><span class="name">Tânia Lima</span><span class="professional">Dr. Marcos</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Tânia Lima</span><span class="professional-name">Dr. Marcos</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -267,27 +293,27 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <td class="time-col">08:20 - 08:50</td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session sala_kids"><span class="name">Enzo Gabriel</span><span class="professional">Dra. Juliana</span></div></td>
-                                        <td><div class="session to"><span class="name">Isabela Cristina</span><span class="professional">Dr. Ricardo</span></div></td>
-                                        <td><div class="session fono"><span class="name">Otávio Mendes</span><span class="professional">Dra. Renata</span></div></td>
+                                        <td><div class="session session-sala_kids"><span class="patient-name">Enzo Gabriel</span><span class="professional-name">Dra. Juliana</span></div></td>
+                                        <td><div class="session session-to"><span class="patient-name">Isabela Cristina</span><span class="professional-name">Dr. Ricardo</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Otávio Mendes</span><span class="professional-name">Dra. Renata</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Larissa Farias</span><span class="professional">Dr. Roberto</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Larissa Farias</span><span class="professional-name">Dr. Roberto</span></div></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 08:50 - 09:20 -->
                                     <tr>
                                         <td class="time-col">08:50 - 09:20</td>
-                                        <td><div class="session fisioterapia"><span class="name">Carlos Eduardo</span><span class="professional">Dra. Márcia</span></div></td>
-                                        <td><div class="session casa_habilidades"><span class="name">Amanda Nunes</span><span class="professional">Dr. Sérgio</span></div></td>
+                                        <td><div class="session session-fisioterapia"><span class="patient-name">Carlos Eduardo</span><span class="professional-name">Dra. Márcia</span></div></td>
+                                        <td><div class="session session-casa_habilidades"><span class="patient-name">Amanda Nunes</span><span class="professional-name">Dr. Sérgio</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Vinicius Oliveira</span><span class="professional">Dra. Tânia</span></div></td>
-                                        <td><div class="session aba"><span class="name">Marina Silva</span><span class="professional">Dr. Gustavo</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Vinicius Oliveira</span><span class="professional-name">Dra. Tânia</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">Marina Silva</span><span class="professional-name">Dr. Gustavo</span></div></td>
                                         <td></td>
-                                        <td><div class="session musica"><span class="name">Fernanda Lima</span><span class="professional">Dra. Cíntia</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Fernanda Lima</span><span class="professional-name">Dra. Cíntia</span></div></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 09:20 - 09:50 -->
@@ -295,25 +321,46 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <td class="time-col">09:20 - 09:50</td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session sala_kids"><span class="name">João Miguel</span><span class="professional">Dra. Vanessa</span></div></td>
-                                        <td><div class="session to"><span class="name">Ana Luísa</span><span class="professional">Dr. Márcio</span></div></td>
-                                        <td><div class="session fono"><span class="name">Eduarda Castro</span><span class="professional">Dra. Sabrina</span></div></td>
+                                        <td><div class="session session-sala_kids"><span class="patient-name">João Miguel</span><span class="professional-name">Dra. Vanessa</span></div></td>
+                                        <td><div class="session session-to"><span class="patient-name">Ana Luísa</span><span class="professional-name">Dr. Márcio</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Eduarda Castro</span><span class="professional-name">Dra. Sabrina</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Felipe Santos</span><span class="professional">Dr. Jorge</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Felipe Santos</span><span class="professional-name">Dr. Jorge</span></div></td>
                                         <td></td>
-                                        <td><div class="session fisioterapia"><span class="name">Lívia Andrade</span><span class="professional">Dra. Kátia</span></div></td>
+                                        <td><div class="session session-fisioterapia"><span class="patient-name">Lívia Andrade</span><span class="professional-name">Dra. Kátia</span></div></td>
                                     </tr>
-                                    <!-- Horário 09:50 - 10:20 -->
+                                    <!-- Horário 09:50 - 10:20 - LANCHES -->
+
                                     <tr>
                                         <td class="time-col">09:50 - 10:20</td>
-                                        <td><div class="session fisioterapia"><span class="name">Roberta Martins</span><span class="professional">Dra. Lúcia</span></div></td>
-                                        <td><div class="session casa_habilidades"><span class="name">Thiago Rodrigues</span><span class="professional">Dr. Marcelo</span></div></td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Roberta Martins</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Thiago Rodrigues</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Camila Ferreira</span><span class="professional">Dra. Eliane</span></div></td>
-                                        <td><div class="session aba"><span class="name">Raquel Pires</span><span class="professional">Dr. César</span></div></td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Camila Ferreira</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="session session-lanche">
+                                                <span class="patient-name">Raquel Pires</span>
+                                                <span class="professional-name">Equipe</span>
+                                            </div>
+                                        </td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -323,25 +370,25 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <td class="time-col">10:20 - 10:50</td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session sala_kids"><span class="name">Breno Lopes</span><span class="professional">Dra. Denise</span></div></td>
-                                        <td><div class="session to"><span class="name">Clarice Almeida</span><span class="professional">Dr. Antônio</span></div></td>
-                                        <td><div class="session fono"><span class="name">Danilo Ribeiro</span><span class="professional">Dra. Olga</span></div></td>
+                                        <td><div class="session session-sala_kids"><span class="patient-name">Breno Lopes</span><span class="professional-name">Dra. Denise</span></div></td>
+                                        <td><div class="session session-to"><span class="patient-name">Clarice Almeida</span><span class="professional-name">Dr. Antônio</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Danilo Ribeiro</span><span class="professional-name">Dra. Olga</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Natália Correia</span><span class="professional">Dr. Sérgio</span></div></td>
-                                        <td><div class="session musica"><span class="name">Igor Teixeira</span><span class="professional">Dra. Rita</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Natália Correia</span><span class="professional-name">Dr. Sérgio</span></div></td>
+                                        <td><div class="session session-musica"><span class="patient-name">Igor Teixeira</span><span class="professional-name">Dra. Rita</span></div></td>
                                         <td></td>
                                     </tr>
                                     <!-- Horário 10:50 - 11:20 -->
                                     <tr>
                                         <td class="time-col">10:50 - 11:20</td>
-                                        <td><div class="session fisioterapia"><span class="name">Simone Araújo</span><span class="professional">Dra. Mônica</span></div></td>
-                                        <td><div class="session casa_habilidades"><span class="name">Júlio César</span><span class="professional">Dr. Rogério</span></div></td>
+                                        <td><div class="session session-fisioterapia"><span class="patient-name">Simone Araújo</span><span class="professional-name">Dra. Mônica</span></div></td>
+                                        <td><div class="session session-casa_habilidades"><span class="patient-name">Júlio César</span><span class="professional-name">Dr. Rogério</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session fono"><span class="name">Tatiana Neves</span><span class="professional">Dra. Gláucia</span></div></td>
-                                        <td><div class="session aba"><span class="name">André Luiz</span><span class="professional">Dr. Hélio</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Tatiana Neves</span><span class="professional-name">Dra. Gláucia</span></div></td>
+                                        <td><div class="session session-aba"><span class="patient-name">André Luiz</span><span class="professional-name">Dr. Hélio</span></div></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -351,14 +398,14 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <td class="time-col">11:20 - 11:50</td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session sala_kids"><span class="name">Carolina Dias</span><span class="professional">Dra. Silvia</span></div></td>
-                                        <td><div class="session to"><span class="name">Marcos Vinícius</span><span class="professional">Dr. Eduardo</span></div></td>
-                                        <td><div class="session fono"><span class="name">Patrícia Gomes</span><span class="professional">Dra. Regina</span></div></td>
+                                        <td><div class="session session-sala_kids"><span class="patient-name">Carolina Dias</span><span class="professional-name">Dra. Silvia</span></div></td>
+                                        <td><div class="session session-to"><span class="patient-name">Marcos Vinícius</span><span class="professional-name">Dr. Eduardo</span></div></td>
+                                        <td><div class="session session-fono"><span class="patient-name">Patrícia Gomes</span><span class="professional-name">Dra. Regina</span></div></td>
                                         <td></td>
                                         <td></td>
-                                        <td><div class="session psicologia"><span class="name">Ricardo Lemos</span><span class="professional">Dr. Wagner</span></div></td>
+                                        <td><div class="session session-psicologia"><span class="patient-name">Ricardo Lemos</span><span class="professional-name">Dr. Wagner</span></div></td>
                                         <td></td>
-                                        <td><div class="session fisioterapia"><span class="name">Vera Lúcia</span><span class="professional">Dra. Elisa</span></div></td>
+                                        <td><div class="session session-fisioterapia"><span class="patient-name">Vera Lúcia</span><span class="professional-name">Dra. Elisa</span></div></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -542,322 +589,311 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
         const fullscreenBody = document.getElementById('fullscreenBody');
 
     function maximizarGrade() {
-        fullscreenBody.innerHTML = '';
-        
-        // Criar container principal SEM scroll
-        const container = document.createElement('div');
-        container.style.width = '100%';
-        container.style.height = '100%';
-        container.style.display = 'flex';
-        container.style.flexDirection = 'column';
-        container.style.padding = '5px';
-        container.style.backgroundColor = '#f8fafc';
-        container.style.overflow = 'hidden'; // SEM SCROLL!
-        
-        // ===== PRIMEIRA TABELA (SALAS 1-10) =====
-        const titulo1 = document.createElement('h3');
-        titulo1.style.margin = '2px 0 2px 0';
-        titulo1.style.color = '#2563eb';
-        titulo1.style.fontSize = '14px';
-        titulo1.style.fontWeight = '600';
-        titulo1.style.flexShrink = '0';
-        container.appendChild(titulo1);
-        
-        // Container para a primeira tabela com altura flexível
-        const tableContainer1 = document.createElement('div');
-        tableContainer1.style.flex = '1';
-        tableContainer1.style.minHeight = '0';
-        tableContainer1.style.overflow = 'hidden';
-        container.appendChild(tableContainer1);
-        
-        const table1 = document.createElement('table');
-        table1.style.width = '100%';
-        table1.style.height = '100%';
-        table1.style.borderCollapse = 'collapse';
-        table1.style.backgroundColor = 'white';
-        table1.style.border = '1px solid #e2e8f0';
-        table1.style.fontSize = '10px';
-        table1.style.tableLayout = 'fixed';
-        
-        // Cabeçalho da primeira tabela
-        const thead1 = document.createElement('thead');
-        const headerRow1 = document.createElement('tr');
-        const headers1 = document.querySelectorAll('#gradeTableSection1 thead th');
-        
-        headers1.forEach(th => {
-            const newTh = document.createElement('th');
-            newTh.textContent = th.textContent;
-            newTh.style.backgroundColor = '#3b82f6';
-            newTh.style.color = 'white';
-            newTh.style.padding = '4px 2px';
-            newTh.style.textAlign = 'center';
-            newTh.style.border = '1px solid #e2e8f0';
-            newTh.style.fontWeight = '600';
-            newTh.style.fontSize = '9px';
-            newTh.style.whiteSpace = 'nowrap';
-            if (th.classList.contains('time-col')) {
-                newTh.style.backgroundColor = '#2563eb';
-                newTh.style.width = '70px';
-            }
-            headerRow1.appendChild(newTh);
-        });
-        thead1.appendChild(headerRow1);
-        table1.appendChild(thead1);
-        
-        // Corpo da primeira tabela
-        const tbody1 = document.createElement('tbody');
-        const rows1 = document.querySelectorAll('#gradeTableSection1 tbody tr');
-        
-        rows1.forEach(row => {
-            const newRow = document.createElement('tr');
-            newRow.style.height = '30px'; // Altura fixa reduzida
+            fullscreenBody.innerHTML = '';
             
-            const cells = row.querySelectorAll('td');
+            // Criar container principal
+            const container = document.createElement('div');
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.padding = '6px';
+            container.style.backgroundColor = '#f8fafc';
+            container.style.overflow = 'hidden'; // SEM SCROLL
+        
             
-            cells.forEach(cell => {
-                const newCell = document.createElement('td');
-                newCell.style.padding = '1px';
-                newCell.style.border = '1px solid #e2e8f0';
-                newCell.style.height = '30px';
-                newCell.style.verticalAlign = 'top';
-                
-                if (cell.classList.contains('time-col')) {
-                    newCell.style.backgroundColor = '#f1f5f9';
-                    newCell.style.fontWeight = '600';
-                    newCell.style.textAlign = 'center';
-                    newCell.style.padding = '2px 1px';
-                    newCell.style.fontSize = '9px';
-                    newCell.style.width = '70px';
-                    newCell.textContent = cell.textContent;
-                } else {
-                    // Processar sessões
-                    const sessoes = cell.querySelectorAll('.session');
-                    if (sessoes.length > 0) {
-                        sessoes.forEach(sessao => {
-                            const nome = sessao.querySelector('.name')?.textContent || '';
-                            const profissional = sessao.querySelector('.professional')?.textContent || '';
-                            const tipo = sessao.classList[1] || '';
-                            
-                            const sessionDiv = document.createElement('div');
-                            sessionDiv.style.margin = '0';
-                            sessionDiv.style.padding = '1px 2px';
-                            sessionDiv.style.borderRadius = '2px';
-                            sessionDiv.style.fontSize = '7px';
-                            sessionDiv.style.lineHeight = '1.1';
-                            sessionDiv.style.height = '28px';
-                            sessionDiv.style.display = 'flex';
-                            sessionDiv.style.flexDirection = 'column';
-                            sessionDiv.style.justifyContent = 'center';
-                            
-                            // Aplicar cor conforme o tipo
-                            if (tipo === 'aba') {
-                                sessionDiv.style.backgroundColor = '#eef2ff';
-                                sessionDiv.style.color = '#4f46e5';
-                                sessionDiv.style.borderLeft = '3px solid #4f46e5';
-                            } else if (tipo === 'fono') {
-                                sessionDiv.style.backgroundColor = '#f0fdf4';
-                                sessionDiv.style.color = '#16a34a';
-                                sessionDiv.style.borderLeft = '3px solid #16a34a';
-                            } else if (tipo === 'psicologia') {
-                                sessionDiv.style.backgroundColor = '#fdf2f8';
-                                sessionDiv.style.color = '#db2777';
-                                sessionDiv.style.borderLeft = '3px solid #db2777';
-                            } else if (tipo === 'to') {
-                                sessionDiv.style.backgroundColor = '#f0f9ff';
-                                sessionDiv.style.color = '#0891b2';
-                                sessionDiv.style.borderLeft = '3px solid #0891b2';
-                            } else if (tipo === 'musica') {
-                                sessionDiv.style.backgroundColor = '#faf5ff';
-                                sessionDiv.style.color = '#9333ea';
-                                sessionDiv.style.borderLeft = '3px solid #9333ea';
-                            } else if (tipo === 'fisioterapia') {
-                                sessionDiv.style.backgroundColor = '#fffbeb';
-                                sessionDiv.style.color = '#d97706';
-                                sessionDiv.style.borderLeft = '3px solid #d97706';
-                            } else if (tipo === 'casa_habilidades') {
-                                sessionDiv.style.backgroundColor = '#ecfdf5';
-                                sessionDiv.style.color = '#059669';
-                                sessionDiv.style.borderLeft = '3px solid #059669';
-                            } else if (tipo === 'sala_kids') {
-                                sessionDiv.style.backgroundColor = '#fff1f2';
-                                sessionDiv.style.color = '#e11d48';
-                                sessionDiv.style.borderLeft = '3px solid #e11d48';
-                            }
-                            
-                            sessionDiv.innerHTML = `
-                                <span style="font-weight:600; font-size:7px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${nome}</span>
-                                <span style="font-size:6px; opacity:0.8; font-style:italic; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profissional}</span>
-                            `;
-                            
-                            newCell.appendChild(sessionDiv);
-                        });
-                    }
+            // ===== PRIMEIRA TABELA (SALAS 1-10) =====
+            
+            // Container para a primeira tabela
+            const tableContainer1 = document.createElement('div');
+            tableContainer1.style.flex = '1';
+            tableContainer1.style.minHeight = '0';
+            tableContainer1.style.overflow = 'hidden';
+            container.appendChild(tableContainer1);
+            
+            const table1 = document.createElement('table');
+            table1.style.width = '100%';
+            table1.style.height = '100%';
+            table1.style.borderCollapse = 'collapse';
+            table1.style.backgroundColor = 'white';
+            table1.style.border = '1px solid #e2e8f0';
+            table1.style.fontSize = '10px';
+            table1.style.tableLayout = 'fixed';
+            
+            // Cabeçalho da primeira tabela
+            const thead1 = document.createElement('thead');
+            const headerRow1 = document.createElement('tr');
+            const headers1 = document.querySelectorAll('#gradeTableSection1 thead th');
+            
+            headers1.forEach(th => {
+                const newTh = document.createElement('th');
+                newTh.textContent = th.textContent;
+                newTh.style.backgroundColor = '#3b82f6';
+                newTh.style.color = 'white';
+                newTh.style.padding = '4px 2px';
+                newTh.style.textAlign = 'center';
+                newTh.style.border = '1px solid #e2e8f0';
+                newTh.style.fontWeight = '600';
+                newTh.style.fontSize = '9px';
+                newTh.style.whiteSpace = 'nowrap';
+                if (th.classList.contains('time-col')) {
+                    newTh.style.backgroundColor = '#2563eb';
+                    newTh.style.width = '70px';
                 }
-                newRow.appendChild(newCell);
+                headerRow1.appendChild(newTh);
             });
-            tbody1.appendChild(newRow);
-        });
-        table1.appendChild(tbody1);
-        tableContainer1.appendChild(table1);
-        
-        // ===== LINHA DIVISÓRIA =====
-        const divider = document.createElement('hr');
-        divider.style.margin = '5px 0 5px 0';
-        divider.style.border = 'none';
-        divider.style.borderTop = '2px solid #94a3b8';
-        divider.style.flexShrink = '0';
-        container.appendChild(divider);
-        
-        // ===== SEGUNDA TABELA (SALAS 11-20) =====
-        const titulo2 = document.createElement('h3');
-        titulo2.style.margin = '2px 0 2px 0';
-        titulo2.style.color = '#2563eb';
-        titulo2.style.fontSize = '14px';
-        titulo2.style.fontWeight = '600';
-        titulo2.style.flexShrink = '0';
-        container.appendChild(titulo2);
-        
-        // Container para a segunda tabela com altura flexível
-        const tableContainer2 = document.createElement('div');
-        tableContainer2.style.flex = '1';
-        tableContainer2.style.minHeight = '0';
-        tableContainer2.style.overflow = 'hidden';
-        container.appendChild(tableContainer2);
-        
-        const table2 = document.createElement('table');
-        table2.style.width = '100%';
-        table2.style.height = '100%';
-        table2.style.borderCollapse = 'collapse';
-        table2.style.backgroundColor = 'white';
-        table2.style.border = '1px solid #e2e8f0';
-        table2.style.fontSize = '10px';
-        table2.style.tableLayout = 'fixed';
-        
-        // Cabeçalho da segunda tabela
-        const thead2 = document.createElement('thead');
-        const headerRow2 = document.createElement('tr');
-        const headers2 = document.querySelectorAll('#gradeTableSection2 thead th');
-        
-        headers2.forEach(th => {
-            const newTh = document.createElement('th');
-            newTh.textContent = th.textContent;
-            newTh.style.backgroundColor = '#3b82f6';
-            newTh.style.color = 'white';
-            newTh.style.padding = '4px 2px';
-            newTh.style.textAlign = 'center';
-            newTh.style.border = '1px solid #e2e8f0';
-            newTh.style.fontWeight = '600';
-            newTh.style.fontSize = '9px';
-            newTh.style.whiteSpace = 'nowrap';
-            if (th.classList.contains('time-col')) {
-                newTh.style.backgroundColor = '#2563eb';
-                newTh.style.width = '70px';
-            }
-            headerRow2.appendChild(newTh);
-        });
-        thead2.appendChild(headerRow2);
-        table2.appendChild(thead2);
-        
-        // Corpo da segunda tabela
-        const tbody2 = document.createElement('tbody');
-        const rows2 = document.querySelectorAll('#gradeTableSection2 tbody tr');
-        
-        rows2.forEach(row => {
-            const newRow = document.createElement('tr');
-            newRow.style.height = '30px'; // Altura fixa reduzida
+            thead1.appendChild(headerRow1);
+            table1.appendChild(thead1);
             
-            const cells = row.querySelectorAll('td');
+            // Corpo da primeira tabela
+            const tbody1 = document.createElement('tbody');
+            const rows1 = document.querySelectorAll('#gradeTableSection1 tbody tr');
             
-            cells.forEach(cell => {
-                const newCell = document.createElement('td');
-                newCell.style.padding = '1px';
-                newCell.style.border = '1px solid #e2e8f0';
-                newCell.style.height = '30px';
-                newCell.style.verticalAlign = 'top';
+            rows1.forEach(row => {
+                const newRow = document.createElement('tr');
                 
-                if (cell.classList.contains('time-col')) {
-                    newCell.style.backgroundColor = '#f1f5f9';
-                    newCell.style.fontWeight = '600';
-                    newCell.style.textAlign = 'center';
-                    newCell.style.padding = '2px 1px';
-                    newCell.style.fontSize = '9px';
-                    newCell.style.width = '70px';
-                    newCell.textContent = cell.textContent;
-                } else {
-                    // Processar sessões
-                    const sessoes = cell.querySelectorAll('.session');
-                    if (sessoes.length > 0) {
-                        sessoes.forEach(sessao => {
-                            const nome = sessao.querySelector('.name')?.textContent || '';
-                            const profissional = sessao.querySelector('.professional')?.textContent || '';
-                            const tipo = sessao.classList[1] || '';
-                            
-                            const sessionDiv = document.createElement('div');
-                            sessionDiv.style.margin = '0';
-                            sessionDiv.style.padding = '1px 2px';
-                            sessionDiv.style.borderRadius = '2px';
-                            sessionDiv.style.fontSize = '7px';
-                            sessionDiv.style.lineHeight = '1.1';
-                            sessionDiv.style.height = '28px';
-                            sessionDiv.style.display = 'flex';
-                            sessionDiv.style.flexDirection = 'column';
-                            sessionDiv.style.justifyContent = 'center';
-                            
-                            // Aplicar cor conforme o tipo
-                            if (tipo === 'aba') {
-                                sessionDiv.style.backgroundColor = '#eef2ff';
-                                sessionDiv.style.color = '#4f46e5';
-                                sessionDiv.style.borderLeft = '3px solid #4f46e5';
-                            } else if (tipo === 'fono') {
-                                sessionDiv.style.backgroundColor = '#f0fdf4';
-                                sessionDiv.style.color = '#16a34a';
-                                sessionDiv.style.borderLeft = '3px solid #16a34a';
-                            } else if (tipo === 'psicologia') {
-                                sessionDiv.style.backgroundColor = '#fdf2f8';
-                                sessionDiv.style.color = '#db2777';
-                                sessionDiv.style.borderLeft = '3px solid #db2777';
-                            } else if (tipo === 'to') {
-                                sessionDiv.style.backgroundColor = '#f0f9ff';
-                                sessionDiv.style.color = '#0891b2';
-                                sessionDiv.style.borderLeft = '3px solid #0891b2';
-                            } else if (tipo === 'musica') {
-                                sessionDiv.style.backgroundColor = '#faf5ff';
-                                sessionDiv.style.color = '#9333ea';
-                                sessionDiv.style.borderLeft = '3px solid #9333ea';
-                            } else if (tipo === 'fisioterapia') {
-                                sessionDiv.style.backgroundColor = '#fffbeb';
-                                sessionDiv.style.color = '#d97706';
-                                sessionDiv.style.borderLeft = '3px solid #d97706';
-                            } else if (tipo === 'casa_habilidades') {
-                                sessionDiv.style.backgroundColor = '#ecfdf5';
-                                sessionDiv.style.color = '#059669';
-                                sessionDiv.style.borderLeft = '3px solid #059669';
-                            } else if (tipo === 'sala_kids') {
-                                sessionDiv.style.backgroundColor = '#fff1f2';
-                                sessionDiv.style.color = '#e11d48';
-                                sessionDiv.style.borderLeft = '3px solid #e11d48';
-                            }
-                            
-                            sessionDiv.innerHTML = `
-                                <span style="font-weight:600; font-size:7px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${nome}</span>
-                                <span style="font-size:6px; opacity:0.8; font-style:italic; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profissional}</span>
-                            `;
-                            
-                            newCell.appendChild(sessionDiv);
-                        });
+                const cells = row.querySelectorAll('td');
+                
+                cells.forEach(cell => {
+                    const newCell = document.createElement('td');
+                    newCell.style.padding = '2px';
+                    newCell.style.border = '1px solid #e2e8f0';
+                    newCell.style.verticalAlign = 'top';
+                    
+                    if (cell.classList.contains('time-col')) {
+                        newCell.style.backgroundColor = '#f1f5f9';
+                        newCell.style.fontWeight = '600';
+                        newCell.style.textAlign = 'center';
+                        newCell.style.padding = '2px 1px';
+                        newCell.style.fontSize = '8px';
+                        newCell.style.width = '70px';
+                        newCell.textContent = cell.textContent;
+                    } else {
+                        // Processar sessões
+                        const sessoes = cell.querySelectorAll('.session');
+                        if (sessoes.length > 0) {
+                            sessoes.forEach(sessao => {
+                                const nome = sessao.querySelector('.patient-name')?.textContent || '';
+                                const profissional = sessao.querySelector('.professional-name')?.textContent || '';
+                                const tipo = sessao.classList[1]?.replace('session-', '') || '';
+                                
+                                const sessionDiv = document.createElement('div');
+                                sessionDiv.style.margin = '0';
+                                sessionDiv.style.padding = '2px 3px';
+                                sessionDiv.style.borderRadius = '3px';
+                                sessionDiv.style.fontSize = '9px';
+                                sessionDiv.style.lineHeight = '1.2';
+                                sessionDiv.style.display = 'flex';
+                                sessionDiv.style.flexDirection = 'column';
+                                sessionDiv.style.gap = '1px';
+                                
+                                // Aplicar cor conforme o tipo
+                                if (tipo === 'aba') {
+                                    sessionDiv.style.backgroundColor = '#eef2ff';
+                                    sessionDiv.style.color = '#4f46e5';
+                                    sessionDiv.style.borderLeft = '2px solid #4f46e5';
+                                } else if (tipo === 'fono') {
+                                    sessionDiv.style.backgroundColor = '#f0fdf4';
+                                    sessionDiv.style.color = '#16a34a';
+                                    sessionDiv.style.borderLeft = '2px solid #16a34a';
+                                } else if (tipo === 'psicologia') {
+                                    sessionDiv.style.backgroundColor = '#fdf2f8';
+                                    sessionDiv.style.color = '#db2777';
+                                    sessionDiv.style.borderLeft = '2px solid #db2777';
+                                } else if (tipo === 'to') {
+                                    sessionDiv.style.backgroundColor = '#f0f9ff';
+                                    sessionDiv.style.color = '#0891b2';
+                                    sessionDiv.style.borderLeft = '2px solid #0891b2';
+                                } else if (tipo === 'musica') {
+                                    sessionDiv.style.backgroundColor = '#faf5ff';
+                                    sessionDiv.style.color = '#9333ea';
+                                    sessionDiv.style.borderLeft = '2px solid #9333ea';
+                                } else if (tipo === 'fisioterapia') {
+                                    sessionDiv.style.backgroundColor = '#fffbeb';
+                                    sessionDiv.style.color = '#d97706';
+                                    sessionDiv.style.borderLeft = '2px solid #d97706';
+                                } else if (tipo === 'casa_habilidades') {
+                                    sessionDiv.style.backgroundColor = '#ecfdf5';
+                                    sessionDiv.style.color = '#059669';
+                                    sessionDiv.style.borderLeft = '2px solid #059669';
+                                } else if (tipo === 'sala_kids') {
+                                    sessionDiv.style.backgroundColor = '#fff1f2';
+                                    sessionDiv.style.color = '#e11d48';
+                                    sessionDiv.style.borderLeft = '2px solid #e11d48';
+                                } else if (tipo === 'lanche') {
+                                    sessionDiv.style.backgroundColor = '#ffffff';
+                                    sessionDiv.style.color = '#64748b';
+                                    sessionDiv.style.borderLeft = '2px solid #cbd5e1';
+                                }
+                                
+                                sessionDiv.innerHTML = `
+                                    <span style="font-weight:600; font-size:10px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
+                                    <span style="font-size:8px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
+                                `;
+                                
+                                newCell.appendChild(sessionDiv);
+                            });
+                        }
                     }
-                }
-                newRow.appendChild(newCell);
+                    newRow.appendChild(newCell);
+                });
+                tbody1.appendChild(newRow);
             });
-            tbody2.appendChild(newRow);
-        });
-        table2.appendChild(tbody2);
-        tableContainer2.appendChild(table2);
-        
-        fullscreenBody.appendChild(container);
-        fullscreenModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
+            table1.appendChild(tbody1);
+            tableContainer1.appendChild(table1);
+            
+            // ===== LINHA DIVISÓRIA =====
+            const divider = document.createElement('hr');
+            divider.style.margin = '3px 0 2px 0';
+            divider.style.border = 'none';
+            divider.style.borderTop = '1px solid #cbd5e1';
+            divider.style.flexShrink = '0';
+            container.appendChild(divider);
+            
+            // ===== SEGUNDA TABELA (SALAS 11-20) =====
+            
+            // Container para a segunda tabela
+            const tableContainer2 = document.createElement('div');
+            tableContainer2.style.flex = '1';
+            tableContainer2.style.minHeight = '0';
+            tableContainer2.style.overflow = 'hidden';
+            container.appendChild(tableContainer2);
+            
+            const table2 = document.createElement('table');
+            table2.style.width = '100%';
+            table2.style.height = '100%';
+            table2.style.borderCollapse = 'collapse';
+            table2.style.backgroundColor = 'white';
+            table2.style.border = '1px solid #e2e8f0';
+            table2.style.fontSize = '10px';
+            table2.style.tableLayout = 'fixed';
+            
+            // Cabeçalho da segunda tabela
+            const thead2 = document.createElement('thead');
+            const headerRow2 = document.createElement('tr');
+            const headers2 = document.querySelectorAll('#gradeTableSection2 thead th');
+            
+            headers2.forEach(th => {
+                const newTh = document.createElement('th');
+                newTh.textContent = th.textContent;
+                newTh.style.backgroundColor = '#3b82f6';
+                newTh.style.color = 'white';
+                newTh.style.padding = '4px 2px';
+                newTh.style.textAlign = 'center';
+                newTh.style.border = '1px solid #e2e8f0';
+                newTh.style.fontWeight = '600';
+                newTh.style.fontSize = '9px';
+                newTh.style.whiteSpace = 'nowrap';
+                if (th.classList.contains('time-col')) {
+                    newTh.style.backgroundColor = '#2563eb';
+                    newTh.style.width = '70px';
+                }
+                headerRow2.appendChild(newTh);
+            });
+            thead2.appendChild(headerRow2);
+            table2.appendChild(thead2);
+            
+            // Corpo da segunda tabela
+            const tbody2 = document.createElement('tbody');
+            const rows2 = document.querySelectorAll('#gradeTableSection2 tbody tr');
+            
+            rows2.forEach(row => {
+                const newRow = document.createElement('tr');
+                
+                const cells = row.querySelectorAll('td');
+                
+                cells.forEach(cell => {
+                    const newCell = document.createElement('td');
+                    newCell.style.padding = '2px';
+                    newCell.style.border = '1px solid #e2e8f0';
+                    newCell.style.verticalAlign = 'top';
+                    
+                    if (cell.classList.contains('time-col')) {
+                        newCell.style.backgroundColor = '#f1f5f9';
+                        newCell.style.fontWeight = '600';
+                        newCell.style.textAlign = 'center';
+                        newCell.style.padding = '2px 1px';
+                        newCell.style.fontSize = '8px';
+                        newCell.style.width = '70px';
+                        newCell.textContent = cell.textContent;
+                    } else {
+                        // Processar sessões
+                        const sessoes = cell.querySelectorAll('.session');
+                        if (sessoes.length > 0) {
+                            sessoes.forEach(sessao => {
+                                const nome = sessao.querySelector('.patient-name')?.textContent || '';
+                                const profissional = sessao.querySelector('.professional-name')?.textContent || '';
+                                const tipo = sessao.classList[1]?.replace('session-', '') || '';
+                                
+                                const sessionDiv = document.createElement('div');
+                                sessionDiv.style.margin = '0';
+                                sessionDiv.style.padding = '2px 3px';
+                                sessionDiv.style.borderRadius = '3px';
+                                sessionDiv.style.fontSize = '9px';
+                                sessionDiv.style.lineHeight = '1.2';
+                                sessionDiv.style.display = 'flex';
+                                sessionDiv.style.flexDirection = 'column';
+                                sessionDiv.style.gap = '1px';
+                                
+                                // Aplicar cor conforme o tipo
+                                if (tipo === 'aba') {
+                                    sessionDiv.style.backgroundColor = '#eef2ff';
+                                    sessionDiv.style.color = '#4f46e5';
+                                    sessionDiv.style.borderLeft = '2px solid #4f46e5';
+                                } else if (tipo === 'fono') {
+                                    sessionDiv.style.backgroundColor = '#f0fdf4';
+                                    sessionDiv.style.color = '#16a34a';
+                                    sessionDiv.style.borderLeft = '2px solid #16a34a';
+                                } else if (tipo === 'psicologia') {
+                                    sessionDiv.style.backgroundColor = '#fdf2f8';
+                                    sessionDiv.style.color = '#db2777';
+                                    sessionDiv.style.borderLeft = '2px solid #db2777';
+                                } else if (tipo === 'to') {
+                                    sessionDiv.style.backgroundColor = '#f0f9ff';
+                                    sessionDiv.style.color = '#0891b2';
+                                    sessionDiv.style.borderLeft = '2px solid #0891b2';
+                                } else if (tipo === 'musica') {
+                                    sessionDiv.style.backgroundColor = '#faf5ff';
+                                    sessionDiv.style.color = '#9333ea';
+                                    sessionDiv.style.borderLeft = '2px solid #9333ea';
+                                } else if (tipo === 'fisioterapia') {
+                                    sessionDiv.style.backgroundColor = '#fffbeb';
+                                    sessionDiv.style.color = '#d97706';
+                                    sessionDiv.style.borderLeft = '2px solid #d97706';
+                                } else if (tipo === 'casa_habilidades') {
+                                    sessionDiv.style.backgroundColor = '#ecfdf5';
+                                    sessionDiv.style.color = '#059669';
+                                    sessionDiv.style.borderLeft = '2px solid #059669';
+                                } else if (tipo === 'sala_kids') {
+                                    sessionDiv.style.backgroundColor = '#fff1f2';
+                                    sessionDiv.style.color = '#e11d48';
+                                    sessionDiv.style.borderLeft = '2px solid #e11d48';
+                                } else if (tipo === 'lanche') {
+                                    sessionDiv.style.backgroundColor = '#ffffff';
+                                    sessionDiv.style.color = '#64748b';
+                                    sessionDiv.style.borderLeft = '2px solid #cbd5e1';
+                                }
+                                
+                                sessionDiv.innerHTML = `
+                                    <span style="font-weight:600; font-size:10px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
+                                    <span style="font-size:8px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
+                                `;
+                                
+                                newCell.appendChild(sessionDiv);
+                            });
+                        }
+                    }
+                    newRow.appendChild(newCell);
+                });
+                tbody2.appendChild(newRow);
+            });
+            table2.appendChild(tbody2);
+            tableContainer2.appendChild(table2);
+            
+            fullscreenBody.appendChild(container);
+            fullscreenModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
 
         if (fullscreenBtn) {
             fullscreenBtn.addEventListener('click', maximizarGrade);
@@ -1082,7 +1118,7 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                 // Se não for "todas", filtrar
                 if (tipoSelecionado !== 'todas') {
                     todasSessoes.forEach(sessao => {
-                        const tipoSessao = sessao.classList[1]; // Pega a segunda classe (aba, to, fono, etc.)
+                        const tipoSessao = sessao.classList[1]?.replace('session-', ''); // Pega o tipo após session-
                         if (tipoSessao !== tipoSelecionado) {
                             sessao.style.display = 'none';
                         }

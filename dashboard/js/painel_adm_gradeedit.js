@@ -2,17 +2,155 @@
 let editMode = false;
 const editBtn = document.querySelector('.btn-edit');
 
-// Dados mockados para seleção (em produção, viriam do banco de dados)
-const pacientes = [
-    'João Pedro', 'Ana Clara', 'Mariana Souza', 'Gabriel Lima', 'Rafaela Costa'
-];
+// ===== DADOS REAIS CARREGADOS DOS ARQUIVOS JSON =====
+let pacientesAtivos = [];
+let terapeutas = [];
 
-const terapeutas = [
-    'Dra. Maria', 'Dr. Carlos', 'Dra. Sofia', 'Dr. João', 'Dra. Ana'
-];
+// Função para carregar pacientes do arquivo ativo-cad.json
+async function carregarPacientes() {
+    try {
+        const response = await fetch('/clinicaestrela/dashboard/dados/ativo-cad.json');
+        const dados = await response.json();
+        
+        // Filtrar apenas pacientes com status "Ativo"
+        pacientesAtivos = dados.filter(paciente => paciente.status === "Ativo");
+        
+        console.log(`✅ ${pacientesAtivos.length} pacientes ativos carregados`);
+        return pacientesAtivos;
+    } catch (error) {
+        console.error('Erro ao carregar pacientes:', error);
+        return [];
+    }
+}
+
+// Função para carregar terapeutas do arquivo users.json
+async function carregarTerapeutas() {
+    try {
+        const response = await fetch('/clinicaestrela/dashboard/dados/users.json');
+        const dados = await response.json();
+        
+        // Perfis que são considerados terapeutas (que aparecem na grade)
+        const perfisTerapeutas = [
+            'ABA',
+            'Fonoterapeuta',
+            'Fisioterapeuta',
+            'Nutricionista',
+            'Musicoterapeuta',
+            'Psicopedagogia',
+            'Psicologia',
+            'Terapeuta Ocupacional',
+            'TO'
+        ];
+        
+        // Filtrar apenas usuários ativos com perfil de terapeuta
+        terapeutas = dados.filter(user => 
+            user.ativo === true && 
+            perfisTerapeutas.includes(user.perfil)
+        );
+        
+        console.log(`✅ ${terapeutas.length} terapeutas carregados:`, terapeutas.map(t => `${t.nome} (${t.perfil})`));
+        return terapeutas;
+    } catch (error) {
+        console.error('Erro ao carregar terapeutas:', error);
+        return [];
+    }
+}
+
+// Função auxiliar para obter o nome do paciente (suporta ambas as classes)
+function getPatientName(sessao) {
+    const patientNameNew = sessao.querySelector('.patient-name');
+    const patientNameOld = sessao.querySelector('.name');
+    return patientNameNew ? patientNameNew.textContent : (patientNameOld ? patientNameOld.textContent : '');
+}
+
+// Função auxiliar para obter o nome do profissional (suporta ambas as classes)
+function getProfessionalName(sessao) {
+    const professionalNameNew = sessao.querySelector('.professional-name');
+    const professionalNameOld = sessao.querySelector('.professional');
+    return professionalNameNew ? professionalNameNew.textContent : (professionalNameOld ? professionalNameOld.textContent : '');
+}
+
+// Função auxiliar para obter o tipo da sessão (suporta ambas as classes)
+function getSessionType(sessao) {
+    // Verifica classes novas (session-aba, session-fono, etc)
+    const classList = Array.from(sessao.classList);
+    const newType = classList.find(c => c.startsWith('session-') && c !== 'session');
+    if (newType) {
+        return newType.replace('session-', '');
+    }
+    
+    // Verifica classes antigas (aba, fono, to, etc)
+    const oldTypes = ['aba', 'fono', 'psicologia', 'to', 'musica', 'fisioterapia', 
+                      'casa_habilidades', 'sala_kids', 'nutricao', 'aquatica','lanche'];
+    const oldType = classList.find(c => oldTypes.includes(c));
+    if (oldType) {
+        return oldType;
+    }
+    
+    return 'aba'; // default
+}
+
+// Função auxiliar para atualizar o nome do paciente (suporta ambas as classes)
+function updatePatientName(sessao, newName) {
+    const patientNameNew = sessao.querySelector('.patient-name');
+    const patientNameOld = sessao.querySelector('.name');
+    
+    if (patientNameNew) {
+        patientNameNew.textContent = newName;
+    } else if (patientNameOld) {
+        patientNameOld.textContent = newName;
+    } else {
+        // Se não encontrar, cria o novo padrão
+        const newSpan = document.createElement('span');
+        newSpan.className = 'patient-name';
+        newSpan.textContent = newName;
+        sessao.insertBefore(newSpan, sessao.firstChild);
+    }
+}
+
+// Função auxiliar para atualizar o nome do profissional (suporta ambas as classes)
+function updateProfessionalName(sessao, newName) {
+    const professionalNameNew = sessao.querySelector('.professional-name');
+    const professionalNameOld = sessao.querySelector('.professional');
+    
+    if (professionalNameNew) {
+        professionalNameNew.textContent = newName;
+    } else if (professionalNameOld) {
+        professionalNameOld.textContent = newName;
+    } else {
+        // Se não encontrar, cria o novo padrão
+        const newSpan = document.createElement('span');
+        newSpan.className = 'professional-name';
+        newSpan.textContent = newName;
+        sessao.appendChild(newSpan);
+    }
+}
+
+// Função auxiliar para atualizar o tipo da sessão (suporta ambas as classes)
+function updateSessionType(sessao, newType) {
+    // Lista de todos os tipos possíveis (novos e antigos)
+    const oldTypes = ['aba', 'fono', 'psicologia', 'to', 'musica', 'fisioterapia', 
+                      'casa_habilidades', 'sala_kids', 'nutricao', 'aquatica','lanche'];
+    const newTypes = oldTypes.map(t => `session-${t}`);
+    const allTypes = [...oldTypes, ...newTypes];
+    
+    // Remove todas as classes de tipo existentes
+    allTypes.forEach(type => {
+        sessao.classList.remove(type);
+    });
+    
+    // Adiciona a nova classe (padrão novo)
+    sessao.classList.add(`session-${newType}`);
+}
 
 // Função para criar o modal de edição
 function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario) {
+    // Garantir que os dados foram carregados
+    if (pacientesAtivos.length === 0 || terapeutas.length === 0) {
+        alert('Aguarde o carregamento dos dados. Tente novamente em alguns segundos.');
+        return;
+    }
+    
     // Remover modal existente se houver
     const modalExistente = document.querySelector('.edit-modal');
     if (modalExistente) modalExistente.remove();
@@ -47,13 +185,36 @@ function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario)
         z-index: 9999;
     `;
 
-    // Obter valores atuais
-    const nomeAtual = sessaoAtual ? sessaoAtual.querySelector('.name')?.textContent || '' : '';
-    const terapeutaAtual = sessaoAtual ? sessaoAtual.querySelector('.professional')?.textContent || '' : '';
-    const tipoAtual = sessaoAtual ? Array.from(sessaoAtual.classList).find(c => 
-        ['aba', 'fono', 'psicologia', 'to', 'musica', 'fisioterapia', 
-         'casa_habilidades', 'sala_kids', 'nutricao', 'aquatica'].includes(c)
-    ) : 'aba';
+    // Obter valores atuais (usando funções auxiliares)
+    const nomeAtual = sessaoAtual ? getPatientName(sessaoAtual) : '';
+    const terapeutaAtual = sessaoAtual ? getProfessionalName(sessaoAtual) : '';
+    const tipoAtual = sessaoAtual ? getSessionType(sessaoAtual) : 'aba';
+
+    // Mapeamento de tipos para exibição
+    const tipoDisplay = {
+        'aba': 'ABA',
+        'fono': 'Fonoaudiologia',
+        'to': 'Terapia Ocupacional',
+        'psicologia': 'Psicologia',
+        'musica': 'Musicoterapia',
+        'fisioterapia': 'Fisioterapia',
+        'nutricao': 'Nutrição',
+        'aquatica': 'Terapia Aquática',
+        'casa_habilidades': 'Casa de Habilidades',
+        'sala_kids': 'Sala Kids'
+    };
+
+    // Gerar HTML das opções de pacientes
+    const pacientesOptions = pacientesAtivos.map(p => {
+        const selected = p.nome_completo === nomeAtual ? 'selected' : '';
+        return `<option value="${p.nome_completo}" ${selected}>${p.nome_completo}</option>`;
+    }).join('');
+
+    // Gerar HTML das opções de terapeutas
+    const terapeutasOptions = terapeutas.map(t => {
+        const selected = t.nome === terapeutaAtual ? 'selected' : '';
+        return `<option value="${t.nome}" ${selected}>${t.nome} (${t.perfil})</option>`;
+    }).join('');
 
     modal.innerHTML = `
         <h3 style="margin:0 0 20px 0; color:#1e293b; font-size:18px; font-weight:700;">
@@ -79,7 +240,7 @@ function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario)
             </label>
             <select id="editPaciente" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px;">
                 <option value="">Selecione um paciente</option>
-                ${pacientes.map(p => `<option value="${p}" ${p === nomeAtual ? 'selected' : ''}>${p}</option>`).join('')}
+                ${pacientesOptions}
             </select>
         </div>
 
@@ -90,7 +251,7 @@ function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario)
             </label>
             <select id="editTerapeuta" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px;">
                 <option value="">Selecione um terapeuta</option>
-                ${terapeutas.map(t => `<option value="${t}" ${t === terapeutaAtual ? 'selected' : ''}>${t}</option>`).join('')}
+                ${terapeutasOptions}
             </select>
         </div>
 
@@ -110,6 +271,7 @@ function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario)
                 <option value="aquatica" ${tipoAtual === 'aquatica' ? 'selected' : ''}>Terapia Aquática</option>
                 <option value="casa_habilidades" ${tipoAtual === 'casa_habilidades' ? 'selected' : ''}>Casa de Habilidades</option>
                 <option value="sala_kids" ${tipoAtual === 'sala_kids' ? 'selected' : ''}>Sala Kids</option>
+                <option value="lanche" ${tipoAtual === 'lanche' ? 'selected' : ''}>Lanche</option>
             </select>
         </div>
 
@@ -144,26 +306,17 @@ function criarModalEdicao(celula, sessaoAtual, linha, coluna, tipoSala, horario)
 
         // Atualizar a sessão
         if (sessaoAtual) {
-            // Atualizar sessão existente
-            const nameSpan = sessaoAtual.querySelector('.name');
-            const profSpan = sessaoAtual.querySelector('.professional');
-            
-            if (nameSpan) nameSpan.textContent = paciente;
-            if (profSpan) profSpan.textContent = terapeuta;
-            
-            // Atualizar classe do tipo
-            const tipos = ['aba', 'fono', 'psicologia', 'to', 'musica', 'fisioterapia', 
-                          'casa_habilidades', 'sala_kids', 'nutricao', 'aquatica'];
-            
-            tipos.forEach(t => sessaoAtual.classList.remove(t));
-            sessaoAtual.classList.add(tipo);
+            // Atualizar sessão existente usando funções auxiliares
+            updatePatientName(sessaoAtual, paciente);
+            updateProfessionalName(sessaoAtual, terapeuta);
+            updateSessionType(sessaoAtual, tipo);
         } else {
-            // Criar nova sessão
+            // Criar nova sessão com o novo padrão
             const novaSessao = document.createElement('div');
-            novaSessao.className = `session ${tipo}`;
+            novaSessao.className = `session session-${tipo}`;
             novaSessao.innerHTML = `
-                <span class="name">${paciente}</span>
-                <span class="professional">${terapeuta}</span>
+                <span class="patient-name">${paciente}</span>
+                <span class="professional-name">${terapeuta}</span>
             `;
             
             // Adicionar evento de clique para edição
@@ -290,6 +443,17 @@ function toggleEditMode() {
         });
     }
 }
+
+// Inicializar carregamento dos dados ao carregar a página
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔄 Carregando dados para edição da grade...');
+    await Promise.all([carregarPacientes(), carregarTerapeutas()]);
+    console.log('✅ Dados carregados com sucesso! Pronto para edição.');
+    
+    // Exibir resumo no console
+    console.log(`📋 Pacientes ativos: ${pacientesAtivos.length}`);
+    console.log(`👨‍⚕️ Terapeutas: ${terapeutas.length}`);
+});
 
 // Adicionar evento ao botão de editar
 if (editBtn) {
