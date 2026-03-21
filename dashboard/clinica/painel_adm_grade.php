@@ -727,8 +727,8 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                 }
                                 
                                 sessionDiv.innerHTML = `
-                                    <span style="font-weight:600; font-size:10px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
-                                    <span style="font-size:8px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
+                                    <span style="font-weight:600; font-size:11px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
+                                    <span style="font-size:10px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
                                 `;
                                 
                                 newCell.appendChild(sessionDiv);
@@ -875,8 +875,8 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                 }
                                 
                                 sessionDiv.innerHTML = `
-                                    <span style="font-weight:600; font-size:10px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
-                                    <span style="font-size:8px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
+                                    <span style="font-weight:600; font-size:12px; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.2;">${nome}</span>
+                                    <span style="font-size:11px; font-weight:600; color:#b8062c; opacity:0.9; font-style:italic; white-space:normal; overflow:hidden; text-overflow:ellipsis; line-height:1.1;">${profissional}</span>
                                 `;
                                 
                                 newCell.appendChild(sessionDiv);
