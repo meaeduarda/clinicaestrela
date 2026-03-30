@@ -29,16 +29,13 @@ function salvarDadosResponsavel($responsavelId, $campo, $valor) {
         $jsonContent = file_get_contents($jsonFile);
         $responsaveis = json_decode($jsonContent, true) ?: [];
         
-        // Encontrar o responsável pelo ID
         foreach ($responsaveis as $key => $responsavel) {
             if ($responsavel['id'] == $responsavelId) {
-                // Atualizar o campo específico
                 $responsaveis[$key][$campo] = $valor;
                 break;
             }
         }
         
-        // Salvar de volta no arquivo
         file_put_contents($jsonFile, json_encode($responsaveis, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         return true;
     }
@@ -64,7 +61,6 @@ function carregarDadosResponsavel($responsavelId) {
     return null;
 }
 
-// Função para processar upload de foto
 function processarUploadFoto() {
     $response = ['success' => false, 'message' => '', 'foto' => ''];
     
@@ -75,7 +71,6 @@ function processarUploadFoto() {
         
         $file = $_FILES['foto'];
         
-        // Validar arquivo
         if ($file['error'] !== UPLOAD_ERR_OK) {
             $errorMessages = [
                 UPLOAD_ERR_INI_SIZE => 'O arquivo excede o tamanho máximo permitido.',
@@ -90,12 +85,10 @@ function processarUploadFoto() {
             throw new Exception($errorMessage);
         }
         
-        // Validar tamanho
         if ($file['size'] > MAX_FILE_SIZE) {
             throw new Exception('Arquivo muito grande. Máximo 3MB.');
         }
         
-        // Validar tipo
         $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         $imageInfo = getimagesize($file['tmp_name']);
         if (!$imageInfo) {
@@ -107,24 +100,19 @@ function processarUploadFoto() {
             throw new Exception('Tipo de arquivo não permitido. Use JPG, PNG, WEBP ou GIF.');
         }
         
-        // Validar extensão
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
         if (!in_array($extension, $allowedExtensions)) {
             throw new Exception('Extensão de arquivo não permitida.');
         }
         
-        // Gerar nome único
         $responsavelId = isset($_SESSION['responsavel_id']) ? $_SESSION['responsavel_id'] : 'temp';
         $filename = 'foto_' . $responsavelId . '_' . uniqid() . '.' . $extension;
         $filepath = FOTOS_PATH . $filename;
         
-        // Mover arquivo
         if (move_uploaded_file($file['tmp_name'], $filepath)) {
             $fotoUrl = '/clinicaestrela/uploads/fotos/' . $filename;
             $_SESSION['paciente_foto'] = $fotoUrl;
-            
-            // Salvar no JSON
             salvarDadosResponsavel($responsavelId, 'paciente_foto', $fotoUrl);
             
             $response['success'] = true;
@@ -152,7 +140,6 @@ function processarUploadBackground() {
         
         $file = $_FILES['background'];
         
-        // Validar arquivo
         if ($file['error'] !== UPLOAD_ERR_OK) {
             $errorMessages = [
                 UPLOAD_ERR_INI_SIZE => 'O arquivo excede o tamanho máximo permitido.',
@@ -167,12 +154,10 @@ function processarUploadBackground() {
             throw new Exception($errorMessage);
         }
         
-        // Validar tamanho
         if ($file['size'] > MAX_FILE_SIZE) {
             throw new Exception('Arquivo muito grande. Máximo 3MB.');
         }
         
-        // Validar tipo
         $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
         $imageInfo = getimagesize($file['tmp_name']);
         if (!$imageInfo) {
@@ -184,24 +169,19 @@ function processarUploadBackground() {
             throw new Exception('Tipo de arquivo não permitido. Use JPG, PNG ou WEBP.');
         }
         
-        // Validar extensão
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
         if (!in_array($extension, $allowedExtensions)) {
             throw new Exception('Extensão de arquivo não permitida.');
         }
         
-        // Gerar nome único
         $responsavelId = isset($_SESSION['responsavel_id']) ? $_SESSION['responsavel_id'] : 'temp';
         $filename = 'bg_' . $responsavelId . '_' . uniqid() . '.' . $extension;
         $filepath = BACKGROUNDS_PATH . $filename;
         
-        // Mover arquivo
         if (move_uploaded_file($file['tmp_name'], $filepath)) {
             $bgUrl = '/clinicaestrela/uploads/backgrounds/' . $filename;
             $_SESSION['background_foto'] = $bgUrl;
-            
-            // Salvar no JSON
             salvarDadosResponsavel($responsavelId, 'background_foto', $bgUrl);
             
             $response['success'] = true;
@@ -238,11 +218,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-// Carregar dados do responsável do JSON
+// Carregar dados do responsável
 $responsavelId = $_SESSION['responsavel_id'];
 $dadosResponsavel = carregarDadosResponsavel($responsavelId);
 
-// Carregar dados do paciente do JSON ativo-cad.json
+// Carregar dados do paciente 
 $jsonFilePaciente = __DIR__ . '/../dados/ativo-cad.json';
 $pacientesData = [];
 $pacienteAtivo = null;
@@ -282,7 +262,7 @@ if ($pacienteAtivo) {
     $paciente['convenio'] = $pacienteAtivo['convenio'] ?? 'Unimed';
 }
 
-// Foto de perfil - carregar do JSON primeiro, depois da sessão
+// Foto de perfil
 $fotoPerfil = '';
 if ($dadosResponsavel && !empty($dadosResponsavel['paciente_foto'])) {
     $fotoPerfil = $dadosResponsavel['paciente_foto'];
@@ -293,7 +273,7 @@ if ($dadosResponsavel && !empty($dadosResponsavel['paciente_foto'])) {
     $fotoPerfil = 'https://ui-avatars.com/api/?name=' . urlencode($paciente['nome_completo']) . '&background=3b82f6&color=fff&size=200';
 }
 
-// Background - carregar do JSON primeiro, depois da sessão
+// Background
 $backgroundAtual = '';
 if ($dadosResponsavel && !empty($dadosResponsavel['background_foto'])) {
     $backgroundAtual = $dadosResponsavel['background_foto'];
@@ -384,52 +364,79 @@ $secaoAtiva = $_GET['secao'] ?? 'painel';
         </aside>
 
         <main class="main-content cliente-main">
-            <div class="page-header">
-                <h1>
-                    Dados Cadastrais
-                </h1>
-                <button class="btn-change-bg" id="btnChangeBg">
-                    <i class="fas fa-palette"></i>
-                    Alterar plano de fundo
-                </button>
-            </div>
+            <?php if ($secaoAtiva === 'painel'): ?>
+                <div class="page-header">
+                    <h1>
+                        Dados Cadastrais
+                    </h1>
+                    <button class="btn-change-bg" id="btnChangeBg">
+                        <i class="fas fa-palette"></i>
+                        Alterar plano de fundo
+                    </button>
+                </div>
 
-            <div class="content-area" id="contentArea" <?php echo !empty($backgroundAtual) ? 'style="background-image: url(\'' . $backgroundAtual . '\'); background-size: cover; background-position: center;"' : ''; ?>>
-                
-                <div class="patient-card">
-                    <div class="patient-photo-wrapper">
-                        <div class="photo-container">
-                            <img src="<?php echo $fotoPerfil; ?>" alt="<?php echo htmlspecialchars($paciente['nome_completo']); ?>" class="patient-photo" id="patientPhoto">
-                            <button class="btn-edit-photo" id="btnEditPhoto" title="Alterar foto">
-                                <i class="fas fa-camera"></i>
-                            </button>
+                <div class="content-area" id="contentArea" <?php echo !empty($backgroundAtual) ? 'style="background-image: url(\'' . $backgroundAtual . '\'); background-size: cover; background-position: center;"' : ''; ?>>
+                    
+                    <div class="patient-card">
+                        <div class="patient-photo-wrapper">
+                            <div class="photo-container">
+                                <img src="<?php echo $fotoPerfil; ?>" alt="<?php echo htmlspecialchars($paciente['nome_completo']); ?>" class="patient-photo" id="patientPhoto">
+                                <button class="btn-edit-photo" id="btnEditPhoto" title="Alterar foto">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="patient-info-header">
+                                <h2><?php echo htmlspecialchars($paciente['nome_completo']); ?></h2>
+                                <p class="patient-role">Paciente</p>
+                            </div>
                         </div>
-                        <div class="patient-info-header">
-                            <h2><?php echo htmlspecialchars($paciente['nome_completo']); ?></h2>
-                            <p class="patient-role">Paciente</p>
-                        </div>
-                    </div>
 
-                    <div class="info-list">
-                        <div class="info-item">
-                            <i class="fas fa-user"></i>
-                            <span class="label">Responsável:</span>
-                            <span class="value"><?php echo htmlspecialchars($paciente['nome_mae']); ?></span>
-                        </div>
-                        
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i>
-                            <span class="value"><?php echo htmlspecialchars($paciente['telefone']); ?></span>
-                        </div>
-                        
-                        <div class="info-item">
-                            <i class="fas fa-notes-medical"></i>
-                            <span class="label">Convênio:</span>
-                            <span class="value"><?php echo htmlspecialchars($paciente['convenio']); ?></span>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <i class="fas fa-user"></i>
+                                <span class="label">Responsável:</span>
+                                <span class="value"><?php echo htmlspecialchars($paciente['nome_mae']); ?></span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-phone"></i>
+                                <span class="value"><?php echo htmlspecialchars($paciente['telefone']); ?></span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-notes-medical"></i>
+                                <span class="label">Convênio:</span>
+                                <span class="value"><?php echo htmlspecialchars($paciente['convenio']); ?></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+            <?php elseif ($secaoAtiva === 'plano-terapeutico'): ?>
+                <?php include 'plano_terapeutico_cliente.php'; ?>
+            <?php elseif ($secaoAtiva === 'agenda'): ?>
+                <div class="page-header">
+                    <h1>Agenda da Criança</h1>
+                </div>
+                <div class="content-area" id="contentArea">
+                    <div class="patient-card" style="text-align: center;">
+                        <i class="fas fa-calendar-alt" style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;"></i>
+                        <h2>Em breve</h2>
+                        <p>A agenda da criança estará disponível em breve.</p>
+                    </div>
+                </div>
+            <?php elseif ($secaoAtiva === 'documentos'): ?>
+                <div class="page-header">
+                    <h1>Documentos</h1>
+                </div>
+                <div class="content-area" id="contentArea">
+                    <div class="patient-card" style="text-align: center;">
+                        <i class="fas fa-folder-open" style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;"></i>
+                        <h2>Em breve</h2>
+                        <p>Os documentos estarão disponíveis em breve.</p>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <div class="clinic-footer">
                 <i class="fas fa-star"></i> CLÍNICA ESTRELA <i class="fas fa-star"></i>
