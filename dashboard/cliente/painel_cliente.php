@@ -9,7 +9,7 @@ if (!isset($_SESSION['responsavel_id'])) {
 
 // Configurações de upload
 define('MAX_FILE_SIZE', 3 * 1024 * 1024); // 3MB
-define('UPLOAD_PATH', __DIR__ . '/../../uploads/');
+define('UPLOAD_PATH', $_SERVER['DOCUMENT_ROOT'] . '/clinicaestrela/uploads/');
 define('FOTOS_PATH', UPLOAD_PATH . 'fotos/');
 define('BACKGROUNDS_PATH', UPLOAD_PATH . 'backgrounds/');
 
@@ -19,6 +19,49 @@ if (!file_exists(FOTOS_PATH)) {
 }
 if (!file_exists(BACKGROUNDS_PATH)) {
     mkdir(BACKGROUNDS_PATH, 0777, true);
+}
+
+// Função para salvar dados do responsável no JSON
+function salvarDadosResponsavel($responsavelId, $campo, $valor) {
+    $jsonFile = __DIR__ . '/../dados_cliente/user.json';
+    
+    if (file_exists($jsonFile)) {
+        $jsonContent = file_get_contents($jsonFile);
+        $responsaveis = json_decode($jsonContent, true) ?: [];
+        
+        // Encontrar o responsável pelo ID
+        foreach ($responsaveis as $key => $responsavel) {
+            if ($responsavel['id'] == $responsavelId) {
+                // Atualizar o campo específico
+                $responsaveis[$key][$campo] = $valor;
+                break;
+            }
+        }
+        
+        // Salvar de volta no arquivo
+        file_put_contents($jsonFile, json_encode($responsaveis, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        return true;
+    }
+    
+    return false;
+}
+
+// Função para carregar dados do responsável do JSON
+function carregarDadosResponsavel($responsavelId) {
+    $jsonFile = __DIR__ . '/../dados_cliente/user.json';
+    
+    if (file_exists($jsonFile)) {
+        $jsonContent = file_get_contents($jsonFile);
+        $responsaveis = json_decode($jsonContent, true) ?: [];
+        
+        foreach ($responsaveis as $responsavel) {
+            if ($responsavel['id'] == $responsavelId) {
+                return $responsavel;
+            }
+        }
+    }
+    
+    return null;
 }
 
 // Função para processar upload de foto
@@ -72,17 +115,21 @@ function processarUploadFoto() {
         }
         
         // Gerar nome único
-        $pacienteId = isset($_SESSION['paciente_id']) ? $_SESSION['paciente_id'] : 'temp';
-        $filename = 'foto_' . $pacienteId . '_' . uniqid() . '.' . $extension;
+        $responsavelId = isset($_SESSION['responsavel_id']) ? $_SESSION['responsavel_id'] : 'temp';
+        $filename = 'foto_' . $responsavelId . '_' . uniqid() . '.' . $extension;
         $filepath = FOTOS_PATH . $filename;
         
         // Mover arquivo
         if (move_uploaded_file($file['tmp_name'], $filepath)) {
-            $_SESSION['paciente_foto'] = '/clinicaestrela/uploads/fotos/' . $filename;
+            $fotoUrl = '/clinicaestrela/uploads/fotos/' . $filename;
+            $_SESSION['paciente_foto'] = $fotoUrl;
+            
+            // Salvar no JSON
+            salvarDadosResponsavel($responsavelId, 'paciente_foto', $fotoUrl);
             
             $response['success'] = true;
             $response['message'] = 'Foto atualizada com sucesso!';
-            $response['foto'] = $_SESSION['paciente_foto'];
+            $response['foto'] = $fotoUrl;
         } else {
             throw new Exception('Erro ao salvar o arquivo. Verifique permissões de pasta.');
         }
@@ -151,11 +198,15 @@ function processarUploadBackground() {
         
         // Mover arquivo
         if (move_uploaded_file($file['tmp_name'], $filepath)) {
-            $_SESSION['background_foto'] = '/clinicaestrela/uploads/backgrounds/' . $filename;
+            $bgUrl = '/clinicaestrela/uploads/backgrounds/' . $filename;
+            $_SESSION['background_foto'] = $bgUrl;
+            
+            // Salvar no JSON
+            salvarDadosResponsavel($responsavelId, 'background_foto', $bgUrl);
             
             $response['success'] = true;
             $response['message'] = 'Background alterado com sucesso!';
-            $response['background'] = $_SESSION['background_foto'];
+            $response['background'] = $bgUrl;
         } else {
             throw new Exception('Erro ao salvar o arquivo. Verifique permissões de pasta.');
         }
@@ -187,13 +238,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-// Carregar dados do JSON
-$jsonFile = __DIR__ . '/../dados/ativo-cad.json';
+// Carregar dados do responsável do JSON
+$responsavelId = $_SESSION['responsavel_id'];
+$dadosResponsavel = carregarDadosResponsavel($responsavelId);
+
+// Carregar dados do paciente do JSON ativo-cad.json
+$jsonFilePaciente = __DIR__ . '/../dados/ativo-cad.json';
 $pacientesData = [];
 $pacienteAtivo = null;
 
-if (file_exists($jsonFile)) {
-    $jsonContent = file_get_contents($jsonFile);
+if (file_exists($jsonFilePaciente)) {
+    $jsonContent = file_get_contents($jsonFilePaciente);
     $pacientesData = json_decode($jsonContent, true);
     
     if (!empty($pacientesData)) {
@@ -227,10 +282,27 @@ if ($pacienteAtivo) {
     $paciente['convenio'] = $pacienteAtivo['convenio'] ?? 'Unimed';
 }
 
-// Foto de perfil
-$fotoPerfil = $_SESSION['paciente_foto'] ?? '../../imagens/avatar-default.png';
-$backgroundAtual = $_SESSION['background_foto'] ?? '';
-$nomeLogado = $_SESSION['responsavel_nome'] ?? 'Maria Eduarda';
+// Foto de perfil - carregar do JSON primeiro, depois da sessão
+$fotoPerfil = '';
+if ($dadosResponsavel && !empty($dadosResponsavel['paciente_foto'])) {
+    $fotoPerfil = $dadosResponsavel['paciente_foto'];
+    $_SESSION['paciente_foto'] = $fotoPerfil;
+} elseif (isset($_SESSION['paciente_foto']) && !empty($_SESSION['paciente_foto'])) {
+    $fotoPerfil = $_SESSION['paciente_foto'];
+} else {
+    $fotoPerfil = 'https://ui-avatars.com/api/?name=' . urlencode($paciente['nome_completo']) . '&background=3b82f6&color=fff&size=200';
+}
+
+// Background - carregar do JSON primeiro, depois da sessão
+$backgroundAtual = '';
+if ($dadosResponsavel && !empty($dadosResponsavel['background_foto'])) {
+    $backgroundAtual = $dadosResponsavel['background_foto'];
+    $_SESSION['background_foto'] = $backgroundAtual;
+} elseif (isset($_SESSION['background_foto']) && !empty($_SESSION['background_foto'])) {
+    $backgroundAtual = $_SESSION['background_foto'];
+}
+
+$nomeLogado = $_SESSION['responsavel_nome'] ?? ($dadosResponsavel['nome_completo'] ?? 'Maria Eduarda');
 $secaoAtiva = $_GET['secao'] ?? 'painel';
 ?>
 
@@ -322,7 +394,7 @@ $secaoAtiva = $_GET['secao'] ?? 'painel';
                 </button>
             </div>
 
-            <div class="content-area" id="contentArea" <?php echo !empty($backgroundAtual) ? 'style="background-image: url(\'' . $backgroundAtual . '\');"' : ''; ?>>
+            <div class="content-area" id="contentArea" <?php echo !empty($backgroundAtual) ? 'style="background-image: url(\'' . $backgroundAtual . '\'); background-size: cover; background-position: center;"' : ''; ?>>
                 
                 <div class="patient-card">
                     <div class="patient-photo-wrapper">
@@ -365,10 +437,80 @@ $secaoAtiva = $_GET['secao'] ?? 'painel';
         </main>
     </div>
 
+    <!-- MODAL PARA FOTO -->
     <div class="modal" id="modalFoto">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-camera"></i>
+                    Alterar Foto de Perfil
+                </h3>
+                <button class="modal-close" id="closeModalFoto">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadAreaFoto">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Clique ou arraste uma imagem</p>
+                    <span>Formatos: JPG, PNG, WEBP, GIF</span>
+                    <small>Máximo 3MB</small>
+                </div>
+                <input type="file" id="fileInputFoto" accept="image/*" style="display: none;">
+                <div class="preview-container" id="previewContainerFoto" style="display: none;">
+                    <img class="preview-image" id="previewImageFoto" alt="Preview">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelFoto">Cancelar</button>
+                <button class="btn-primary" id="saveFoto" disabled>Salvar foto</button>
+            </div>
+        </div>
     </div>
 
+    <!-- MODAL PARA BACKGROUND -->
     <div class="modal" id="modalBackground">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-palette"></i>
+                    Alterar Plano de Fundo
+                </h3>
+                <button class="modal-close" id="closeModalBg">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="background-options">
+                    <div class="bg-option" data-bg="gradient1" data-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                        <div class="bg-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <span>Gradiente Roxo</span>
+                    </div>
+                    <div class="bg-option" data-bg="gradient2" data-gradient="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                        <div class="bg-preview" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <span>Gradiente Rosa</span>
+                    </div>
+                    <div class="bg-option" data-bg="gradient3" data-gradient="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+                        <div class="bg-preview" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <span>Gradiente Azul</span>
+                    </div>
+                    <div class="bg-option" data-bg="gradient4" data-gradient="linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+                        <div class="bg-preview" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                        <span>Gradiente Verde</span>
+                    </div>
+                </div>
+                <div class="upload-area" id="uploadAreaBg">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Ou envie sua própria imagem</p>
+                    <span>Formatos: JPG, PNG, WEBP</span>
+                    <small>Máximo 3MB</small>
+                </div>
+                <input type="file" id="fileInputBg" accept="image/*" style="display: none;">
+                <div class="preview-container" id="previewContainerBg" style="display: none;">
+                    <img class="preview-image" id="previewImageBg" alt="Preview">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBg">Cancelar</button>
+                <button class="btn-primary" id="saveBg" disabled>Salvar fundo</button>
+            </div>
+        </div>
     </div>
 
     <div class="notification" id="notification">
@@ -376,349 +518,6 @@ $secaoAtiva = $_GET['secao'] ?? 'painel';
         <span id="notificationMessage"></span>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Menu Mobile
-            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            const mobileClose = document.querySelector('.mobile-close');
-            
-            if (mobileMenuToggle && sidebar && mobileClose) {
-                mobileMenuToggle.addEventListener('click', function() {
-                    sidebar.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-                
-                mobileClose.addEventListener('click', function() {
-                    sidebar.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            }
-
-            // Função de notificação
-            function mostrarNotificacao(mensagem, tipo = 'success') {
-                const notification = document.getElementById('notification');
-                const messageSpan = document.getElementById('notificationMessage');
-                const icon = notification.querySelector('i');
-                
-                notification.className = 'notification show';
-                if (tipo === 'success') {
-                    notification.classList.add('success');
-                    icon.className = 'fas fa-check-circle';
-                } else {
-                    notification.classList.add('error');
-                    icon.className = 'fas fa-exclamation-circle';
-                }
-                
-                messageSpan.textContent = mensagem;
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-
-            // Upload de foto
-            const btnEditPhoto = document.getElementById('btnEditPhoto');
-            const modalFoto = document.getElementById('modalFoto');
-            const closeModalFoto = document.getElementById('closeModalFoto');
-            const cancelFoto = document.getElementById('cancelFoto');
-            const uploadAreaFoto = document.getElementById('uploadAreaFoto');
-            const fileInputFoto = document.getElementById('fileInputFoto');
-            const previewContainerFoto = document.getElementById('previewContainerFoto');
-            const previewImageFoto = document.getElementById('previewImageFoto');
-            const saveFotoBtn = document.getElementById('saveFoto');
-            const patientPhoto = document.getElementById('patientPhoto');
-
-            let selectedFotoFile = null;
-
-            btnEditPhoto.addEventListener('click', function() {
-                modalFoto.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            function closeFotoModal() {
-                modalFoto.classList.remove('active');
-                document.body.style.overflow = '';
-                resetFotoUpload();
-            }
-
-            closeModalFoto.addEventListener('click', closeFotoModal);
-            cancelFoto.addEventListener('click', closeFotoModal);
-
-            function resetFotoUpload() {
-                uploadAreaFoto.style.display = 'block';
-                previewContainerFoto.style.display = 'none';
-                previewImageFoto.src = '';
-                saveFotoBtn.disabled = true;
-                fileInputFoto.value = '';
-                selectedFotoFile = null;
-            }
-
-            uploadAreaFoto.addEventListener('click', function() {
-                fileInputFoto.click();
-            });
-
-            uploadAreaFoto.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#3b82f6';
-                this.style.backgroundColor = '#eef2ff';
-            });
-
-            uploadAreaFoto.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#e2e8f0';
-                this.style.backgroundColor = '#f8fafc';
-            });
-
-            uploadAreaFoto.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#e2e8f0';
-                this.style.backgroundColor = '#f8fafc';
-                
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    handleFotoFile(files[0]);
-                }
-            });
-
-            fileInputFoto.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    handleFotoFile(this.files[0]);
-                }
-            });
-
-            function handleFotoFile(file) {
-                if (!file.type.match('image.*')) {
-                    mostrarNotificacao('Por favor, selecione uma imagem válida.', 'error');
-                    return;
-                }
-                
-                if (file.size > 3 * 1024 * 1024) {
-                    mostrarNotificacao('A imagem deve ter no máximo 3MB.', 'error');
-                    return;
-                }
-
-                selectedFotoFile = file;
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImageFoto.src = e.target.result;
-                    uploadAreaFoto.style.display = 'none';
-                    previewContainerFoto.style.display = 'block';
-                    saveFotoBtn.disabled = false;
-                };
-                reader.readAsDataURL(file);
-            }
-
-            saveFotoBtn.addEventListener('click', function() {
-                if (!selectedFotoFile) return;
-
-                saveFotoBtn.disabled = true;
-                saveFotoBtn.textContent = 'Enviando...';
-
-                const formData = new FormData();
-                formData.append('foto', selectedFotoFile);
-
-                fetch(window.location.href, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        patientPhoto.src = data.foto + '?t=' + new Date().getTime();
-                        mostrarNotificacao(data.message, 'success');
-                        closeFotoModal();
-                    } else {
-                        mostrarNotificacao(data.message, 'error');
-                        saveFotoBtn.disabled = false;
-                        saveFotoBtn.textContent = 'Salvar foto';
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    mostrarNotificacao('Erro ao enviar a imagem. Tente novamente.', 'error');
-                    saveFotoBtn.disabled = false;
-                    saveFotoBtn.textContent = 'Salvar foto';
-                });
-            });
-
-            // Upload de background
-            const btnChangeBg = document.getElementById('btnChangeBg');
-            const modalBg = document.getElementById('modalBackground');
-            const closeModalBg = document.getElementById('closeModalBg');
-            const cancelBg = document.getElementById('cancelBg');
-            const uploadAreaBg = document.getElementById('uploadAreaBg');
-            const fileInputBg = document.getElementById('fileInputBg');
-            const previewContainerBg = document.getElementById('previewContainerBg');
-            const previewImageBg = document.getElementById('previewImageBg');
-            const saveBgBtn = document.getElementById('saveBg');
-            const bgOptions = document.querySelectorAll('.bg-option');
-            const contentArea = document.getElementById('contentArea');
-
-            let selectedBgFile = null;
-            let selectedBgType = 'default';
-            let selectedGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-
-            btnChangeBg.addEventListener('click', function() {
-                modalBg.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            function closeBgModal() {
-                modalBg.classList.remove('active');
-                document.body.style.overflow = '';
-                resetBgUpload();
-            }
-
-            closeModalBg.addEventListener('click', closeBgModal);
-            cancelBg.addEventListener('click', closeBgModal);
-
-            function resetBgUpload() {
-                uploadAreaBg.style.display = 'block';
-                previewContainerBg.style.display = 'none';
-                previewImageBg.src = '';
-                saveBgBtn.disabled = true;
-                fileInputBg.value = '';
-                selectedBgFile = null;
-                
-                bgOptions.forEach(opt => opt.classList.remove('selected'));
-            }
-
-            bgOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    bgOptions.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    selectedBgType = this.getAttribute('data-bg');
-                    selectedGradient = this.getAttribute('data-gradient');
-                    
-                    contentArea.style.background = selectedGradient;
-                    contentArea.style.backgroundSize = 'cover';
-                    contentArea.style.backgroundPosition = 'center';
-                    
-                    localStorage.setItem('clienteBgType', selectedBgType);
-                    localStorage.setItem('clienteBgGradient', selectedGradient);
-                    
-                    selectedBgFile = null;
-                    saveBgBtn.disabled = false;
-                });
-            });
-
-            uploadAreaBg.addEventListener('click', function() {
-                fileInputBg.click();
-            });
-
-            uploadAreaBg.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#3b82f6';
-                this.style.backgroundColor = '#eef2ff';
-            });
-
-            uploadAreaBg.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#e2e8f0';
-                this.style.backgroundColor = '#f8fafc';
-            });
-
-            uploadAreaBg.addEventListener('drop', function(e) {
-                e.preventDefault();
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    handleBgFile(files[0]);
-                }
-                this.style.borderColor = '#e2e8f0';
-                this.style.backgroundColor = '#f8fafc';
-            });
-
-            fileInputBg.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    handleBgFile(this.files[0]);
-                }
-            });
-
-            function handleBgFile(file) {
-                if (!file.type.match('image.*')) {
-                    mostrarNotificacao('Por favor, selecione uma imagem válida.', 'error');
-                    return;
-                }
-                
-                if (file.size > 3 * 1024 * 1024) {
-                    mostrarNotificacao('A imagem deve ter no máximo 3MB.', 'error');
-                    return;
-                }
-
-                selectedBgFile = file;
-                selectedBgType = 'custom';
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImageBg.src = e.target.result;
-                    uploadAreaBg.style.display = 'none';
-                    previewContainerBg.style.display = 'block';
-                    saveBgBtn.disabled = false;
-                    
-                    bgOptions.forEach(opt => opt.classList.remove('selected'));
-                };
-                reader.readAsDataURL(file);
-            }
-
-            saveBgBtn.addEventListener('click', function() {
-                if (selectedBgType === 'custom' && selectedBgFile) {
-                    saveBgBtn.disabled = true;
-                    saveBgBtn.textContent = 'Enviando...';
-
-                    const formData = new FormData();
-                    formData.append('background', selectedBgFile);
-
-                    fetch(window.location.href, {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            contentArea.style.backgroundImage = `url('${data.background}?t=${new Date().getTime()}')`;
-                            contentArea.style.backgroundSize = 'cover';
-                            contentArea.style.backgroundPosition = 'center';
-                            
-                            localStorage.removeItem('clienteBgGradient');
-                            
-                            mostrarNotificacao(data.message, 'success');
-                            closeBgModal();
-                        } else {
-                            mostrarNotificacao(data.message, 'error');
-                            saveBgBtn.disabled = false;
-                            saveBgBtn.textContent = 'Salvar fundo';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro:', error);
-                        mostrarNotificacao('Erro ao enviar a imagem. Tente novamente.', 'error');
-                        saveBgBtn.disabled = false;
-                        saveBgBtn.textContent = 'Salvar fundo';
-                    });
-                } else {
-                    closeBgModal();
-                }
-            });
-
-            const savedBgGradient = localStorage.getItem('clienteBgGradient');
-            if (savedBgGradient) {
-                contentArea.style.background = savedBgGradient;
-                contentArea.style.backgroundSize = 'cover';
-                contentArea.style.backgroundPosition = 'center';
-            }
-
-            window.addEventListener('click', function(e) {
-                if (e.target === modalFoto) {
-                    closeFotoModal();
-                }
-                if (e.target === modalBg) {
-                    closeBgModal();
-                }
-            });
-        });
-    </script>
+    <script src="../../dashboard/js/cliente/painel_cliente.js"></script>
 </body>
 </html>

@@ -119,7 +119,7 @@
     border-radius: var(--border-radius-lg);
     padding: 32px;
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;  
     margin: 0 auto;
     box-shadow: var(--shadow-lg);
     position: relative;
@@ -143,7 +143,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;  
 }
 
 .photo-container {
@@ -210,8 +210,8 @@
 .info-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 16px;
+    gap: 20px;  
+    margin-top: 20px;
 }
 
 .info-item {
@@ -221,16 +221,16 @@
 }
 
 .info-item i {
-    width: 20px;
+    width: 24px;  
     color: var(--primary-color);
-    font-size: 16px;
+    font-size: 18px;  
 }
 
 .info-item .label {
     color: var(--text-light);
-    font-size: 14px;
+    font-size: 15px;  
     font-weight: 500;
-    min-width: 90px;
+    min-width: 95px;  
 }
 
 .info-item .value {

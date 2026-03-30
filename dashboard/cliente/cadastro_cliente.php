@@ -106,8 +106,8 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                 
                 <?php
                 // Inicializar variáveis
-                $nome_completo = $email = $celular = $parentesco = $nome_crianca = $senha = '';
-                $nome_completo_error = $email_error = $celular_error = $parentesco_error = $nome_crianca_error = $senha_error = '';
+                $nome_completo = $email = $celular = $parentesco = $nome_crianca = $cpf_crianca = $senha = '';
+                $nome_completo_error = $email_error = $celular_error = $parentesco_error = $nome_crianca_error = $cpf_crianca_error = $senha_error = '';
                 $form_submitted = false;
                 
                 // Verificar se o formulário foi enviado
@@ -120,6 +120,7 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                     $celular = trim($_POST['celular'] ?? '');
                     $parentesco = $_POST['parentesco'] ?? '';
                     $nome_crianca = trim($_POST['nome_crianca'] ?? '');
+                    $cpf_crianca = preg_replace('/[^0-9]/', '', $_POST['cpf_crianca'] ?? '');
                     $senha = $_POST['senha'] ?? '';
                     
                     // Validar campos obrigatórios
@@ -150,6 +151,18 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                     
                     if (empty($nome_crianca)) {
                         $nome_crianca_error = 'Nome da criança é obrigatório';
+                        $erro_geral = true;
+                    }
+                    
+                    // Validar CPF da criança
+                    if (empty($cpf_crianca)) {
+                        $cpf_crianca_error = 'CPF da criança é obrigatório';
+                        $erro_geral = true;
+                    } elseif (strlen($cpf_crianca) != 11) {
+                        $cpf_crianca_error = 'CPF deve ter 11 dígitos';
+                        $erro_geral = true;
+                    } elseif (!validarCPF($cpf_crianca)) {
+                        $cpf_crianca_error = 'CPF inválido';
                         $erro_geral = true;
                     }
                     
@@ -191,11 +204,15 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                         
                         // Verificar se email já existe
                         $email_exists = false;
+                        // Verificar se CPF já está cadastrado
+                        $cpf_exists = false;
                         
                         foreach ($responsaveis as $responsavel) {
                             if (strtolower($responsavel['email']) === strtolower($email)) {
                                 $email_exists = true;
-                                break;
+                            }
+                            if (isset($responsavel['cpf_crianca']) && $responsavel['cpf_crianca'] === $cpf_crianca) {
+                                $cpf_exists = true;
                             }
                         }
                         
@@ -204,7 +221,12 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                             $erro_geral = true;
                         }
                         
-                        // Se não houver erros, adicionar novo responsável
+                        if ($cpf_exists) {
+                            $cpf_crianca_error = 'CPF já cadastrado para outra criança';
+                            $erro_geral = true;
+                        }
+                        
+                        
                         if (!$erro_geral) {
                             // Gerar token de verificação único
                             $verification_token = bin2hex(random_bytes(32));
@@ -228,6 +250,7 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                                 'celular' => $celular,
                                 'parentesco' => $parentesco,
                                 'nome_crianca' => $nome_crianca,
+                                'cpf_crianca' => $cpf_crianca,
                                 'senha_hash' => password_hash($senha, PASSWORD_DEFAULT),
                                 'nivel_senha' => $nivel_senha,
                                 'verification_token' => $verification_token,
@@ -262,6 +285,41 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                             }
                         }
                     }
+                }
+                
+                // Função para validar CPF
+                function validarCPF($cpf) {
+                    // Remove caracteres não numéricos
+                    $cpf = preg_replace('/[^0-9]/', '', $cpf);
+                    
+                    // Verifica se tem 11 dígitos
+                    if (strlen($cpf) != 11) {
+                        return false;
+                    }
+                    
+                    // Verifica se todos os dígitos são iguais (CPF inválido)
+                    if (preg_match('/(\d)\1{10}/', $cpf)) {
+                        return false;
+                    }
+                    
+                    // Calcula o primeiro dígito verificador
+                    $soma = 0;
+                    for ($i = 0; $i < 9; $i++) {
+                        $soma += intval($cpf[$i]) * (10 - $i);
+                    }
+                    $resto = $soma % 11;
+                    $digito1 = ($resto < 2) ? 0 : 11 - $resto;
+                    
+                    // Calcula o segundo dígito verificador
+                    $soma = 0;
+                    for ($i = 0; $i < 10; $i++) {
+                        $soma += intval($cpf[$i]) * (11 - $i);
+                    }
+                    $resto = $soma % 11;
+                    $digito2 = ($resto < 2) ? 0 : 11 - $resto;
+                    
+                    // Verifica se os dígitos calculados são iguais aos informados
+                    return ($cpf[9] == $digito1 && $cpf[10] == $digito2);
                 }
                 ?>
                 
@@ -380,6 +438,17 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                                     <?php endif; ?>
                                 </div>
                             </div>
+                            
+                            <!-- Campo CPF da Criança -->
+                            <div class="field-row">
+                                <label for="cpf_crianca" class="field-label required">CPF da Criança:</label>
+                                <div class="field-input-wrapper">
+                                    <input type="text" id="cpf_crianca" name="cpf_crianca" class="field-input" placeholder="000.000.000-00" value="<?php echo htmlspecialchars($cpf_crianca); ?>" maxlength="14">
+                                    <?php if ($form_submitted && $cpf_crianca_error): ?>
+                                        <div class="error-message"><?php echo $cpf_crianca_error; ?></div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -449,19 +518,21 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
             const pontos = [length, number, lower, upper, special].filter(Boolean).length;
             const strengthBar = document.getElementById('strengthBarCadastro');
             
-            strengthBar.className = 'password-strength-bar';
-            
-            if (senha.length === 0) {
-                strengthBar.style.width = '0';
-            } else if (pontos <= 2) {
-                strengthBar.style.width = '33.33%';
-                strengthBar.classList.add('fraca');
-            } else if (pontos <= 4) {
-                strengthBar.style.width = '66.66%';
-                strengthBar.classList.add('media');
-            } else {
-                strengthBar.style.width = '100%';
-                strengthBar.classList.add('forte');
+            if (strengthBar) {
+                strengthBar.className = 'password-strength-bar';
+                
+                if (senha.length === 0) {
+                    strengthBar.style.width = '0';
+                } else if (pontos <= 2) {
+                    strengthBar.style.width = '33.33%';
+                    strengthBar.classList.add('fraca');
+                } else if (pontos <= 4) {
+                    strengthBar.style.width = '66.66%';
+                    strengthBar.classList.add('media');
+                } else {
+                    strengthBar.style.width = '100%';
+                    strengthBar.classList.add('forte');
+                }
             }
         }
         
@@ -472,7 +543,18 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
             input.value = v;
         }
         
-        // Aplicar máscara ao campo celular quando a página carregar
+        // Máscara para CPF
+        function mascaraCPF(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            }
+            input.value = v;
+        }
+        
+        // Aplicar máscaras quando a página carregar
         document.addEventListener('DOMContentLoaded', function() {
             const celular = document.getElementById('celular');
             if (celular) {
@@ -481,7 +563,14 @@ unset($_SESSION['email_enviado'], $_SESSION['email_cadastrado']);
                 });
             }
             
-            // Avaliar força da senha se já houver valor (após erro de validação)
+            const cpf = document.getElementById('cpf_crianca');
+            if (cpf) {
+                cpf.addEventListener('input', function() {
+                    mascaraCPF(this);
+                });
+            }
+            
+            
             const senha = document.getElementById('senha');
             if (senha && senha.value.length > 0) {
                 avaliarForcaSenhaCadastro(senha.value);

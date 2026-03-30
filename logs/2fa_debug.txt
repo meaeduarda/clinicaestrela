@@ -337,3 +337,43 @@ SESSION DATA: Array
 [2026-03-10 21:22:57] Comparando: Escolha=44, Correto=44
 [2026-03-10 21:22:57] ✅ SUCESSO! Número correto
 [2026-03-10 21:22:57] ✅ Redirecionando para painel_cliente.php
+================================================================================
+[2026-03-30 22:00:37] 2FA INICIADO
+Session ID: ncud010abgiku2mv5gn4aiapec
+Email: mariaeduardaaraujodemoraes@gmail.com
+Números e-mail: 86, 16, 58
+Número site: 16
+Expira em: 2026-03-30 22:05:37
+================================================================================
+================================================================================
+[2026-03-30 22:01:14] VERIFICAÇÃO 2FA INICIADA
+Session ID: ncud010abgiku2mv5gn4aiapec
+Cookie PHPSESSID: ncud010abgiku2mv5gn4aiapec
+GET: Array
+(
+    [numero] => 16
+)
+
+SESSION KEYS: 2fa_email, 2fa_numeros_email, 2fa_numero_site, 2fa_expira, 2fa_tentativas, 2fa_iniciado, 2fa_session_id
+SESSION DATA: Array
+(
+    [2fa_email] => mariaeduardaaraujodemoraes@gmail.com
+    [2fa_numeros_email] => Array
+        (
+            [0] => 86
+            [1] => 16
+            [2] => 58
+        )
+
+    [2fa_numero_site] => 16
+    [2fa_expira] => 1774908337
+    [2fa_tentativas] => 0
+    [2fa_iniciado] => 1774908037
+    [2fa_session_id] => ncud010abgiku2mv5gn4aiapec
+)
+
+================================================================================
+[2026-03-30 22:01:14] Tempo restante: 263 segundos
+[2026-03-30 22:01:14] Comparando: Escolha=16, Correto=16
+[2026-03-30 22:01:14] ✅ SUCESSO! Número correto
+[2026-03-30 22:01:14] ✅ Redirecionando para painel_cliente.php

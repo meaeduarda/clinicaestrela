@@ -112,6 +112,7 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <th>ABA 4</th>
                                         <th>MUSICOTERAPIA</th>
                                         <th>PSICOTE</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -271,6 +272,7 @@ $perfilLogado = $_SESSION['usuario_perfil'] ?? 'admin';
                                         <th>PSICOPE</th>
                                         <th>FUNCIONAL</th>
                                         <th>NUTRI</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
