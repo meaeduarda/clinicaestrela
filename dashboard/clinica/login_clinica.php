@@ -9,7 +9,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Administrativo - Clínica Estrela</title>
+    <title>Acesso Administrativo PuzzleCare - Clínica Estrela</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/clinicaestrela/favicon/favicon-96x96.png" sizes="96x96">
@@ -87,8 +87,9 @@ session_start();
                 <img src="../../imagens/logo_saas.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
                 <span>Puzzle<strong>Care</strong></span>
             </div>
-            <h1>Painel Administrativo</h1>
-            <p>Entre com suas credenciais para gerenciar a clínica</p>
+            <h1>Painel Administrativo </h1>
+            <p>Acesso Profissional</p>
+            <p>Entre com suas credenciais para gerenciar a clínica </p>
         </div>
         
         <div class="login-content">
