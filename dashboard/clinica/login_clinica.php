@@ -9,14 +9,15 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Administrativo PuzzleCare - Clínica Estrela</title>
+    <title> Acesso Administrativo PuzzleCare - Clínica Estrela</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/clinicaestrela/favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/clinicaestrela/favicon/favicon.svg">
-    <link rel="shortcut icon" href="/clinicaestrela/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/clinicaestrela/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/clinicaestrela/favicon/site.webmanifest">
+    <link rel="icon" type="image/png" href="/clinicaestrela/faviconpuzzlecare/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/clinicaestrela/faviconpuzzlecare/favicon.svg" />
+    <link rel="shortcut icon" href="/clinicaestrela/faviconpuzzlecare/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/clinicaestrela/faviconpuzzlecare/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="PuzzleCare" />
+    <link rel="manifest" href="/clinicaestrela/faviconpuzzlecare/site.webmanifest" />
     <!-- Fontes e ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
