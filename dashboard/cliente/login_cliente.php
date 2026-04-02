@@ -153,7 +153,7 @@ unset($_SESSION['mensagem_temporaria']);
                 <p>Verifique seu e-mail para confirmar o login</p>
             <?php else: ?>
                 <h1>Acesse sua conta</h1>
-                <p>Digite seu e-mail e senha para acessar</p>
+                <p>Digite seu e-mail e senha para acessar o Portal do responsável</p>
             <?php endif; ?>
         </div>
         
@@ -359,6 +359,10 @@ unset($_SESSION['mensagem_temporaria']);
                 <a href="../../index.html">
                     <i class="fas fa-arrow-left"></i> Voltar para o site principal
                 </a>
+            </div>
+            <!--  Puzzlecare/rodapé -->
+            <div class="footer-credit">
+                <span>Plataforma fornecida por <strong>PuzzleCare</strong></span>
             </div>
         </div>
     </div>

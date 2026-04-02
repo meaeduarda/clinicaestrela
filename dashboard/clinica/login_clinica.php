@@ -84,8 +84,8 @@ session_start();
     <div class="login-container">
         <div class="login-header">
             <div class="logo-container">
-                <img src="../../imagens/logo.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
-                <span>Clínica <strong>Estrela</strong></span>
+                <img src="../../imagens/logo_saas.png" alt="Logo Clínica Estrela" onerror="this.onerror=null; this.src='../../imagens/logo_clinica_estrela.png';">
+                <span>Puzzle<strong>Care</strong></span>
             </div>
             <h1>Painel Administrativo</h1>
             <p>Entre com suas credenciais para gerenciar a clínica</p>
